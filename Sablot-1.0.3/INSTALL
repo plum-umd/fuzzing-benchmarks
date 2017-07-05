@@ -1,0 +1,182 @@
+This file describes the installation procedure of Sablotron. To know
+more on Sablotron, please read the README file in the same directory 
+as this file.
+
+To get more info on installing on *Windows*, please read
+the INSTALL_WIN file.
+
+For specific information on how to build Sablotron with JavaScript
+engine (to enable extensions) see the README_JS file.
+
+1. Intro
+2. Building
+3. Preinstalled Expat
+4. Binary distributions
+5. Environment
+6. Documentation
+7. More info
+
+
+1. Intro
+========================================
+
+Sablotron is based on Expat XML parser. 
+
+There is a significant change of how Expat is used since version
+0.50. Sablotron _never_ looks for Expat under its own source tree, but
+it supposes, that you have installed Expat library (1.95.1 or later) 
+in your system.
+
+To get Expat, visit
+
+http://sourceforge.net/projects/expat/
+
+and download/install source/binary package.
+
+Sablotron should be able to find and link older expat libraries
+(libxmlparse, libxmltok), but this feature is not tested and is
+deprecated. 
+
+
+2. Building (sources)
+========================================
+
+If you have downloaded the binary distribution, you can skip reading this
+section and go to the Environment section.
+
+Sablotron compiles e.g. on the following platforms:
+
+- Linux (RH 5.2 - 7.0, gcc 2.95.2 or later)
+- Windows (NT 4.0, 9x, 2000, VC++ 4.2/6.0)
+- Solaris (Solaris 2.5.1, 2.6, 7, gcc 2.91.57)
+- FreeBSD (FreeBSD 3.4, 4.1)
+- OpenBSD (OpenBSD 2.8 beta)
+- HP-UX
+- Irix
+- MacOS X
+
+If you need any other port, please contact us.
+
+We use GNU autoconf since the version 0.41. So the following steps 
+should work on any UNIX platform:
+
+  ./configure 
+  make
+  make install (may require the root privileges)
+
+These switches can be passed to ./configure
+
+  --enable-javascript 
+	enables JS extension functions
+  --enable-perlconnect 
+	required when installed with Charlie application framework
+  --enable-debugger 
+	enables XSLT debugger
+  --with-readline
+	links the debugger with the readline library to make its command-line
+	interface more comfortable (SABLOT_GPL=1 must be exported)
+
+These are some other useful switches you may want to pass to the configure
+script: 
+
+  --help
+	display all switches available
+  --prefix='path where to install'
+	specifies the installation path (/usr/local on most systems)
+  --enable-warnings
+	force compilation with the -Wall switch (for curious people)
+  --disable-adding-meta
+	disables adding of the META tag (html output method)
+  --disable-static 
+	static library is not created to make compilation faster
+
+
+3. Preinstalled Expat
+========================================
+
+This chapter is obsolete, but may contain some useful info for people
+running older configuration.
+
+This version of the build process on all Unix platforms respects the 
+presence of Expat sources. If you have installed Sablotron and Expat in 
+the past (with `make install'), the configure script writes makefiles, so 
+they link Expat from your system directories (the sources win, if present).
+
+If you have installed Expat in some non-system directories in the
+past, configure script won't find headers, and build process will
+fail, even if you specify include path with --includedir switch. To
+fix this problem, set CPLUS_INCLUDE_PATH environment variable to point
+to Expat headers.
+
+
+4. Binary distributions
+========================================
+
+Binaries are available for Linux Intel (rpm) and Windows32.
+
+
+5. Environment
+========================================
+
+No environment changes are needed (finally!). That's,
+of course, true only if you've used standard 'make install'
+procedure. 
+
+The list of environment variables, you may possibly need modify:
+
+LIBRARY_PATH: set this variable to the directory, where the Expat XML
+parser is installed. Do it in the case the configure/linker couldn't
+find the expat libraries.
+
+LD_LIBRARY_PATH: add lib directory to this variable, if sabcmd reports
+"Can't load shared library libsablot.0.xx" or such thing.
+
+CPLUS_INCLUDE_PATH: is needed if you didn't install Sablotron (and
+mainly Expat) into system directories and you're going compile new
+version against older version of Expat. (see "Preinstalled Expat")
+
+On some systems (UnixWare, NetBSD...) the compiler is unable to find
+headers in /usr/local/include. Consequently the 'configure' script
+doesn't find the expat header and compilation fails. To avoid this
+problem, set CPPFLAGS environment to
+'-I/usr/local/include'. CPLUS_INCLUDE_PATH is not enough.
+
+If want to link Sablotron with GNU readline library you need set SABLOT_GPL
+environment variable to 1 to declare you are going to use this software
+under the GPL.
+
+
+6. Documentation
+========================================
+
+The source package contains XML sources of three guides:
+
+Sablotron Guide and Reference
+Sablotron Extensions API Reference
+SXP Reference
+
+These guides are translated to HTML during the building of the package.
+By default, you can find the HTML guides in
+
+$(distdir)/doc/apidoc/[sablot|jsdom-ref|sxp] 
+and 
+$(datadir)/doc/html/[sablot|jsdom-ref|sxp] 
+
+directories.
+
+The building of documentation requires Perl and XML::Parser to be installed;
+otherwise the building is skipped.
+
+
+7. More info
+========================================
+
+We suppose you have read the README file. If you haven't, read it now.
+If it is not enough, take a look at our website:
+
+http://www.gingerall.org
+
+
+Enjoy Sablotron!!
+
+GA

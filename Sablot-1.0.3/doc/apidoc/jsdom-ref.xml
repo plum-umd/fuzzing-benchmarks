@@ -1,0 +1,895 @@
+<?xml version='1.0'?>
+<API id='Sablotron Extensions API'>
+
+  <FOOT>
+    &amp;copy; 2001-2002 Ginger Alliance<BR/>
+    <I>revision 02-08-05</I><BR/>
+  </FOOT>
+
+  <!-- General -->
+
+  <ENTRY id='.Introduction'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      This reference guide describes the DOM API for Sablotron Extension
+      functions in JavaScript. Sablotron supports an extension element
+      funct:script element (where funct prefix is bound to the 
+      'http://exslt.org/functions' namespace URI) with 
+      language="func:ecmascript" or language="func:javascript" (just 
+      "ecmascript" or "javascript" work as well).
+    </SUMMARY>
+    <DESCRIPTION>
+      The API implementation follows the ECMAScript/DOM2 Language Binding 
+      defined in <S>DOM Level2</S>, Appendix E.<P/>
+
+      However, there are few exceptions from the specifications:<P/>
+
+      <B>*</B> The DOM model is read only<BR/>
+      <B>*</B> DOM functions handling namespaces (with NS in their name) are 
+      not supported (throw NOT_SUPPORTED exception).<BR/>
+      <B>*</B> XSLTContext.stringValue method is not supported.<BR/>
+      <B>*</B> Document.getElementsByTagName{NS} methods aren't supported.<BR/>
+      <B>*</B> Element.getElementsByTagName{NS} methods aren't supported.<BR/>
+      <B>*</B> DTD definition nodes are not supported.<P/>
+
+      As the model is read-only and because of distinctions in the DOM
+      and the XPath models, some objects can't be ever instantiated.
+      Those objects (DocumentFragment, Text, Comment, CDATASection, 
+      DocumentType, Notation, Entity, EntityReference, ProcessingInstruction)
+      are not supported.<P/>
+
+      See <C>.Objects</C> for the list of implemented objects.<P/>
+
+      Type <C>.Conversions</C> and <C>XSLTContext</C> object binding are 
+      implemented according to <S>XSLT 1.1</S>, Appendix C3.
+
+    </DESCRIPTION>
+    <EXTERNALREF name="DOM Level2" value="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/"/>
+    <EXTERNALREF name="XSLT 1.1" value="http://www.w3.org/TR/xslt11/"/>
+  </ENTRY>
+
+  <ENTRY id='.Objects'>
+    <TYPE value='.General'/>
+    <DESCRIPTION>
+      A global object <C>XSLTContext</C> provides an access to XSLT 
+      and XPath expession context.
+      <P/>
+      The following DOM objects are available:<BR/>
+      <C>DOMException</C><BR/>
+      <C>DOMImplementation</C><BR/>
+      <C>Document</C><BR/>
+      <C>Node</C><BR/>
+      <C>NodeList</C><BR/>
+      <C>NamedNodeMap</C><BR/>
+      <C>CharacterData</C><BR/>
+      <C>Attr</C><BR/>
+      <C>Element</C><BR/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='.Conversions'>
+    <TYPE value='.General'/>
+    <DESCRIPTION>
+      The following function argument conversions are performed:<P/>
+      <B>*</B> An XPath string object is mapped to an ECMAScript string 
+      value.<BR/>
+      <B>*</B> An XPath number object is mapped to an ECMAScript number 
+      value.<BR/>
+      <B>*</B> An XPath boolean object is mapped to an ECMAScript boolean 
+      value.<BR/>
+      <B>*</B> An XPath node-set object is mapped to the ECMAScript binding
+      for the DOM <C>NodeList</C>.<BR/>
+      <B>*</B> An XSLT external object is mapped to the ECMAScript object that
+      it wraps.<BR/>
+      <P/>
+      The following conversions are performed on return values:<P/>
+      <B>*</B> An ECMAScript string value or String object is mapped to an 
+      XPath string object.<BR/>
+      <B>*</B> An ECMAScript number value or Number object is mapped to an 
+      XPath number object.<BR/>
+      <B>*</B> An ECMAScript boolean value or Boolean object is mapped to an 
+      XPath boolean object.<BR/>
+      <B>*</B> An ECMAScript object that is an instance of either 
+      <C>Document</C>, <C>Node</C>, <C>NodeList</C>, <C>Attr</C>, 
+      <C>Element</C> or <C>CharacterData</C> are  mapped to an XPath 
+      node-set.<BR/> 
+      <B>*</B> The ECMAScript null value is mapped to an XSLT external 
+      object.<BR/>
+      <B>*</B> The ECMAScript undefined value is mapped to an empty 
+      node-set.<BR/>
+      <B>*</B> Any other ECMAScript object is mapped to an XSLT external 
+      object<BR/>
+      <P/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='.Example'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      An example how to use the DOM in JavaScript extension functions. The 
+      function returns a sum of all attributes in a nodeset.
+    </SUMMARY>
+    <EXAMPLE>
+Template:
+--------------------
+&amp;lt;?xml version="1.0"?&amp;gt;
+&amp;lt;xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:func="http://www.exslt.org/functions"
+  xmlns:my="http://gingerall.org/sablot/myfunc"
+  extension-element-prefixes="func"
+  exclude-result-prefixes="my"&amp;gt;
+      
+  &amp;lt;xsl:output method="xml" indent="yes"/&amp;gt;
+      
+  &amp;lt;func:script implements-prefix="my" language="javascript"&amp;gt;&amp;lt;![CDATA[
+      
+  function attrSum(nodeset) {
+    var sum = 0;
+    for (i = 0; i &amp;lt; nodeset.length; i++) {
+      for (j = 0; j &amp;lt; nodeset[i].attributes.length; j++) {
+        sum += Number(nodeset[i].attributes.item(j));
+      }
+    }  
+    return sum;
+  }
+      
+  ]]&amp;gt;
+  &amp;lt;xsl:fallback&amp;gt;
+    &amp;lt;xsl:text&amp;gt;JS extension no supported!&amp;lt;/xsl:text&amp;gt;
+  &amp;lt;/xsl:fallback&amp;gt;
+  &amp;lt;/func:script&amp;gt;
+
+
+  &amp;lt;xsl:template match="/root"&amp;gt;
+    &amp;lt;root&amp;gt;
+      &amp;lt;xsl:choose&amp;gt;
+        &amp;lt;xsl:when test="function-available('my:attrSum')"&amp;gt;
+          &amp;lt;xsl:text&amp;gt;The sum of attributes: &amp;lt;/xsl:text&amp;gt;
+          &amp;lt;xsl:value-of select="my:attrSum(node)"/&amp;gt;
+        &amp;lt;/xsl:when&amp;gt;
+        &amp;lt;xsl:otherwise&amp;gt;Function not available!&amp;lt;/xsl:otherwise&amp;gt;
+      &amp;lt;/xsl:choose&amp;gt;
+    &amp;lt;/root&amp;gt;
+  &amp;lt;/xsl:template&amp;gt;
+        
+      
+&amp;lt;/xsl:stylesheet&amp;gt;
+
+Data:
+--------------------
+&amp;lt;?xml version="1.0"?&amp;gt;
+&amp;lt;root&amp;gt;
+      
+  &amp;lt;node a="1" b="2"/&amp;gt;
+  &amp;lt;node c="10"/&amp;gt;
+  &amp;lt;node a="5" b="6" c="7"/&amp;gt;
+
+&amp;lt;/root&amp;gt;
+
+Result:
+--------------------
+&amp;lt;?xml version="1.0" encoding="UTF-8"?&amp;gt;
+&amp;lt;root&amp;gt;The sum of attributes: 31&amp;lt;/root&amp;gt;
+
+    </EXAMPLE>
+  </ENTRY>
+
+  <ENTRY id='.Debugging'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      To facilitate the debugging of JS scripts it's possible to
+      write to Sablotron's log file from a script.
+    </SUMMARY>
+    <SYNTAX>
+      log(string)
+      <PARAM name="string" type="String">
+	String value.
+      </PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This function writes a string to Sablotron's log file. The log file
+      must be specified either from the command line 
+      <C>sabcmd -L logfile ...</C> or with the <C>SablotSetLog</C> 
+      API function.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <!-- Objects -->
+
+  <ENTRY id='XSLTContext'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      The XSLTContext global object has the following properties:<BR/>
+      <C>XSLTContext.contextNode</C><BR/>
+      <C>XSLTContext.contextPosition</C><BR/>
+      <C>XSLTContext.contextSize</C><BR/>
+      <C>XSLTContext.currentNode</C><BR/>
+      <C>XSLTContext.ownerDocument</C><BR/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='DOMException'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      The DOMException object has the following properties:<BR/>
+      <C>DOMException.code</C><P/>
+
+      The DOMException class has the following constants:<P/>
+      DOMException.INDEX_SIZE_ERR, type Number, value 1.<BR/>
+      DOMException.DOMSTRING_SIZE_ERR, type Number, value 2.<BR/>
+      DOMException.HIERARCHY_REQUEST_ERR, type Number, value 3.<BR/>
+      DOMException.WRONG_DOCUMENT_ERR, type Number, value 4.<BR/>
+      DOMException.INVALID_CHARACTER_ERR, type Number, value 5.<BR/>
+      DOMException.NO_DATA_ALLOWED_ERR, type Number, value 6.<BR/>
+      DOMException.NO_MODIFICATION_ALLOWED_ERR, type Number, value 7.<BR/>
+      DOMException.NOT_FOUND_ERR, type Number, value 8.<BR/>
+      DOMException.NOT_SUPPORTED_ERR, type Number, value 9.<BR/>
+      DOMException.INUSE_ATTRIBUTE_ERR, type Number, value 10.<BR/>
+      DOMException.INVALID_STATE_ERR, type Number, value 11.<BR/>
+      DOMException.SYNTAX_ERR, type Number, value 12.<BR/>
+      DOMException.INVALID_MODIFICATION_ERR, type Number, value 13.<BR/>
+      DOMException.NAMESPACE_ERR, type Number, value 14.<BR/>
+      DOMException.INVALID_ACCESS_ERR, type Number, value 15.<BR/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='DOMImplementation'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      The DOMImplementation object has the following methods:<BR/>
+      <C>DOMImplementation.hasFeature()</C><BR/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='Document'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      Document has the all the properties and methods of the <C>Node</C> 
+      object as well as the properties and methods defined below.<P/>
+
+      The Document object has the following properties:<BR/>
+      <C>Document.implementation</C><BR/>
+      <C>Document.documentElement</C><BR/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='Node'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      The Node object has the following properties:<BR/>
+      <C>Node.nodeName</C><BR/>
+      <C>Node.nodeValue</C><BR/>
+      <C>Node.nodeType</C><BR/>
+      <C>Node.parentNode</C><BR/>
+      <C>Node.childNodes</C><BR/>
+      <C>Node.firstChild</C><BR/>
+      <C>Node.lastChild</C><BR/>
+      <C>Node.previousSibling</C><BR/>
+      <C>Node.nextSibling</C><BR/>
+      <C>Node.attributes</C><BR/>
+      <C>Node.ownerDocument</C><BR/>
+      <C>Node.namespaceURI</C><BR/>
+      <C>Node.prefix</C><BR/>
+      <C>Node.localName</C><BR/>
+      <P/>
+
+      The Node object has the following methods:<BR/>
+      <C>Node.hasChildNodes()</C><BR/>
+      <C>Node.isSupported()</C><BR/>
+      <C>Node.hasAttributes()</C><BR/>
+      <P/>
+
+      The Node class has the following constants:<P/>
+      Node.ELEMENT_NODE, type Number, value 1.<BR/>
+      Node.ATTRIBUTE_NODE, type Number, value 2.<BR/>
+      Node.TEXT_NODE, type Number, value 3.<BR/>
+      Node.CDATA_SECTION_NODE, type Number, value 4.<BR/>
+      Node.ENTITY_REFERENCE_NODE, type Number, value 5.<BR/>
+      Node.ENTITY_NODE, type Number, value 6.<BR/>
+      Node.PROCESSING_INSTRUCTION_NODE, type Number, value 7.<BR/>
+      Node.COMMENT_NODE, type Number, value 8.<BR/>
+      Node.DOCUMENT_NODE, type Number, value 9.<BR/>
+      Node.DOCUMENT_TYPE_NODE, type Number, value 10.<BR/>
+      Node.DOCUMENT_FRAGMENT_NODE, type Number, value 11.<BR/>
+      Node.NOTATION_NODE, type Number, value 12.<BR/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='NodeList'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      The NodeList object has the following properties:<BR/>
+      <C>NodeList.length</C><BR/>
+      <P/>
+
+      The NodeList object has the following methods:<BR/>
+      <C>NodeList.item()</C><BR/>
+      <P/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='NamedNodeMap'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      The NamedNodeMap object has the following properties:<BR/>
+      <C>NamedNodeMap.length</C><BR/>
+      <P/>
+
+      The NamedNodeMap object has the following methods:<BR/>
+      <C>NamedNodeMap.getNamedItem()</C><BR/>
+      <C>NamedNodeMap.item()</C><BR/>
+      <P/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='CharacterData'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      CharacterData has the all the properties and methods of the <C>Node</C>
+      object as well as the properties and methods defined below.<P/>
+
+      The CharacterData object has the following properties:<BR/>
+      <C>CharacterData.data</C><BR/>
+      <C>CharacterData.length</C><BR/>
+      <P/>
+
+      The CharacterData object has the following methods:<BR/>
+      <C>CharacterData.substringData()</C><BR/>
+      <P/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='Attr'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      Attr has the all the properties and methods of the <C>Node</C> object 
+      as well as the properties and methods defined below.<P/>
+
+      The Attr object has the following properties:<BR/>
+      <C>Attr.name</C><BR/>
+      <C>Attr.specified</C><BR/>
+      <C>Attr.value</C><BR/>
+      <C>Attr.ownerElement</C><BR/>
+      <P/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='Element'>
+    <TYPE value='Objects'/>
+    <DESCRIPTION>
+      Element has the all the properties and methods of the <C>Node</C>
+      object as well as the properties and methods defined below.<P/>
+
+      The Element object has the following properties:<BR/>
+      <C>Element.tagName</C><BR/>
+      <P/>
+
+      The Element object has the following methods:<BR/>
+      <C>Element.getAttribute()</C><BR/>
+      <C>Element.getAttributeNode()</C><BR/>
+      <C>Element.hasAttribute()</C><BR/>
+      <P/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <!-- DOMException Object -->
+
+  <ENTRY id="DOMException.code">
+    <TYPE value="DOMException"/>
+    <SYNTAX>
+      code
+      <PARAM name="(PROP)" type="Number">
+	This property is of type Number.
+      </PARAM>
+    </SYNTAX>
+    <NOTE>
+      This function always returns FALSE currently.
+    </NOTE>
+  </ENTRY>
+
+  <!-- DOMImplementation Object -->
+
+  <ENTRY id="DOMImplementation.hasFeature()">
+    <TYPE value="DOMImplementation"/>
+    <SYNTAX>
+      hasFeature(feature, version)
+      <PARAM name="feature" type="String">
+	The feature parameter is of type String.
+      </PARAM>
+      <PARAM name="version" type="String">
+        The version parameter is of type String.
+      </PARAM>
+      <PARAM name="(RET)" type="Boolean">
+	This method returns a Boolean.
+      </PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This function always returns FALSE currently.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <!-- Document Object -->
+ 
+  <ENTRY id="Document.implementation">
+    <TYPE value="Document"/>
+    <SYNTAX>
+      implementation
+      <PARAM name="(PROP)" type="DOMImplementation">
+	This read-only property is a DocumentType object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Document.documentElement">
+    <TYPE value="Document"/>
+    <SYNTAX>
+      documentElement
+      <PARAM name="(PROP)" type="Element">
+        This read-only property is an Element object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <!-- Node Object -->
+
+  <ENTRY id="Node.nodeName">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      nodeName
+      <PARAM name="(PROP)" type="String">
+        This read-only property is of type String.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.nodeValue">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      nodeValue
+      <PARAM name="(PROP)" type="String">
+	This property is of type String. 
+      </PARAM>
+    </SYNTAX>
+    <NOTE>
+      This property can raise a <C>DOMException</C> object on setting and can 
+      raise a <C>DOMException</C> object on retrieval.
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id="Node.nodeType">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      nodeType
+      <PARAM name="(PROP)" type="Number">
+	This read-only property is of type Number.
+      </PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      See <C>Node</C> class constants.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id="Node.parentNode">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      parentNode
+      <PARAM name="(PROP)" type="Node">
+	This read-only property is a Node object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.childNodes">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      childNodes
+      <PARAM name="(PROP)" type="NodeList">
+	This read-only property is a NodeList object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.firstChild">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      firstChild
+      <PARAM name="(PROP)" type="Node">
+        This read-only property is a Node object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.lastChild">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      lastChild
+      <PARAM name="(PROP)" type="Node">
+	This read-only property is a Node object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.previousSibling">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      previousSibling
+      <PARAM name="(PROP)" type="Node">
+        This read-only property is a Node object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.nextSibling">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      nextSibling
+      <PARAM name="(PROP)" type="Node">
+	This read-only property is a Node object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+  
+  <ENTRY id="Node.attributes">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      attributes
+      <PARAM name="(PROP)" type="NamedNodeMap">
+	This read-only property is a NamedNodeMap object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.ownerDocument">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      ownerDocument
+      <PARAM name="(PROP)" type="Document">
+        This read-only property is a Document object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.namespaceURI">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      namespaceURI
+      <PARAM name="(PROP)" type="String">
+	This read-only property is of type String.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+        
+  <ENTRY id="Node.prefix">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      prefix
+      <PARAM name="(PROP)" type="String">
+        This property is of type String.
+      </PARAM>
+    </SYNTAX>
+    <NOTE>
+      This property can raise a <C>DOMException</C> object on setting.
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id="Node.localName">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      localName
+      <PARAM name="(PROP)" type="String">
+        This read-only property is of type String.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.hasAttributes()">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      hasAttributes()
+      <PARAM name="(RET)" type="Boolean">
+	This method returns a Boolean.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.hasChildNodes()">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      hasChildNodes()
+      <PARAM name="(RET)" type="Boolean">
+	This method returns a Boolean.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Node.isSupported()">
+    <TYPE value="Node"/>
+    <SYNTAX>
+      isSupported(feature, version)
+      <PARAM name="feature" type="String">
+	The feature parameter is of type String.
+      </PARAM>
+      <PARAM name="version" type="String">
+	The version parameter is of type String.
+      </PARAM>
+      <PARAM name="(RET)" type="Boolean">
+	This method returns a Boolean.
+      </PARAM>
+    </SYNTAX>
+    <NOTE>
+      This function always returns FALSE currently.
+    </NOTE>
+  </ENTRY>
+
+  <!-- NodeList Object -->
+
+  <ENTRY id="NodeList.length">
+    <TYPE value="NodeList"/>
+    <SYNTAX>
+      length
+      <PARAM name="(PROP)" type="Number">
+        This read-only property is of type Number.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="NodeList.item()">
+    <TYPE value="NodeList"/>
+    <SYNTAX>
+      item(index)
+      <PARAM name="index" type="Number">
+	The index parameter is of type Number.
+      </PARAM>
+      <PARAM name="(RET)" type="Node">
+	This method returns a Node object.
+      </PARAM>
+    </SYNTAX>
+    <NOTE>
+      This object can also be dereferenced using square bracket notation 
+      (e.g. obj[1]). Dereferencing with an integer index is equivalent to 
+      invoking the item method with that index.
+    </NOTE>
+    <NOTE>
+      The very first item has index 0.
+    </NOTE>
+  </ENTRY>
+
+  <!-- NamedNodeMap Object -->
+
+  <ENTRY id="NamedNodeMap.length">
+    <TYPE value="NamedNodeMap"/>
+    <SYNTAX>
+      length
+      <PARAM name="(PROP)" type="Number">
+        This read-only property is of type Number.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="NamedNodeMap.item()">
+    <TYPE value="NamedNodeMap"/>
+    <SYNTAX>
+      item(index)
+      <PARAM name="index" type="Number">
+	The index parameter is of type Number.
+      </PARAM>
+      <PARAM name="(RET)" type="Node">
+	This method returns a Node object.
+      </PARAM>
+    </SYNTAX>
+    <NOTE>
+      The very first item has index 0.
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id="NamedNodeMap.getNamedItem()">
+    <TYPE value="NamedNodeMap"/>
+    <SYNTAX>
+      getNamedItem(name)
+      <PARAM name="name" type="String">
+	The name parameter is of type String.
+      </PARAM>
+      <PARAM name="(RET)" type="Node">
+        This method returns a Node object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <!-- CharacterData Object -->
+
+  <ENTRY id="CharacterData.data">
+    <TYPE value="CharacterData"/>
+    <SYNTAX>
+      data
+      <PARAM name="(PROP)" type="String">
+	This property is of type String.
+      </PARAM>
+    </SYNTAX>
+    <NOTE>
+      This property can raise a <C>DOMException</C> object on setting and can 
+      raise a <C>DOMException</C> object on retrieval.length
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id="CharacterData.length">
+    <TYPE value="CharacterData"/>
+    <SYNTAX>
+      length
+      <PARAM name="(PROP)" type="Number">
+	This read-only property is of type Number.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="CharacterData.substringData()">
+    <TYPE value="CharacterData"/>
+    <SYNTAX>
+      substringData(offset, count)
+      <PARAM name="offset" type="Number">
+        The offset parameter is of type Number.
+      </PARAM>
+      <PARAM name="count" type="Number">
+        The count parameter is of type Number.
+      </PARAM>
+      <PARAM name="(RET)" type="Node">
+        This method returns a String.
+      </PARAM>
+    </SYNTAX>
+    <NOTE>
+      This method can raise a <C>DOMException</C> object.
+    </NOTE>
+    <NOTE>
+      The very first item has index 0.
+    </NOTE>
+  </ENTRY>
+
+  <!-- Attr Object -->
+
+  <ENTRY id="Attr.name">
+    <TYPE value="Attr"/>
+    <SYNTAX>
+      name
+      <PARAM name="(PROP)" type="String">
+	This read-only property is of type String.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Attr.specified">
+    <TYPE value="Attr"/>
+    <SYNTAX>
+      specified
+      <PARAM name="(PROP)" type="Boolean">
+	This read-only property is of type Boolean.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Attr.value">
+    <TYPE value="Attr"/>
+    <SYNTAX>
+      value
+      <PARAM name="(PROP)" type="String">
+	This property is of type String.
+      </PARAM>
+    </SYNTAX>
+    <NOTE>
+      This property can raise a <C>DOMException</C> object on setting.
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id="Attr.ownerElement">
+    <TYPE value="Attr"/>
+    <SYNTAX>
+      ownerElement
+      <PARAM name="(PROP)" type="Element">
+	This read-only property is a Element object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <!-- Element Object -->
+
+  <ENTRY id="Element.tagName">
+    <TYPE value="Element"/>
+    <SYNTAX>
+      tagName
+      <PARAM name="(PROP)" type="String">
+	This read-only property is of type String.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Element.getAttribute()">
+    <TYPE value="Element"/>
+    <SYNTAX>
+      getAttribute(name)
+      <PARAM name="name" type="String">
+	The name parameter is of type String.
+      </PARAM>
+      <PARAM name="(RET)" type="String">
+	This method returns a String.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Element.getAttributeNode()">
+    <TYPE value="Element"/>
+    <SYNTAX>
+      getAttributeNode(name)
+      <PARAM name="name" type="String">
+	The name parameter is of type String.
+      </PARAM>
+      <PARAM name="(RET)" type="Attr">
+	This method returns a Attr object.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="Element.hasAttribute()">
+    <TYPE value="Element"/>
+    <SYNTAX>
+      hasAttribute(name)
+      <PARAM name="name" type="String">
+	The name parameter is of type String.
+      </PARAM>
+      <PARAM name="(RET)" type="Boolean">
+	This method returns a Boolean.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <!-- XSLTContext Object -->
+
+  <ENTRY id="XSLTContext.contextNode">
+    <TYPE value="XSLTContext"/>
+    <SYNTAX>
+      contextNode
+      <PARAM name="(PROP)" type="Node">
+	Context node from XPath expression context.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="XSLTContext.contextPosition">
+    <TYPE value="XSLTContext"/>
+    <SYNTAX>
+      contextPosition
+      <PARAM name="(PROP)" type="Number">
+	Context position from XPath expression context.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="XSLTContext.contextSize">
+    <TYPE value="XSLTContext"/>
+    <SYNTAX>
+      contextSize
+      <PARAM name="(PROP)" type="Number">
+	Context size from XPath expression context.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="XSLTContext.currentNode">
+    <TYPE value="XSLTContext"/>
+    <SYNTAX>
+      currentNode
+      <PARAM name="(PROP)" type="Node">
+	Current node from XSLT context.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id="XSLTContext.ownerDocument">
+    <TYPE value="XSLTContext"/>
+    <SYNTAX>
+      ownerDocument
+      <PARAM name="(PROP)" type="Document">
+	Document to be used for creating nodes.
+      </PARAM>
+    </SYNTAX>
+  </ENTRY>
+
+</API>

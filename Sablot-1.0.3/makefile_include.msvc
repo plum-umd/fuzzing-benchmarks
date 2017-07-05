@@ -1,0 +1,104 @@
+#////////////////////////////////////////////////////////////////////////////
+# $Id: makefile_include.msvc,v 1.2.2.2 2003/12/03 12:31:15 cvspetr Exp $
+#
+# Copyright (c) 2003 Rosimildo da Silva, All Rights Reserved.
+#
+# See the file COPYING for copying permission.
+#
+# MODULE DESCRIPTION: makefile include fro MS Visual C++
+#
+# Important macros:
+#
+# a) SRCDIR, SRCDIR1, SRCDIR2, SRCDIR3 ... SRCDIR9  -- these macros 
+#    can be used to define where the sources come from...
+#
+# b) VC_DLL    - selects to compile as DLL
+#
+# c) VC_DEBUG  - select debug mode
+#
+# See config file for more settings...
+#
+# MODIFICATION/HISTORY:
+# $Log: makefile_include.msvc,v $
+# Revision 1.2.2.2  2003/12/03 12:31:15  cvspetr
+# ''
+#
+# Revision 1.2.2.1  2003/11/18 08:44:26  cvspavel
+# *** empty log message ***
+#
+# Revision 1.2  2003/07/16 12:29:08  cvspavel
+# ''
+#
+# Revision 1.1  2003/04/11 12:33:22  cvspavel
+# ''
+#
+#
+# Created 2003/03/23 Rosimildo da Silva, ConnectTel Inc.
+#////////////////////////////////////////////////////////////////////////////
+
+CPP     = cl.exe
+CC      = cl.exe
+LINK    = link.exe
+LIBUTIL = lib.exe
+
+CFLAGS = $(CFLAGS) /nologo /c /GX /YX /GR /DWIN32 /D__WIN32__ /D_WIN32 /D_WINDOWS
+
+!ifdef LIB
+LFLAGS = $(LFLAGS) /LIBPATH:"$(LIB);"
+!endif
+
+!ifdef VC_DEBUG
+
+CFLAGS = $(CFLAGS) /Gm /ZI /Od /D_DEBUG /GZ
+!ifdef VC_DLL
+CFLAGS = $(CFLAGS) /MDd
+!else
+CFLAGS = $(CFLAGS) /MTd $(STATIC_FLAGS)
+!endif
+
+LFLAGS = $(LFLAGS) /DEBUG
+
+!else
+
+CFLAGS = $(CFLAGS) $(OPTIMIZATION_LEVEL) /DNDEBUG $(STATIC_FLAGS)
+
+!ifdef VC_DLL
+CFLAGS = /MD $(CFLAGS)
+!else
+CFLAGS = /MT $(CFLAGS)
+!endif
+
+!endif
+
+# XLIBS = $(XLIBS) wsock32.lib rpcrt4.lib
+
+TFLAGS = /NOLOGO
+
+!ifdef VC_DEBUG
+!ifdef VC_DLL
+OBJDIR = dbgobjdll
+!else
+OBJDIR = dbgobj
+!endif
+!else
+!ifdef VC_DLL
+OBJDIR = relobjdll
+!else
+OBJDIR = relobj
+!endif
+!endif
+
+!ifndef LIBDIR
+LIBDIR = $(TOP)\lib
+!endif
+
+!ifndef BINDIR
+BINDIR = $(TOP)\bin
+!endif
+
+# Default source locations..
+SRCDIR  = .
+SRCDIR1 = $(TOP)\src\engine
+SRCDIR2 = $(TOP)\src\command
+
+XINCS = /I. /I$(TOP) /I$(TOP)/src/engine /I$(EXPAT_INC)

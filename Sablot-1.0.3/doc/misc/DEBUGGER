@@ -1,0 +1,221 @@
+-*- mode: outline -*-
+
+* Introduction
+
+Since the version number of 0.96 Sablotron supports a debugging of
+stylesheets. Although it is just an experimental state, it works quite
+fine, and may be found useful by many XSLT developers.
+
+* License
+
+!!! Important change, read this !!!
+
+The Sablotron library is dual-licensed. You may choose either of MPL
+or GPL.
+
+Optionally the debugger command line interface uses a great GNU library
+'readline'. This library may not be linked to non GPL'ed programs, so
+if you want to use the debugger, you have to choose the GPL from
+Sablotron license model.
+
+See the *Building* section, how to do it.
+
+* Building
+
+For short, all you need is to pass the --enable-debugger to the
+configure script. If you want to use the readline library (what is
+great), read the detailed description.
+
+To enable the debugger, you need meed following:
+
+1. Optionally you may install ``readline'' and ``ncurses'' libraries
+   of GNU. (nice systems have it by default) and make it available to
+   the compiler and linker (you may use CPLUS_INCLUDE_PATH and
+   LIBRARY_PATH environment).
+
+2. If you want to use the readline library, you have to confirm, that
+   you accept the GPL license terms. You do it with setting the
+   SABLOT_GPL environment to whatever else then empty string. You need
+   set this variable when the configure script is ran (later it is not
+   needed).
+
+3. You have to add the --enable-debugger to the configure script.
+
+4. Optionally you may set the --with-readline too.
+
+That should be enough.
+
+* Invocation
+
+Run 'sabcmd --debugger'. That's all.
+
+* Features
+
+You may trace, how your templates are executing. The only point, where
+the debugger may stop the execution is the element start.
+
+** Setting the Data
+
+The first thing, you need to do is to specify the stylesheet and the
+data file. Use the `sheet' and `data' commands for it.
+
+If you want to set external parameters (for top level <xsl:param>
+elements) use the `param' command.
+
+** Running the Transformation
+
+Use the `run' command to fire the processor. A new processor instance
+is created for any new round.
+
+If the debugger stooped at the breakpoint, you may use the `cont'
+command to run further.
+
+You may use the `templ' command to run the processor and stop in the
+first template called.
+
+If you want to kill currently running transformation, use the `kill'
+command.
+
+** Setting Breakpoints
+
+You may use the `break' command to set the breakpoint. Processor then
+stops on marked line every time it hits it.
+
+There are some issues: 
+
+  - breakpoint must be set at the line with the element start
+
+Another command are `B' - list all breakpoints and `D' delete all
+breakpoints.
+
+You may toggle a breakpoint enabled/disabled with the `disable'
+command.
+
+You may set a XPath expression for the breakpoint, what is evaluated
+each time the breakpoint is met. The breakpoint takes an effect only
+if this expression is true.
+
+** Walking Trough the Source
+
+You may use the `step' command to move to the next element start.
+
+You may use the `next` command to move to the next sibling of the
+current element.
+
+You may use the `finish' command to move to the next sibling of the
+parent of the current element.
+
+Suppose:
+
+<xsl:template>
+  <a>
+->  <b>
+      <c/>
+      <d/>
+    <b>
+    <d/>
+  <a>
+  <x/>
+</xsl:template>
+
+The arrow marks, where you are. In this case
+
+`step'   - goes to <c>
+`next'   - goes to <d>
+`finish' - goes to <x>
+
+The very special (and very useful) command id the `templ'
+command. This one continues the execution, until any template is
+executed. It may be used to run the transformation as well as to resume
+stopped execution.
+
+** XPath Evaluation
+
+You may evaluate any XPath expression using the `eval' command. It
+evaluates in the current context and displays the result and its type.
+
+** Examinig the Context
+
+You may examine the current context with the `x' command.
+
+x     - shows brief info
+x all - list all context nodes
+x n   -  detailed info on the n-th context node (n is an integer)
+
+** Batches
+
+You may create files containing the sequences of you favorite commands
+(one per line) and execute them with the `batch' command
+
+** Abbreviations
+
+You need to type as few letters to specify the command as is needed to
+recognize, what you mean. The most frequent command may be run with
+single command not caring, whether another command starts with this
+letter. The `s' abbrev runs the `step' command rather the `sheet'.
+
+* Emacs Integration
+
+There is an Emacs library available. You may use it, if you want to
+debug your stylesheets and see, what is happening.
+
+You need to grab the sabdbg.el from the Sablotron source tree.
+
+Next you need to put something like this into your .emacs file:
+
+(load "sabdbg.el")
+(sabdbg-set-keys)
+
+The sabdbg-set-keys function should be called the best from some hook
+for your favorite xsl mode.
+
+We use the xml-mode (part of psgml-mode). My .emacs looks like this:
+
+(add-hook 'xml-mode-hook 
+	  (function (lambda ()
+		      ;;set debugger staff
+		      (when (string-match "\\.xsl$" buffer-file-name))
+                      (sabdbg-init))))
+
+As the result several keys should be mapped locally in you buffers for
+the XSL files.
+
+(local-set-key [(control c)(control g)(control x)] 'sabdbg-debug-current)
+(local-set-key [(control c)(control g)(control s)] 'sabdbg-step)
+(local-set-key [(control c)(control g)(control n)] 'sabdbg-next)
+(local-set-key [(control c)(control g)(control t)] 'sabdbg-step-template)
+(local-set-key [(control c)(control g)(control c)] 'sabdbg-continue)
+(local-set-key [(control c)(control g)(control p)] 'sabdbg-show-point)
+(local-set-key [(control c)(control g)(control b)] 'sabdbg-set-breakpoint)
+(local-set-key [(control c)(control g)(control r)] 'sabdbg-run)
+
+E.g. while you are in the buffer holding the XSL file, you may press
+and hold control and press `c' `g' `x' sequence to execute the
+debugger and set the current buffer file name as the stylesheet.
+
+Next you need to use the `data' command in the debugger buffer, switch
+back to the stylesheet and continue debugging using mapped keys.
+
+sabdbg-debug-current
+  opens debugger for current buffer (only one debugger may be ran at once
+
+sabdbg-step
+  steps the debugger
+
+sabdbg-next
+  preform the `next' command
+
+sabdbg-step-template
+  perform the `templ' command
+
+sabdbg-continue
+  continues the execution
+
+sabdbg-show-point
+  synchronize file displayed with debugger
+
+sabdbg-set-breakpoint
+  sets breakpoint to file and line, where currently the point is
+
+sabdbg-run
+  runs processor

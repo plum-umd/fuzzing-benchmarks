@@ -1,0 +1,756 @@
+dnl
+dnl The contents of this file are subject to the Mozilla Public
+dnl License Version 1.1 (the "License"); you may not use this file
+dnl except in compliance with the License. You may obtain a copy of
+dnl the License at http://www.mozilla.org/MPL/
+dnl 
+dnl Software distributed under the License is distributed on an "AS
+dnl IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+dnl implied. See the License for the specific language governing
+dnl rights and limitations under the License.
+dnl 
+dnl The Original Code is the Charlie project.
+dnl 
+dnl The Initial Developer of the Original Code is Ginger Alliance Ltd.
+dnl Portions created by Ginger Alliance are 
+dnl Copyright (C) 1999-2002 Ginger Alliance Ltd.
+dnl All Rights Reserved.
+dnl 
+dnl Contributor(s):
+dnl 
+dnl Alternatively, the contents of this file may be used under the
+dnl terms of the GNU General Public License Version 2 or later (the
+dnl "GPL"), in which case the provisions of the GPL are applicable 
+dnl instead of those above.  If you wish to allow use of your 
+dnl version of this file only under the terms of the GPL and not to
+dnl allow others to use your version of this file under the MPL,
+dnl indicate your decision by deleting the provisions above and
+dnl replace them with the notice and other provisions required by
+dnl the GPL.  If you do not delete the provisions above, a recipient
+dnl may use your version of this file under either the MPL or the
+dnl GPL.
+dnl 
+
+AC_INIT()
+
+PKG_NAME=Sablot
+PKG_VERSION=1.0.3
+
+dnl --------------------------------------------------
+dnl common initialization stuff
+dnl !!! keep synchronized with other files !!!
+dnl vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+dnl for better portability we need higher version of autoconf
+dnl on most platforms it may work w/ lower version number
+AC_PREREQ( 2.56 )
+AC_CONFIG_AUX_DIR(autocfg)
+
+AM_INIT_AUTOMAKE($PKG_NAME, $PKG_VERSION, 'z')
+AM_CONFIG_HEADER( autocfg/config.h:autocfg/config.h.in )
+
+dnl automake stuff
+AC_PROG_LIBTOOL
+
+dnl C/C++ stuff
+dnl AC_LANG_C()
+dnl AC_PROG_CC()
+dnl AC_PROG_CPP()
+AC_LANG_CPLUSPLUS()
+AC_PROG_CXX($EXTRA_CXX)
+AC_PROG_CXXCPP()
+
+dnl switch checking
+dnl default no warnings
+CXXWARNING_FLAGS=
+AC_ARG_ENABLE(warnings,
+[  --enable-warnings           display all warning while compiling])
+if test -z "$enable_warnings"; then
+  enable_warnings=no
+fi
+if test x$enable_warnings != xno; then
+  CXXWARNING_FLAGS='-Wall -W -Winline -Wno-unused-parameter'
+  AC_MSG_CHECKING([Whether $CXX accepts -Wno-unused-parameter])
+  old_cxxflags="$CXXFLAGS"
+  CXXFLAGS="$old_cxxflags $CXXWARNING_FLAGS"
+  AC_TRY_COMPILE([ ], [return 0;], [AC_MSG_RESULT(yes)],
+    [ AC_MSG_RESULT(no)
+      CXXWARNING_FLAGS="-Wall -W -Winline"
+    ])
+  CXXFLAGS="$old_cxxflags"
+fi
+AC_SUBST(CXXWARNING_FLAGS)
+
+AC_ARG_ENABLE(abort-on-error,
+[  --enable-abort-on-error     abort processor on XSLT error],
+  AC_DEFINE(SABLOT_ABORT_ON_ERROR, 1,
+            [abort on XSLT error]))
+
+AC_ARG_ENABLE(adding-meta, 
+[  --disable-adding-meta       do not output the META html tag])
+if test x$enable_adding_meta = xno; then
+  AC_DEFINE(SABLOT_DISABLE_ADDING_META, 1, 
+           [define if don't want to generate the META html tag])
+fi
+
+AC_ARG_ENABLE(document-errors, 
+[  --disable-document-errors   ignore errors in the document() function])
+if test x$enable_document_errors = xno; then
+  AC_DEFINE(SABLOT_DISABLE_DOC_ERRORS, 1, 
+           [define if don't want to produce errors in the document() function])
+fi
+
+js_done=0
+js_enabled=0
+js_prefix=none
+AC_ARG_WITH(js, AC_HELP_STRING(--with-js, [enable JavaScript extension]),
+  [if test x$withval = "xyes"; then
+     js_enabled=1
+   elif test x$withval = "xno"; then
+     js_enabled=0
+   else
+     js_enabled=1
+     js_prefix=$withval
+   fi
+   js_done=1
+  ])
+dnl we try this just for backward compatibility
+if test $js_done = 0; then
+  AC_ARG_ENABLE(javascript, 
+   [  --enable-javascript     enable JavaScript extensions (e.g. exslt.org)])
+   if test x$enable_javascript = xyes; then
+     js_enabled=1
+   else
+     js_enabled=0
+   fi
+fi
+
+if test $js_enabled = "1"; then
+  AC_DEFINE(ENABLE_JS, 1, [define, whether to build the JS extension])
+  AC_ARG_ENABLE(js-threads,
+   [ --enable-js-threads      enable JS threading support],
+   [ if x$enableval = "xyes"; then
+       AC_DEFINE(ENABLE_JS_THREADS, 1, [defined if JS threading is enabled])
+     fi ])
+fi
+dnl now check the prefix for JS
+if test x$js_prefix = "xnone"; then
+AC_ARG_WITH(js-prefix,
+  AC_HELP_STRING([--with-js-prefix=DIR], 
+                 [set alternate JavaScript prefix (obsolete)]),
+   [if test ! x$withval = "xyes"; then js_prefix=$withval; fi])
+fi
+
+if test ! x$js_prefix = "xnone"; then
+  AC_MSG_CHECKING(for JS installation integrity)
+  if test -x $js_prefix; then
+   #on Redhat js header files are in include/js
+   if test -x $js_prefix/include/js ; then
+    CFLAGS="$CFLAGS -I$js_prefix/include/js"
+    CXXFLAGS="$CXXFLAGS -I$js_prefix/include/js"
+    CPPFLAGS="$CPPFLAGS -I$js_prefix/include/js"
+   else
+    if test -x $js_prefix/include ; then
+     CFLAGS="$CFLAGS -I$js_prefix/include"
+     CPPFLAGS="$CPPFLAGS -I$js_prefix/include"
+     CXXFLAGS="$CXXFLAGS -I$js_prefix/include"
+    else
+     AC_MSG_ERROR([prefix for JavaScript not valid (include dir)])
+    fi
+   fi
+   if test -x $js_prefix/lib ; then
+    LDFLAGS="$LDFLAGS -L$js_prefix/lib"
+   else
+    AC_MSG_ERROR([prefix for JavaScript library invalid (libdir)])
+   fi
+  else
+   AC_MSG_ERROR([prefix for JavaScript library invalid (not a directory)])
+  fi
+  AC_MSG_RESULT(ok)
+fi
+
+dnl make it easier to link with expat and iconv
+expat_prefix=none
+AC_ARG_WITH(expat, AC_HELP_STRING(--with-expat, set the expat directory),
+  [if test ! x$withval = "xyes"; then expat_prefix=$withval; fi])
+    
+if test x$expat_prefix = "xnone"; then
+  AC_ARG_WITH(expat-prefix, 
+     AC_HELP_STRING(--with-expat-prefix, 
+                    [set alternate expat prefix (obsolete)]),
+     [if test ! x$withval = "xyes"; then expat_prefix=$withval; fi])
+fi
+
+if test ! x$expat_prefix = "xnone"; then
+  AC_MSG_CHECKING(for Expat installation integrity)
+  if test -x $expat_prefix ; then
+   if test -x $expat_prefix/include ; then
+    CFLAGS="$CFLAGS -I$expat_prefix/include"
+    CPPFLAGS="$CPPFLAGS -I$expat_prefix/include"
+    CXXFLAGS="$CXXFLAGS -I$expat_prefix/include"
+   else
+    AC_MSG_ERROR([prefix for Expat not valid (include dir)])
+   fi
+   if test -x $expat_prefix/lib ; then
+    LDFLAGS="$LDFLAGS -L$expat_prefix/lib"
+   else
+    AC_MSG_ERROR([prefix for Expat library invalid (libdir)])
+   fi
+  else
+   AC_MSG_ERROR([prefix for Expat library invalid (not a directory)])
+  fi
+  AC_MSG_RESULT(ok)
+fi
+
+iconv_prefix=none
+iconv_done=0
+iconv_enabled=1
+AC_ARG_WITH(iconv, AC_HELP_STRING(--with-iconv, build with an iconv library),
+  [if test x$withval = "xyes"; then
+     iconv_enabled=1
+   elif test x$withval = "xno"; then
+     iconv_enabled=0
+   else
+     iconv_prefix=$withval
+     iconv_enabled=1
+   fi
+   iconv_done=1])
+
+if test x$iconv_prefix = "xnone"; then
+  AC_ARG_WITH(iconv-prefix,
+    AC_HELP_STRING(--with-iconv-prefix, 
+                   [DIR set alternate iconv prefix (obsolete)]),
+    [if test ! x$withval = "xyes"; then iconv_prefix=$withval; fi])
+fi
+
+if ! test x$iconv_prefix = "xnone"; then
+  AC_MSG_CHECKING(for Iconv installation integrity)
+  if test -x $iconv_prefix ; then
+   if test -x $iconv_prefix/include ; then
+    CFLAGS="$CFLAGS -I$iconv_prefix/include"
+    CXXFLAGS="$CXXFLAGS -I$iconv_prefix/include"
+    CPPFLAGS="$CPPFLAGS -I$iconv_prefix/include"
+   else
+    AC_MSG_ERROR([prefix for Iconv not valid (include dir)])
+   fi
+   if test -x $iconv_prefix/lib ; then
+    LDFLAGS="$LDFLAGS -L$iconv_prefix/lib"
+   else
+    AC_MSG_ERROR([prefix for Iconv library invalid (libdir)])
+   fi
+  else
+   AC_MSG_ERROR([prefix for Iconv library invalid (not a directory)])
+  fi
+  AC_MSG_RESULT(ok)
+fi
+
+dnl PH removed this to keep the compatibility with pre 2.5 autoconf
+dnl AC_ARG_VAR(PERL, [
+dnl                  path to perl binary to be used in various scripts
+dnl                  to build documentation])
+
+dnl environment PERL_PROG is used instead
+
+AC_ARG_WITH(perl,
+[  --with-perl=PATH use perl binary to install apidocs],
+ [if test -x $withval ; then
+   AC_MSG_CHECKING([perl version of $withval])
+   perlv=`$withval -v | sed -n -e "s%^This is perl, v\(ersion \)\?\(5.*\) built.*$%\2%p"`
+   if test -z "$perlv" ; then
+    AC_MSG_ERROR([You need to provide a path to perl 5])
+   else
+    AC_MSG_RESULT([$perlv ok])
+    AC_SUBST(PERL_PROG, [$withval])
+   fi
+  else
+   AC_MSG_ERROR([Perl $withval is not executable])
+  fi
+ ],
+ [AC_PATH_PROG([PERL_PROG], [perl], [/usr/bin/perl])]
+)
+AC_MSG_CHECKING([XML::Parser perl module])
+PERL_SOURCE='eval { require XML::Parser; }; print "yes" unless $@; '
+BUILD_APIDOCS=`echo $PERL_SOURCE | $PERL_PROG`
+if test "x$BUILD_APIDOCS" = "xyes"; then
+  AC_MSG_RESULT([yes])
+else
+  AC_MSG_RESULT([no: documentation requires XML::Parser module and will not be built.])
+fi
+AC_SUBST([BUILD_APIDOCS])
+
+
+AC_ARG_WITH(html-dir,
+[  --with-html-dir=DIR path to install HTML documentation (defaults to docdir)],
+ [AC_MSG_CHECKING([html dir])
+   HTML_DIR=$withval
+   if test -x $withval ; then
+     AC_SUBST(HTML_DIR)
+     AC_MSG_RESULT($withval)
+   else
+     AC_SUBST(HTML_DIR)
+     AC_MSG_WARN([Directory $withval does not exist and will be created])
+   fi
+ ],
+ [if test "x$BUILD_APIDOCS" = "xyes"; then
+    AC_MSG_NOTICE([Setting html dir to $datadir/doc/html])
+    HTML_DIR=$datadir/doc/html
+  fi
+  AC_SUBST(HTML_DIR)
+ ]
+)
+
+AC_ARG_ENABLE(perlconnect, 
+[  --enable-perlconnect    enable JS engine perlconnect)])
+if test x$enable_perlconnect = xyes; then
+  perlconnect_enabled=1
+else
+  perlconnect_enabled=0
+fi
+
+AC_ARG_ENABLE(iconv-typecast,
+[  --enable-iconv-typecast typecast the second parameter of iconv to char**])
+if test x$enable_iconv_typecast = xyes; then
+  force_iconv_typecast=1
+fi
+
+AC_ARG_ENABLE(check-leaks,
+[  --enable-check-leaks    enable memory leak checking (optional)])
+if test x$enable_check_leaks = xyes; then
+  AC_DEFINE(CHECK_LEAKS, 1, [define whether to check for memory leaks])
+fi
+
+dnl dom
+AC_ARG_ENABLE(dom,
+[  --disable-dom           disable the DOM interface (smaller)],
+__dom_given=1, __dom_given=0)
+
+__has_dom=0
+if test x$__dom_given = x1; then
+  if test x$enable_dom = xyes; then
+    AC_DEFINE(ENABLE_DOM, 1, [define if we want to publish the DOM interface])
+    __has_dom=1
+  else
+    AC_DEFINE(DISABLE_DOM, 1, 
+          [define if we want to supress the DOM interface (needed in sdom.h)])
+  fi
+else
+  AC_DEFINE(ENABLE_DOM, 1, [define if we want to publish the DOM interface])
+  __has_dom=1
+fi
+
+dnl consitence check
+if test x$enable_javascript = xyes -a x$__has_dom = x0; then
+   AC_MSG_ERROR(--disable-dom must not be specified with --enable-javascript)
+fi
+
+
+
+dnl ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dnl end of initialization stuff
+dnl --------------------------------------------------
+
+dnl --------------------------------------------------
+dnl miscellaneous - initial
+dnl vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+dnl here we collect needed libraries
+OTHER_LIBS=
+
+AC_MSG_CHECKING(whether to build under GPL)
+if test ! x$SABLOT_GPL = 'x'; then
+  AC_DEFINE(SABLOT_GPL, 1, [define if we want to build under GPL])
+  AC_MSG_RESULT(yes)
+else
+  AC_MSG_RESULT(no)
+fi
+
+dnl debugger
+
+AC_MSG_CHECKING(whether to build the debugger)
+AC_ARG_ENABLE(debugger,
+[  --enable-debugger       enable xslt debugger])
+if test x$enable_debugger = xyes; then
+  AC_MSG_RESULT(yes)
+  AC_DEFINE(SABLOT_DEBUGGER, 1, [define if we want to build the debugger])
+  AC_ARG_WITH(readline, 
+              [  --with-readline         use the GNU readline in the debugger],
+              userl=1, userl=0)
+  if test x$userl = x1; then
+    if test x$SABLOT_GPL = 'x'; then
+      AC_MSG_ERROR(you must compile under GNU's GPL to use the debugger)
+    fi
+    AC_CHECK_LIB(ncurses, initscr, 
+    	         [__rllib=-lncurses; OTHER_LIBS="$OTHER_LIBS -lncurses"],
+                 __rllib=)
+    __rl=1
+    AC_CHECK_LIB(readline, readline, [OTHER_LIBS="$OTHER_LIBS -lreadline"], 
+                 __rl=0, $__rllib)
+    AC_CHECK_HEADERS(readline/readline.h readline/history.h)
+  fi
+
+dnl EMACS_SITE_LISP='undefined'
+dnl AC_CHECK_PROG(has_emacs, emacs, yes, no)
+dnl if test $has_emacs = yes; then
+dnl    EMACS_SITE_LISP=`emacs --batch --load=emacs/config.el --funcall=find-path`
+dnl fi
+dnl AC_SUBST(EMACS_SITE_LISP)
+
+else
+  AC_MSG_RESULT(no)
+fi
+
+
+dnl ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dnl end of miscellaneous - initial
+dnl --------------------------------------------------
+
+dnl --------------------------------------------------
+dnl Expat stuff - keep in sysc
+dnl vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+dnl check for presence of the new Expat library
+AC_MSG_CHECKING(where to find xml parser)
+dnl steal the output descriptor
+exec 6>/dev/null
+
+AC_CHECK_LIB(expat, XML_Parse, [xmle=1; EXPAT_LIBS=-lexpat], xmle=0)
+
+if test $xmle = 0; then 
+  AC_CHECK_LIB(xmlparse, XML_Parse, 
+	      [xmlp=1; EXPAT_LIBS="EXPAT_LIBS=-lxmlparse -lxmltok"],
+	      xmlp=0, -lxmltok)
+fi
+
+dnl return output descriptor
+if test ! x$silent = xyes; then
+  exec 6>&1
+fi
+
+panic=0
+if test $xmle = 1; then
+  resmsg='expat (new)'
+elif $xmlp = 1; then
+  resmsg='expat (old)'
+else
+  resmsg='not found (panic)'
+  panic=1
+fi
+
+AC_MSG_RESULT($resmsg);
+if test $panic = 1; then
+  AC_MSG_ERROR(Couldn't find the expat libraries)
+fi
+
+dnl Expat headers location (according Linux distribution etc.)
+dnl different headers for different library version required
+if test $xmle = 1; then
+  AC_CHECK_HEADERS( expat.h, has_expat_headers=1, has_expat_headers=0 )
+else
+  AC_CHECK_HEADERS( xmlparse.h xmltok/xmlparse.h, has_expat_headers=1, 
+                    has_expat_headers=0 )
+fi
+
+if test $has_expat_headers = 0; then
+  AC_MSG_ERROR(Couldn't find the expat header file(s))
+fi
+
+dnl check wheter expat.h can be included (1.95.6 is broken - bad bad boys)
+AC_MSG_CHECKING(whether expat.h is broken)
+AC_TRY_COMPILE([
+#include <expat.h>
+],[
+return 1;
+],[
+ AC_MSG_RESULT(no)
+],[
+ AC_MSG_RESULT(yes)
+ AC_MSG_ERROR([You probably have expat version 1.95.6. Please refer to:
+  http://sourceforge.net/tracker/index.php?func=detail&aid=676844&group_id=10127&atid=110127
+  for a description of the problem.])
+])
+ 
+dnl check XML_SetReturnNSTriplet
+AC_CHECK_LIB(expat, XML_SetReturnNSTriplet, has_extrip=1, has_extrip=0)
+
+if test $has_extrip = 1; then
+  AC_MSG_CHECKING(whether XML_SetReturnNSTriplet works)
+  save_libs=$LIBS
+  LIBS=-lexpat
+  AC_TRY_RUN([
+#include <expat.h>
+#include <string.h>
+const char* xml = "<?xml version='1.0'?><a:b xmlns:a='http'/>";
+int cnt = 0;
+void tcStartElement(void *data, const char *elName, const char **atts)
+{
+  const char *q = elName;
+  do {
+    q = strchr(q, '|');
+    if (q) { cnt++; q++; }
+  } while (q);
+}
+void tcEndElement(void *data, const char *elName) {}
+int main (int argc, char* argv[])
+{
+  XML_Parser theParser = XML_ParserCreateNS(NULL, '|');
+  XML_SetElementHandler(theParser, tcStartElement, tcEndElement);  
+  XML_SetReturnNSTriplet(theParser, 1);
+  XML_Parse(theParser, xml, strlen(xml), 1);
+  XML_ParserFree(theParser);
+  return cnt == 2 ? 0 : 1;
+}], extrip_ok=1, extrip_ok=0, extrip_ok=0)
+
+  LIBS=$save_libs
+
+  if test $extrip_ok = 1; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(EXPAT_SUPPORTS_TRIPLETS, 1, 
+              [define whether Expat supports (working) XML_SetReturnNSTriplet])
+  else
+    AC_MSG_RESULT(no)
+  fi
+fi
+
+dnl AC_SUBST(EXPAT_DIR)
+AC_SUBST(EXPAT_LIBS)
+
+dnl ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dnl end of expat stuff
+dnl --------------------------------------------------
+
+dnl --------------------------------------------------
+dnl headers, functions, libraries, keep in sync. state
+dnl for easier maintenance - keep synchronized!!
+dnl vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+AC_CHECK_HEADER( sys/types.h, sabcfg_types_h=1, sabcfg_types_h=0 )
+dnl sabcfg_types_h=koko
+AC_SUBST(sabcfg_types_h)
+
+AC_CHECK_HEADERS( timeb.h sys/timeb.h sys/time.h \
+	 unistd.h ieeefp.h sunmath.h limits.h)
+
+dnl check wheter iconv is the part of libc.
+has_iconv=0
+if test "$iconv_enabled" = 1; then
+AC_CHECK_HEADERS( iconv.h, has_iconv=1,  has_iconv=0)
+fi
+
+dnl if we have iconv library, we have to decide if it 
+dnl is present in libc
+
+ICONV_LIB=
+if test $has_iconv = 1; then
+  AC_MSG_CHECKING(where to find iconv_open)
+  exec 6>/dev/null
+  AC_CHECK_FUNCS(iconv_open, iconv_in_libc=1, iconv_in_libc=0)
+  AC_CHECK_LIB(iconv, iconv_open, iconv_in_iconv=1, iconv_in_iconv=0)
+  AC_CHECK_LIB(iconv, libiconv_open, libiconv_in_iconv=1, libiconv_in_iconv=0)
+  if test ! x$silent = xyes; then
+    exec 6>&1
+  fi
+  #standalone library rules over libc
+  if test $iconv_in_iconv = 1 -o $libiconv_in_iconv = 1; then
+    AC_MSG_RESULT(libiconv)
+    ICONV_LIB=-liconv
+  elif test $iconv_in_libc = 1; then
+    AC_MSG_RESULT(libc)
+  else
+    AC_MSG_RESULT(not found (panic))
+    AC_MSG_ERROR([iconv.h found, while iconv library not found])
+  fi
+  #we have iconv at this moment, so we'll check out the need of
+  #typecast in the call of iconv
+  AC_MSG_CHECKING(whether to typecast in iconv)
+  if test x$force_iconv_typecast = x1; then
+    AC_MSG_RESULT(forced)
+    AC_DEFINE(SABLOT_ICONV_CAST_OK, 1, 
+              [define whether second param of iconv has to be typecasted])
+  else
+    AC_TRY_COMPILE([#include <iconv.h>],[
+                   {  
+  	  	      const char *src = "nothing";
+  		      char *outbuf;
+		      size_t insize = 0;
+		      size_t outsize = 0;
+		      iconv_t cd;
+		      iconv(cd, &src, &insize, &outbuf, &outsize);
+                   }], 
+	           iconv_cast=0, iconv_cast=1)
+    if test $iconv_cast = 1; then
+      AC_MSG_RESULT(yes)
+      AC_DEFINE(SABLOT_ICONV_CAST_OK, 1, 
+                [define whether second param of iconv has to be typecasted])
+    else
+      AC_MSG_RESULT(no)
+    fi
+  fi
+fi
+AC_SUBST(ICONV_LIB)
+
+dnl check for the need of -lm library spec.
+AC_MSG_CHECKING(whether to force -lm switch)
+AC_TRY_LINK([#include <math.h>], 
+	    { double foo; foo = ceil(1.234); },
+	    link_libm=0, link_libm=1)
+if test $link_libm = 1; then
+  AC_MSG_RESULT(yes)
+  OTHER_LIBS="$OTHER_LIBS -lm"
+  __need_lm=1
+else
+  AC_MSG_RESULT(no)
+  __need_lm=0
+fi
+
+dnl javascript stuff
+if test $js_enabled = 1; then
+  dnl get default libname
+  if test x$SABLOT_JSLIB = x; then
+    SABLOT_JSLIB=js
+  fi
+  dnl check library and header
+  dnl we have to specify perl libraries for Charlie
+  dnl PERLCFLAGS := $(shell perl -MExtUtils::Embed -e ccopts)
+  if test $perlconnect_enabled = 1; then
+    AC_CHECK_PROG(has_perl, perl, yes, no)
+    if test $has_perl = yes; then
+      PERLLDFLAGS=`perl -MExtUtils::Embed -e ldopts`
+      dnl perl erroneously reports compiler flag -rdynamic (interpreted by ld
+      dnl as -r) when it really meant -export-dynamic.
+      PERLLDFLAGS=`echo $PERLLDFLAGS | perl -pe 's/-rdynamic/-export-dynamic/'`
+    fi
+  else
+    PERLLDFLAGS=
+  fi
+
+  AC_CHECK_LIB($SABLOT_JSLIB, js_NewContext, 
+               [has_js=1; OTHER_LIBS="$OTHER_LIBS -l$SABLOT_JSLIB $PERLLDFLAGS"], 
+               has_js=0, $PERLLDFLAGS)
+  if test $has_js = 1; then
+    echo '#define XP_UNIX' >> confdefs.h
+    AC_CHECK_HEADERS( jsapi.h, has_js_header=1, has_js_header=0 )
+    if test $has_js_header = 0; then
+      AC_MSG_ERROR(required file jsapi.h not found)
+    fi
+  else
+    AC_MSG_ERROR(JavaScript library not found)
+  fi
+fi
+
+dnl check for the presence of miscellaneous functions
+AC_CHECK_FUNCS( ftime gettimeofday , break )
+AC_CHECK_FUNCS( mtrace )
+
+dnl I/O operations
+AC_CHECK_FUNCS( setvbuf )
+
+dnl check for isnan etc...in the std. way and try link if not found
+dnl this is due HPUX, where isnan & Co. are defined as macros
+
+AC_CHECK_FUNC( isnan, [has_isnan=1; AC_DEFINE(HAVE_ISNAN, 1, isnan)], has_isnan=0)
+AC_CHECK_FUNC( isinf, [has_isinf=1; AC_DEFINE(HAVE_ISINF, 1, isinf)], has_isinf=0)
+AC_CHECK_FUNC( finite,[has_finite=1;AC_DEFINE(HAVE_FINITE, 1, finite)], has_finite=0)
+dnl Needed for IRIX
+AC_CHECK_FUNC( isnand, [hash_isnand=1; AC_DEFINE(HAVE_ISNAND, 1, isnand)], hash_isnand=0)
+
+dnl it is a bit too complicated, but we can live with this
+__save_LIBS=$LIBS
+if test "$__need_lm" = 1; then
+  LIBS=-lm
+else
+  LIBS=
+fi
+dnl check for macro isnan in math
+if test $has_isnan = 0; then
+  AC_MSG_CHECKING(for macro isnan)
+  AC_TRY_LINK( [#include <math.h>],  [{int foo; foo = isnan(0);}], 
+              has_isnan=1, has_isnan=0 )
+  if test $has_isnan = 1; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(HAVE_ISNAN, 1, isnan)
+  else
+    AC_MSG_RESULT(no)
+  fi
+fi
+
+dnl check for macro isinf in math
+if test $has_isinf = 0; then
+  AC_MSG_CHECKING(for macro isinf)
+  AC_TRY_LINK( [#include <math.h>],  [{int foo; foo = isinf(0);}], 
+              has_isinf=1, has_isinf=0 )
+  if test $has_isinf = 1; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(HAVE_ISINF, 1, isinf)
+  else
+    AC_MSG_RESULT(no)
+  fi
+fi
+
+dnl check for macro finite in math
+if test $has_finite = 0; then
+  AC_MSG_CHECKING(for macro finite)
+  AC_TRY_LINK( [#include <math.h>],  [{int foo; foo = finite(0);}], 
+              has_finite=1, has_finite=0 )
+  if test $has_finite = 1; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(HAVE_FINITE, 1, finite)
+  else
+    AC_MSG_RESULT(no)
+  fi
+fi
+dnl put the LIBS orgiginal value back !!!
+LIBS=$__save_LIBS
+
+dnl wchar.h (not present on FreeBSD)
+AC_CHECK_HEADER( wchar.h, has_wchar=1, has_wchar=0)
+
+if test $has_wchar = 1; then
+  AC_DEFINE(HAVE_WCHAR_H, 1, [define if you have wchar.h header])
+  AC_CHECK_FUNCS( wcsxfrm wcscmp )
+fi
+
+dnl string manipulation
+AC_CHECK_FUNC(snprintf, , 
+  AC_MSG_ERROR([Function snprintf not found. 
+See the system documentation and try to fix it manually.]))
+
+dnl if test $has_wchar = 0; then
+dnl   AC_MSG_ERROR(The header <wchar.h> not found. This problem occurs on
+dnl certain platforms (e.g. FreeBSD). Please check your system configuration.)
+dnl fi
+
+AC_SUBST(OTHER_LIBS)
+
+dnl ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dnl end of headers etc.
+dnl --------------------------------------------------
+
+dnl --------------------------------------------------
+dnl output files
+dnl vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+AC_OUTPUT( src/engine/sabcfg.h 
+	   Makefile src/Makefile src/engine/Makefile 
+	   src/command/Makefile src/command/sablot-config
+ 	   doc/Makefile doc/man/Makefile doc/misc/Makefile 
+	   doc/apidoc/Makefile utils/Makefile 
+	   utils/apidoc/Makefile )
+dnl emacs/Makefile )
+
+dnl ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dnl end of output files
+dnl --------------------------------------------------
+
+dnl --------------------------------------------------
+dnl notices and messages
+dnl vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+if test $has_wchar = 0; then
+  AC_MSG_WARN([Your system doesn't support standard widechar library (wchar.h), result of the <xsl:sort> instruction may be undefined])
+fi
+
+dnl ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dnl end of file
+dnl --------------------------------------------------
+
+dnl vim600: ts=2 sw=2 et nocin nosi

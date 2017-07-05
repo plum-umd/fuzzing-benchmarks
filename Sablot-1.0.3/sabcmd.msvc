@@ -1,0 +1,66 @@
+#////////////////////////////////////////////////////////////////////////////
+# $Id: sabcmd.msvc,v 1.1.2.1 2003/07/17 11:29:25 cvspetr Exp $
+#
+# Copyright (c) 2003 Rosimildo da Silva, All Rights Reserved.
+#
+# See the file COPYING for copying permission.
+#
+# MODULE DESCRIPTION: Makefile for the sabcmd.exe
+#
+# MODIFICATION/HISTORY:
+# $Log: sabcmd.msvc,v $
+# Revision 1.1.2.1  2003/07/17 11:29:25  cvspetr
+# ''
+#
+# Revision 1.1  2003/04/11 12:33:22  cvspavel
+# ''
+#
+#
+# Created 2003/03/23 Rosimildo da Silva, ConnectTel Inc.
+# [rdasilva@connecttel.com]
+#
+#////////////////////////////////////////////////////////////////////////////
+
+TOP = .
+
+.SUFFIXES: .cc
+
+# Configuration MUST be included first !
+!IF EXIST("$(TOP)\sablot_config.local")
+!include "$(TOP)\sablot_config.local"
+!ELSE	
+!include "$(TOP)\sablot_config.msvc"
+!ENDIF
+
+# IMPORTANT: shuld never be defined for executables
+!undef VC_DLL
+
+!include "$(TOP)\makefile_include.msvc"
+
+SABCMD_OBJS= $(OBJDIR)\sabcmd.obj
+
+SABCMD_EXE = $(BINDIR)\sabcmd.exe
+SABCMD_MAP = $(BINDIR)\sabcmd.map
+
+USER_LIBS = $(LIBDIR)\sablot.lib $(EXPAT_LIB)
+
+all: sabcmd
+
+clean:
+   -@del  $(SABCMD_OBJS)   2>NUL
+   -@del  $(SABCMD_EXE)    2>NUL
+   -@del  $(SABCMD_MAP)    2>NUL
+   -@del  vc?0.*           2>NUL
+
+makedirs:
+  -@mkdir $(BINDIR)  2>NUL
+  -@mkdir $(OBJDIR)  2>NUL
+
+sabcmd: makedirs $(SABCMD_EXE) 
+
+!include "$(TOP)\makefile_rules.msvc"
+
+$(SABCMD_EXE): $(SABCMD_OBJS) $(USER_LIBS)
+   $(LINK) /out:$(SABCMD_EXE) /map:$(SABCMD_MAP) $(LFLAGS) $(SABCMD_OBJS) \
+                                                 $(XLIBS) $(USER_LIBS) 
+

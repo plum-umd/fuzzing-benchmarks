@@ -1,0 +1,141 @@
+#////////////////////////////////////////////////////////////////////////////
+# $Id: makefile_rules.msvc,v 1.2.2.1 2003/11/24 13:30:40 cvspetr Exp $
+#
+# Copyright (c) 2003 Rosimildo da Silva, All Rights Reserved.
+#
+# See the file COPYING for copying permission.
+#
+# MODULE DESCRIPTION: This makefile has some rules for VC++ makefiles.
+#
+# MODIFICATION/HISTORY:
+# $Log: makefile_rules.msvc,v $
+# Revision 1.2.2.1  2003/11/24 13:30:40  cvspetr
+# ''
+#
+# Revision 1.2  2003/07/16 12:29:08  cvspavel
+# ''
+#
+# Revision 1.1  2003/04/11 12:33:22  cvspavel
+# ''
+#
+#
+# Created 2003/03/23 Rosimildo da Silva, ConnectTel Inc.
+#////////////////////////////////////////////////////////////////////////////
+
+!ifndef DISABLE_DOM
+CFLAGS = $(CFLAGS) -DENABLE_DOM=1
+!endif
+
+!ifdef ENABLE_ICONV
+CFLAGS = $(CFLAGS) $(ICONV_CFLAGS) 
+XINCS = $(XINCS)   $(ICONV_INC) 
+XLIBS = $(ICONV_LIB) $(XLIBS)
+!endif
+
+!ifdef ENABLE_JS
+CFLAGS = $(CFLAGS) $(JS_CFLAGS) /D "XP_WIN"
+XINCS  = $(XINCS)  $(JS_INC) 
+XLIBS  = $(JS_LIB) $(XLIBS)
+!endif
+
+!ifdef ENABLE_DEBUGGER
+CFLAGS = $(CFLAGS) /DSABLOT_DEBUGGER
+!endif
+
+!ifdef CHECK_LEAKS
+CFLAGS = $(CFLAGS) /DCHECK_LEAKS
+!endif
+
+CFLAGS = $(CFLAGS) $(WARNING_LEVEL) $(EXPAT_CFLAGS)
+
+# Set some directories for ".cpp" code
+
+{$(SRCDIR)}.cpp{$(OBJDIR)}.obj:
+    $(CPP) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR1)}.cpp{$(OBJDIR)}.obj:
+    $(CPP) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR2)}.cpp{$(OBJDIR)}.obj:
+    $(CPP) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR3)}.cpp{$(OBJDIR)}.obj:
+    $(CPP) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR4)}.cpp{$(OBJDIR)}.obj:
+    $(CPP) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR5)}.cpp{$(OBJDIR)}.obj:
+    $(CPP) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR6)}.cpp{$(OBJDIR)}.obj:
+    $(CPP) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR7)}.cpp{$(OBJDIR)}.obj:
+    $(CPP) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+# Set some directories for ".cpp" code
+
+{$(SRCDIR)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR1)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR2)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR3)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR4)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR5)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR6)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR7)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR8)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR9)}.cc{$(OBJDIR)}.obj:
+    $(CPP) /TP $(CFLAGS) $(XINCS) /Fo$@ $**
+
+# Set some directories for ".c" code
+
+{$(SRCDIR)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR1)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR2)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR3)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR4)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR5)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR6)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR7)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR8)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+{$(SRCDIR9)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) $(XINCS) /Fo$@ $**
+
+

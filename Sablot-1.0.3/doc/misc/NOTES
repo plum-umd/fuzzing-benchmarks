@@ -1,0 +1,281 @@
+* Introduction
+
+As we are approaching the 1.0 release, it is a good time to summarize
+subtle (more or less) changes and new features introduced in the past
+time. 
+
+These note may be classified as either interface changes or features
+not covered in the XSLT specification.
+
+This file should be a primary source of information, for those
+interested in Sablotron specific features, and/or for people using
+Sablotron native interfaces.
+
+The most recent changes are described as well as a bit older issues,
+which was not yet described in this way, or there is need to put
+things together.
+
+* Specification Conformance
+
+Since the version number of 0.95 almost complete XSLT 1.0 specification 
+is covered (and mostly well tested). There are just few minor issues, the id()
+function support and embedded stylesheets are the most important ones.
+
+Although we'd like to meet this requirements too, this is not sure, we
+will do it prior the 1.0 release, since we'll aim our efforts to bug
+fixing and code cleanup.
+
+issues: 
+	- id(), 
+	- embedded stylesheets, 
+	- some possible operations with RTF that should disabled,
+	- case insensitive sorting
+
+** Ambiguities
+
+There are few issues, where the specifications allows more then one
+solution. Sablotron processor respects a set of options, that control
+the behavior in such cases. See ``API and Architecture'' for more.
+
+** Specification Leaks
+
+We found several minor specification leaks. The most important of them
+is the namespace output and namespace aliasing.
+
+The spec says, that the XSLT namespace must not be output for XSLT
+literal result elements. This brings a problem, when the XSLT
+namespaces is marked as a target namespace for the
+xsl:namespace-alias. 
+
+Sablotron bypasses this issue and outputs this namespace, if specified
+in as the namespace alias.
+
+** The XHTML Output Mode
+
+Although this mode is not described in the spec, it is defined in XSLT
+1.1 and surely will be a part of the 2.0 spec.
+
+Sablotron supports xhtml mode, but it doesn't exactly what newer
+spec. version say. in any case it is useful and works fine.
+
+* Extensions
+
+** Multiple Document Output
+
+The multiple document output is fully supported as described by
+exslt.org initiative (what is actually based on XSLT 1.1 working
+draft).
+
+We tested this on pretty huge piece of data (Definitive Guide to
+DocBook), and it seems to work fine.
+
+See <http://www.exslt.org/exsl/elements/document/index.html> for more
+details.
+
+
+** JavaScript Embedding
+
+The exslt.org scripting is supported (based on XSLT 1.1 again). 
+See <http://www.exslt.org/func/elements/script/index.html> for more.
+
+Implementation specific topics:
+
+*** JS Engine
+
+The Mozilla Spider Monkey engine is used. We alway use the standalone
+library, nobody tried to link against library brought by Mozilla.
+
+*** Language Supported
+
+The 'language' attribute of the 'func:script' extension element may be
+either of 'javascript' or 'ecmascript' (case insensitive).
+
+*** Inline Scripts
+
+On contrary to the exslt specification, the 'src' attribute is not
+mandatory. If it is not present, the content of the 'func:script' is
+used. it allows the script to be inlined in the stylesheet.
+
+It is not error, if both of the element content and the 'src'
+attribute are present. The attribute wins in such a case.
+
+*** DOM Support
+
+Almost all DOM2 functions and classes are supported. The whole DOM
+model is read only (it fits the spec). Any write attempt will raise the
+NOT_SUPPORTED_ERR exception.
+
+Just few functions are missing.
+
+issues: 
+	- Document.docElementsByTagName,
+	- Document.docElementsByTagNameNS, 
+	- node name lists may be accessed with
+	  the item() member function only, 
+	  not as the array items.
+	- NamedNodeMap.getNamedItemsNS
+
+*** Type Mapping and the Context object
+
+Should be OK.
+
+*** Accessing Other Documents
+
+Currently is not possible to access another document as given in the
+Context object or passed in the function as a parameter.
+
+Some support of document() function at the script level would be nice.
+
+** More Sablotron Specific Features
+
+*** Sablotron Version and the system-property()
+
+The system-property() function return the Sablotron version. The QName
+to be used is ga:version, where the 'ga' prefix is bound to
+'http://www.gingerall.org/sablotron/extension'.
+
+* Command-line interface 
+
+** Batch Mode
+
+Thanks to Stefan Behnel, the sabcmd command allows the batch
+processing, when single XML document is processed with multiple XSL
+sheets, or several XML document are processed with single sheet. See
+the manpage for details.
+
+** Processing Options
+
+Processing options may be passed into the sabcmd using the --flags
+switch.
+
+* SXP and Processing on External Documents
+
+Sablotron supports the XPath evaluation on external documents as well
+as XSLT processing of these documents.
+
+An application may register a set of callbacks and provide nodes
+(abstract opaque handles to them) to the engine.
+
+There is detailed documentation here:
+
+<http://www.gingerall.org/ga/html/sxp/sparse-frameset.html>
+
+Currently it is slightly out-of-date, please always check the sxpath.h
+file. 
+
+If you want to process an external document, use the
+SablotRunProcessorExt.
+
+* API and Architecture
+
+** Constant Pointers
+
+Recently we changed the type of all (char*) passed in to (const
+char*). we hope it won't bring much troubles, but we wanted to do it
+before 1.0. Sorry for any inconvenience.
+
+** Old vs. New Interface
+
+The ancient versions of Sablotron introduced a couple of API
+functions, like SablotProcess, SablotProcess etc. They still works
+(and will), but are obsoleted and shouldn't be used.
+
+Here is the list of function to be used (in alphabetical order)
+
+SablotAddArgBuffer
+SablotAddArgTree
+SablotAddParam
+SablotClearSituation
+SablotCreateDocument
+SablotCreateProcessor
+SablotCreateProcessorForSituation
+SablotCreateSituation
+SablotDestroyDocument
+SablotDestroyProcessor
+SablotDestroySituation
+SablotFree (*)
+SablotFreeResultArgs (*)
+SablotGetErrorLine
+SablotGetErrorMessage
+SablotGetErrorURI
+SablotGetInstanceData (*)
+SablotGetResultArg (*)
+SablotParse
+SablotParseBuffer
+SablotParseStylsheet
+SablotRegHandler (*)
+SablotRunProcessorExt
+SablotRunProcessorGen
+SablotSetBase (*)
+SablotSetBaseForScheme (*)
+SablotSetEncoding (*)
+SablotSetInstanceData (*)
+SablotSetLog (*)
+SablotUnregHandler (*)
+
+Function marked (*) do not take a situation handle as a parameter,
+since they are older by design. we won't fix this issue (unless we
+redesign the processor vs. situation ownership - see ``What Next?''
+
+A better documentation will be provided soon.
+
+** Parameter Encoding
+
+All parameters must be passed in utf-8 encoded. This is an issue.
+
+** Memory Allocations
+
+Any memory allocated by a calling application must be freed by this
+application and any memory allocated by Sablotron (and returned to
+application) must be freed using an appropriate SablotDestroy*
+call. String values (the most frequent case) must be disposed with
+SablotFree.
+
+* Perl Extension
+
+The Perl extension supports most of Sablotron features. Including the
+DOM2 (almost complete) interface to native Sablotron trees.
+
+See XML::Sablotron and XML::Sablotron::DOM for more details.
+
+* What Next?
+
+** Specification Conformance
+
+We must beat all unsupported features. id(), embedded documents
+and case insensitive sorting are the most important ones.
+
+** Extensions
+
+*** EXSLT
+
+More exslt stuff, namely func:function, func:result, exsl:node-set(),
+exsl:object-type
+
+*** JavaScript and the document() function
+
+As stated above, JavaScript users should be allowed to access any
+document (even not-yet-parsed)
+
+*** XHTML Output Method
+
+The xhtml output method should be checked to match recommendations.
+
+** Documentation
+
+The API documentation should be redesigned (use ApiDoc). The SXP
+documentation should be updated.
+
+** API Changes and Enhancements
+
+*** Situation vs. Processor
+
+Some stuff registered currently with the processor (handlers, base
+uri), should be registered to the situation object. This is not an
+critical issue, but would make the architecture more compact.
+
+*** Parameter Encoding
+
+Some way, parameters (SablotAddParam) might be recoded would be VERY
+nice. Actually this is one of the most important things to be done.
+

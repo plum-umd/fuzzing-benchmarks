@@ -1,0 +1,1732 @@
+<?xml version='1.0'?>
+<API id='Sablotron Guide and'>
+
+  <FOOT>
+    &amp;copy; 2002-2003 Ginger Alliance<BR/>
+    <I>revision 03-06-30</I><BR/>
+  </FOOT>
+
+  <!-- General -->
+
+  <ENTRY id='.Introduction'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      Sablotron is an XML processor implementing XPath 1.0, XSLT 1.0 and 
+      DOM Level2. It also includes some other features such as XSLT debugger,
+      SXP (access to external documents via callbacks) or EXSLT support.
+    </SUMMARY>
+    <DESCRIPTION>
+      Sablotron is a single shared library written in C++ (sablot.dll 
+      or libsablot.so.x.xx). It provides a native C API; APIs for Perl, PHP, 
+      Python, Ruby and other languages are available through wrappers (not 
+      part of the Sablotron project). See <S>gingerall.org</S> for more
+      information on Sablotron wrappers. Sablotron can also be used from the 
+      command line via a simple interface called <C>sabcmd</C>.<P/>
+
+      Sablotron implements the following W3C recommendations:
+      <S>XPath 1.0</S>, <S>XSLT 1.0</S> and <S>DOM Level2</S>. See 
+      <C>.Known Issues</C> for details on deviations from the specs.
+      Go to <C>.Sablotron DOM</C> for more information on Sablotron DOM
+      Level 2 interface.
+      <P/>
+      Sablotron also includes an XPath Processor (SXP) working with virtual DOM 
+      objects accessed via user-defined (DOM-like) callback functions. The C
+      API to SXP is described in a separate <S>SXP Reference</S> guide.
+      <P/>
+      A relevant subset of EXSLT extensions is supported by Sablotron. See
+      <C>.Extensions</C> for details.
+      <P/>
+      Third-party libraries Sablotron depends on and libraries that can be
+      linked by Sablotron optionally are listed in <C>.Dependencies</C>.
+      <P/>
+      The latest Sablotron sources can be downloaded from <S>gingerall.org</S>.
+      For instructions on how to build the sources, refer to the accompanying 
+      INSTALL file. The <S>gingerall.org</S> site also includes links to other 
+      documentation, FAQs, mailing lists, CVS, bugzilla, lxr and other 
+      Sablotron-related resources. Sablotron is an open source project and
+      everyone is invited to join it.
+    </DESCRIPTION>
+    <EXTERNALREF name="XPath 1.0" value="http://www.w3.org/TR/xpath"/>
+    <EXTERNALREF name="XSLT 1.0" value="http://www.w3.org/TR/xslt"/>
+    <EXTERNALREF name="DOM Level2" value="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/"/>
+    <EXTERNALREF name="SXP Reference" value="http://www.gingerall.org/ga/html/sxp/complete-frameset.html"/>
+    <EXTERNALREF name="gingerall.org" value="http://www.gingerall.org"/>
+  </ENTRY>
+
+  <ENTRY id='.Extensions'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      Sablotron supports a number of EXSLT extensions.
+    </SUMMARY>
+    <DESCRIPTION>
+      Sablotron recognizes the extension element 
+      <B>funct:script</B> (xmlns:funct="http://exslt.org/functions")
+      to run ECMAScript (JavaScript) functions as suggested by 
+      <S>EXSLT.org</S>. Extension functions have a read-only DOM access 
+      to the main XML document and to 
+      node-sets passed as arguments. The implementation follows the 
+      ECMAScript/DOM2 Language Binding defined in <S>XSLT 1.1</S>, 
+      Appendix C3, and <S>DOM Level2</S>, Appendix E. See Sablotron 
+      <S>Extensions API Reference</S> guide to get more details on how to use
+      DOM methods from JS extension functions.
+      <P/>
+      Sablotron also supports <B>exsl:document</B> element 
+      (xmlns:exsl="http://exslt.org/common") to produce multiple output
+      documents.
+      <P/>
+      In addition to the standard output methods (xml, html and text), it is 
+      possible to output xhtml. Documents output using this method obey the 
+      XHTML 1.0 rules (in particular, all empty elements are closed). 
+      To choose the method, use <B>xsl:output method='xhtml'</B>.
+    </DESCRIPTION>
+    <EXTERNALREF name="Extensions API Reference" value="http://www.gingerall.org/ga/html/jsdom-ref/complete-frameset.html"/>
+    <EXTERNALREF name="EXSLT.org" value="http://www.exslt.org"/>
+    <EXTERNALREF name="XSLT 1.1" value="http://www.w3.org/TR/xslt11/"/>
+    <EXTERNALREF name="DOM Level2" value="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/"/>
+  </ENTRY>
+
+  <ENTRY id='.Known Issues'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      There are some known minor distinctions from W3C specifications.
+    </SUMMARY>
+    <DESCRIPTION>
+      <B>XPath 1.0</B><BR/>
+        * id() function not implemented.<BR/>
+      <P/>
+      <B>XSLT 1.0</B><BR/>
+        * embedded stylesheets don't work,<BR/>
+        * some illegal operations with RTFs are allowed,<BR/>
+        * case-order attribute of xsl:sort not supported.<BR/>
+      <P/>
+      <B>DOM Level2</B><BR/>
+	* Document.docElementsByTagName not implemented,<BR/>
+	* Document.docElementsByTagNameNS not implemented,<BR/>
+	* node name lists may be accessed with the item() function only
+	  not as array items,<BR/>
+	* NamedNodeMap.getNamedItemsNS not implemented.<BR/>
+      <P/>
+      <B>Other issues:</B><BR/>
+        * the 'xhtml' output method is different from what is suggested 
+      in XSLT 2.0 WD,<BR/>
+        * all parameters must be passed in utf-8 encoded.<BR/>
+    </DESCRIPTION>
+    <EXTERNALREF name="XPath 1.0" value="http://www.w3.org/TR/xpath"/>
+    <EXTERNALREF name="XSLT 1.0" value="http://www.w3.org/TR/xslt"/>
+    <EXTERNALREF name="DOM Level2" value="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/"/>
+  </ENTRY>
+
+  <ENTRY id='.License'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      Sablotron licensing terms and Copyright
+    </SUMMARY>
+    <DESCRIPTION>
+      Sablotron is  subject to the Mozilla Public License Version 1.1 
+      (the <S>MPL</S>). Alternatively, Sablotron may be used under the 
+      terms of the GNU General Public License Version 2 or later (the
+      <S>GPL</S>), in which case the provisions of the GPL are applicable 
+      instead of those of the MPL.
+      <P/>
+      The Sablotron project has been originated and is maintained
+      by Ginger Alliance. Portions created by Ginger Alliance are 
+      Copyright Ginger Alliance, s.r.o. Portions created by other
+      contributors are Copyright of these contributors.
+      All rights are reserved.
+    </DESCRIPTION>
+    <EXTERNALREF name="MPL" value="http://www.mozilla.org/MPL/MPL-1.1.html"/>
+    <EXTERNALREF name="GPL" value="http://www.gnu.org/licenses/gpl.html"/>
+  </ENTRY>
+
+  <ENTRY id='.Usage'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      Examples of how to use the native API of Sablotron.
+    </SUMMARY>
+    <DESCRIPTION>
+      The first example shows the simplest way to run a transformation with
+      two files. The second example parses trees explicitly and makes them 
+      available for further processing. In this example, the source XML document 
+      and the XSLT stylesheet are already loaded in strings (my_xsl_ptr, 
+      my_xml_ptr). To work with URIs, use <C>SablotParseStylesheet</C> and 
+      <C>SablotParse</C> instead of <C>SablotParseStylesheetBuffer</C> and 
+      <C>SablotParseBuffer</C>.
+    </DESCRIPTION>
+    <SYNTAX>
+EXAMPLE 1: a simple transformation
+
+SablotSituation S;
+SablotHandle proc;
+
+SablotCreateSituation(&amp;S);
+SablotCreateProcessorForSituation(S, &amp;proc);
+
+SablotRunProcessorGen(S, proc, "my_sheet.xsl", "my_data.xml", "arg:/out");
+
+char * result;
+SablotGetResultArg(proc, "arg:/out", &amp;result);
+
+...
+
+SablotFree(result);
+SablotDestroyProcessor(proc);
+SablotDestroySituation(S);
+
+EXAMPLE 2: a transformation with reusable parsed trees
+
+SablotSituation S;
+SablotHandle proc;
+SDOM_Document xsl, xml;
+
+SablotCreateSituation(&amp;S);
+SablotParseStylesheetBuffer(S, my_xsl_ptr, &amp;xsl);
+SablotParseBuffer(S, my_xml_ptr, &amp;xml);
+
+SablotCreateProcessorForSituation(S, &amp;proc);
+SablotAddArgTree(S, proc, "sheet", xsl);
+SablotAddArgTree(S, proc, "data", xml);
+
+SablotRunProcessorGen(S, proc, "arg:/sheet", "arg:/data", "arg:/out");
+
+char * result;
+SablotGetResultArg(proc, "arg:/out", &amp;result);
+
+...
+
+SablotFree(result);
+SablotDestroyDocument(xsl);
+SablotDestroyDocument(xml);
+SablotDestroyProcessor(proc);
+SablotDestroySituation(S);
+    </SYNTAX>
+  </ENTRY>
+
+  <ENTRY id='sabcmd'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      sabcmd is a command line interface to Sablotron library.
+    </SUMMARY>
+    <SYNTAX>
+sabcmd [options] &amp;lt;stylesheet&amp;gt; [&amp;lt;input&amp;gt; [&amp;lt;output&amp;gt;]] [assignments]
+sabcmd [options] -batch-xml &amp;lt;input&amp;gt; [&amp;lt;stylesheet&amp;gt; [&amp;lt;output&amp;gt;]]+ [assignments]
+sabcmd [options] -batch-xsl &amp;lt;stylesheet&amp;gt; [&amp;lt;input&amp;gt; [&amp;lt;output&amp;gt;]]+ [assignments]
+    </SYNTAX>
+    <DESCRIPTION>
+      <B>sabcmd</B> is a command line interface to Sablotron XSLT processor. 
+      You can use is to transform XML files with XSLT stylesheets.
+      <P/>
+      The only required parameter is a stylesheet; this is a URI of
+      an XSLT stylesheet to be used for the transformation process. If you
+      omit an input file, the standard input is used. In addition, you can
+      specify an output file. If no output file is given, the output is sent to 
+      the standard output. 
+      <P/>
+      sabcmd can also run in a batch mode to process single input file with 
+      multiple stylesheets (--batch-xml) or to apply a stylesheet to multiple
+      input files (--batch-xsl).
+      <P/>
+      <B>Assignments</B> allow to pass parameters and named buffers to the
+      processor. The assignments have always the form of
+      <C>name1=value1 name2=value2 ...</C>
+      where name is either an ASCII string for named buffers or an ASCII string
+      with the leading '$' sign for parameters. (Note that you need to use the 
+      right quotes to prevent the shell interpreter from performing an expansion
+      of variables). 
+      <P/>
+      <B>OPTIONS</B>
+      <BR/>
+      Option can be of two forms - short or long. If some options have
+      values, the values are separated with a whitespace for short options 
+      and with a equal sign ('=') for long options. 
+      <C>-L mylog.log</C> is the same as <C>--log-file=mylog.log</C>
+      <P/>
+      <B>COMMON OPTIONS</B>
+      <BR/>
+      <C>-x, --batch-xml</C> - multiple stylesheets, single input file
+      <BR/>
+      <C>-s, --batch-xsl</C> - multiple input files, single stylesheet
+      <BR/>
+      <C>-b, --base=NAME</C> - set the hard base URI to NAME
+      <BR/>
+      <C>--debug-options</C> - display the information on debugging options
+      <BR/>
+      <C>-?, --help</C> - display this help message
+      <BR/>
+      <C>-L, --log-file=NAME</C> - set the log file, turns logging on
+      <BR/>
+      <C>-m, --measure</C> - measure the time of processing
+      <BR/>
+      <C>-v, --version</C> - display the version information
+      <P/>
+      <B>DEBUG OPTIONS</B>
+      <BR/>
+      <C>--debug</C> - display results of the command line parse
+      <BR/>
+      <C>-t, --times=COUNT</C> - run sabcmd the specified number of times
+      <BR/>
+      <C>-f, --flags</C> - pass flags given to SablotSetOptions()
+      <BR/>
+      <C>-F, --use-SPF</C> - use SablotProcessFiles()
+      <BR/>
+      <C>-S, --use-SPS</C> - use SablotProcessStrings(). Give 2 args (stylesheet,
+      input). Precede each by @.
+      <BR/>
+      <C>--use-SPS-on-files</C> - use SablotProcessStrings() on the contents of 
+      the given files.
+      <P/>
+      <B>ENVIRONMENT</B>
+      <BR/>
+      When the <B>xsl:sort</B> instruction is used without the 'lang' attribute,
+      common locale related environment variables apply..
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='.Debugging XSLT'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      Sablotron can be used as XSLT debugger.
+    </SUMMARY>
+    <DESCRIPTION>
+      Run <C>'sabcmd --debugger'</C> to invoke the debugger. Then, you can trace 
+      execution of your templates. The only point, where the debugger can stop 
+      the execution is the element start.
+      <P/>
+    </DESCRIPTION>
+    <SYNTAX>
+These commands can be used from the debugger command line:
+
+Processed data:
+  data filename        - sets the data file
+  param name value     - sets the external parameter
+  P                    - lists all params
+  PP                   - clears all params
+  sheet filename       - sets the stylesheet
+Breakpoints:
+  break filename:line  - sets the breakpoint
+  bstat                - shows breakpoint stats (total/enabled/break)
+  B                    - lists all breakpoints
+  condition num cond   - for the breakpoint NUM sets the condition COND
+  del num              - deletes the breakpoint NUM
+  disable num          - toggles the breakpoint number NUM
+  D                    - deletes all breakpoints
+  ignore num count     - ignores the breakpoint NUM for COUNT times
+Execution control:
+  continue             - continues the execution
+  finish               - finishes the current node parent
+  kill                 - stops the processing immediately
+  next                 - goes to the next sibling
+  run                  - runs the processor
+  step                 - continues until the next element
+  templ                - continues until the next template executed
+Evaluation:
+  eval                 - evaluates the XPath expression
+  x [list | num]       - examines the current context
+Miscellaneous:
+  batch filename       - loads the command set for file
+  help                 - prints this help
+  output               - toggles output on/off
+  point                - shows where you are
+  quit                 - quites the debugger
+    </SYNTAX>
+    <NOTE>
+      <B>Abbreviations</B><BR/>
+      You need to type as few letters to specify the command as is 
+      needed to recognize, what you mean. The most frequent command may 
+      be run with single letter not caring, whether another command 
+      starts with this letter. The `s' abbrev runs the `step' command 
+      rather the `sheet'.
+      <P/>
+      <B>Emacs Integration</B><BR/>
+      There is an Emacs library available. You may use it to debug
+      your stylesheets in Emacs directly. You need to grab the sabdbg.el 
+      from the Sablotron source tree and to add a couple of lines into
+      your .emacs file. Look at doc/misc/DEBUGGER file in Sablotron 
+      distribution for more details.
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id='.Dependencies'>
+    <TYPE value='.General'/>
+    <SUMMARY>
+      Third-party libraries that must be or can be linked to Sablotron.
+    </SUMMARY>
+    <DESCRIPTION>
+      <S>Expat</S> - an XML parser Sablotron depends on. This is the only 
+      MANDATORY dependence. Sablotron looks for Expat during the 
+      configuration. Expat is a standard part of many operating systems and
+      is available for all systems where Sablotron can run.
+      Expat is distributed under the MIT license.
+      <P/>
+      <S>Iconv</S> - a GNU encoding library you need if you want to use more 
+      encodings/charsets than these supported by Sablotron internally. 
+      See <C>.Encodings</C> for more details. Sablotron looks for Iconv 
+      during the configuration but it still compiles when not found. 
+      Iconv is a standard part of many operating systems and is available 
+      for all systems where Sablotron can run. Iconv is released under the 
+      terms of the GNU LGPL license.
+      <P/>
+      <S>JavaScript</S> - JS C (SpiderMonkey) engine by Mozilla is needed 
+      to run XSLT extension function. See <C>.Extensions</C> for details. 
+      Linking JavaScript is optional (./configure --enable-javascript).
+      JS engine is available for all systems where Sablotron can run.
+      Mozilla's C implementation of JavaScript is distributed under the terms
+      of the MPL license.
+      <P/>
+      <S>Readline</S> - a GNU library providing the XSLT debugger with 
+      functions to easily work with the command line. You may want to
+      link Readline if you compile Sablotron with XSLT debugger
+      (./configure --enable-debugger --with-readline). Without Readline,
+      the debugger still works, but you can't use user-friendly features
+      such as the command-line history.
+      Readline is distributed under the GNU GPL license, thus you must 
+      use Sablotron under the GPL (this is one of two possible alternatives, 
+      see <C>.License</C> for details) if you want to link Readline. Export 
+      SABLOT_GPL=1 environment in order to express your decision.
+    </DESCRIPTION>
+    <EXTERNALREF name="Expat" value="http://expat.sourceforge.net"/>
+    <EXTERNALREF name="Iconv" value="http://www.gnu.org/software/libiconv/"/>
+    <EXTERNALREF name="JavaScript" value="http://www.mozilla.org/js/"/>
+    <EXTERNALREF name="Readline" value="http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html"/>
+  </ENTRY>
+
+  <!-- Implementation notes -->
+  <ENTRY id='.Handlers'>
+    <TYPE value='.Implementation Notes'/>
+    <SUMMARY>
+      It is possible for the user to supply the following handlers to 
+      Sablotron.
+    </SUMMARY>
+    <DESCRIPTION>
+    <B>message handler</B> - to bypass the default way of displaying 
+      error and warning messages and logging,<BR/>
+    <B>scheme handler</B> - to retrieve documents whose URI use an 
+      unsupported scheme,<BR/>
+    <B>streaming handler</B> - an expat-like interface to the XML document 
+      which is the result of the processing,<BR/>
+    <B>encoding handler</B> - to handle an unsupported encoding<BR/>
+    <B>'miscellaneous' handler</B> - which will probably serve as 
+      a collections of odd callbacks.<P/>
+
+      The handlers are set using <C>SablotRegHandler</C>. For details 
+      concerning the interface of these handlers, consult the header 
+      files sablot.h and shandler.h.<P/>
+
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='.Encodings'>
+    <TYPE value='.Implementation Notes'/>
+    <SUMMARY>
+      Sablotron supports a number of input/output encodings and charsets;
+      either internally or through the iconv library.
+    </SUMMARY>
+    <DESCRIPTION>
+      Sablotron handles encoding conversions with the help of iconv library.
+      As a standard part of glibc, iconv is automatically available on many 
+      Unix-based systems (including Linux). It's available for most other 
+      platforms where Sablotron runs (Windows, Solaris, MacOS X, FreeBSD, etc). 
+      See <C>.Dependencies</C> for more details on iconv.
+      <P/>
+      With iconv installed on your system, you can use any encoding it supports 
+      (that is, almost any encoding whatsoever) for both the input and the output
+      documents.
+      <P/>
+      If iconv is not available, encodings may still be supported internally 
+      by Sablotron. At present, the list is of such encodings is rather short: 
+      UTF-8, UTF-16, ASCII, iso-8859-1, iso-8859-2 and windows-1250 on input, 
+      UTF-8 only on output.
+      <P/>
+      Lastly, a user has the option to implement a custom encoding conversion 
+      handler, which will be asked to perform any unsupported conversion. See 
+      <C>.Handlers</C> for details.
+      <P/>
+      The default input and output encoding is in all cases UTF-8.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='.URIs'>
+    <TYPE value='.Implementation Notes'/>
+    <SUMMARY>
+      Sablotron can handle two URI schemes natively: 'file' and 'arg'.
+    </SUMMARY>
+    <DESCRIPTION>
+      Only two URI schemes are built-in: 'file' and 'arg' (see 
+      <C>.Named buffers</C>). Moreover, it is possible to use the function 
+      <C>SablotRegHandler</C> to register an external scheme handler which 
+      will receive requests in all other schemes. See <C>.Handlers</C>
+      and sablot.h and shandler.h files for details.
+      <P/>
+      Relative URI references are resolved in conformance to RFC 2396. 
+      The base URI is well defined when the relative reference appears inside 
+      a XML document; when invoking <C>sabcmd</C>, the base URI is taken to 
+      correspond to the current working directory.
+      <P/>
+      When specifying filenames, the following rules are in effect:<BR/>
+      * specify the "file:" scheme for any standard files, i.e. refer to 
+      stdin as file://stdin etc.<BR/>
+      * slashes and backslashes work equally fine, in Windows as well as 
+      Linux.<BR/>
+      * to include a drive letter under Windows (e.g. C:\doc.xml), it is 
+      necessary to say file://c:/doc.xml.<BR/>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='.Named buffers'>
+    <TYPE value='.Implementation Notes'/>
+    <SUMMARY>
+      Sablotron can store XML strings and parsed trees to so called 
+      named buffers.
+    </SUMMARY>
+    <DESCRIPTION>
+      Sablotron introduces an URI scheme 'arg:' which enables one to use 
+      strings and parsed trees in named memory buffers. Named buffers are 
+      can be set using <C>SablotAddArgBuffer</C> or <C>SablotAddArgTree</C> 
+      functions. The content of buffers can be accessed with the 
+      <C>document()</C> function or <C>xsl:include/import</C> instructions
+      (e.g. document('arg:/my_buffer')/root).
+      <P/>
+      The buffer names 
+      can have a tree-like structure so that a relative reference from a 
+      document in a buffer can be resolved as pointing to another buffer.
+      <P/>
+      For instance, if we invoke Sablotron specifying that a buffer named 
+      <C>/mybuf/1</C> contains the string "&amp;lt;a>contents&amp;lt;/a>", 
+      then the expression <C>document('arg:/mybuf/1')/a</C> has string-value 
+      <C>"contents"</C>. If the document in <C>arg:/mybuf/1</C> contained 
+      a relative URI reference <C>"../theirbuf/2"</C> then this would be 
+      resolved as pointing to <C>"arg:/theirbuf/2"</C>.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='.Errors and logs'>
+    <TYPE value='.Implementation Notes'/>
+    <SUMMARY>
+      Sablotron writes error and warning messages to stderr, and does no logging
+      by default, but this behavior can be changed. 
+    </SUMMARY>
+    <DESCRIPTION>
+      The name of the log file to be used can be specified with 
+      <C>SablotSetLog</C>. Besides, you can use <C>SablotRegHandler</C> 
+      to override the default message handling. The handler you register 
+      will receive all messages in a structured form that's easy to process 
+      and filter. For details, see <C>.Handlers</C>.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <!-- Types -->
+  <ENTRY id='SablotHandle'>
+    <TYPE value='Types'/>
+    <SUMMARY>
+      Defines the basic abstract handle for manipulation of Sablotron
+      internals.
+    </SUMMARY>
+    <SYNTAX>
+typedef void *SablotHandle;
+    </SYNTAX>
+    <DESCRIPTION>
+      Actually this type is the <C>void*</C>, but you should never
+      rely on this.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SDOM_Document'>
+    <TYPE value='Types'/>
+    <SUMMARY>
+      Handle for manipulation of Sablotron DOM documents.
+    </SUMMARY>
+    <SYNTAX>
+typedef void *SDOM_Document;
+    </SYNTAX>
+    <DESCRIPTION>
+      You may use this type, if you need to deal with Sablotron
+      internal representation of the XML data model. There is a
+      DOM-like set of functions defined for such manipulation in the
+      sdom.h file.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotSituation'>
+    <TYPE value='Types'/>
+    <SUMMARY>
+      Handle for manipulation of the Situation object.
+    </SUMMARY>
+    <SYNTAX>
+typedef void *SablotSituation;
+    </SYNTAX>
+    <DESCRIPTION>
+      The Situation object is the very basic object you have to deal
+      with. See the <C>.Usage</C>
+    </DESCRIPTION>
+    <SEEALSO value='SablotCreateSituation'/>
+  </ENTRY>
+
+  <!-- Functions -->
+  <ENTRY id='SablotCreateDocument'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Creates a new DOM document.
+    </SUMMARY>
+    <SYNTAX>
+int SablotCreateDocument(SablotSituation S, 
+      SDOM_Document *D);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='D' type='SDOM_Document*'>The new handle goes
+      here</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      The returned handle may be used to manipulate the internal DOM
+      document with the set of API defined in the sdom.h file.
+    </DESCRIPTION>
+    <SEEALSO value='SDOM_Document'/>
+  </ENTRY>
+
+  <ENTRY id='SablotParse'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Parses a XML file into the internal structure.
+    </SUMMARY>
+    <SYNTAX>
+int SablotParse(SablotSituation S,
+      const char *uri,
+      SDOM_Document *D);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='uri' type='const char*'>URI of the file</PARAM>
+      <PARAM name='D' type='SDOM_Document*'>The new handle goes
+      here</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Sablotron parses the document given by the URI and sets the D to
+      a new handle value. Returns FALSE on success.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotParseBuffer'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Parses a XML string into the internal structure.
+    </SUMMARY>
+    <SYNTAX>
+int SablotParseBuffer(SablotSituation S,
+      const char *buffer,
+      SDOM_Document *D);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='buffer' type='const char*'>string to be parsed</PARAM>
+      <PARAM name='D' type='SDOM_Document*'>The node handle goes here</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Sablotron parses given string and creates a new document
+      handle. The last parameter obtains the handle. Function returns
+      FALSE on success.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotParseStylesheet'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Parses a XSLT stylesheet from file.
+    </SUMMARY>
+    <SYNTAX>
+int SablotParseStylesheet(SablotSituation S,
+      const char *uri,
+      SDOM_Document *D);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='uri' type='const char*'>data URI</PARAM>
+      <PARAM name='D' type='SDOM_Document*'>The result goes here</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Does the same as <C>SablotParse</C>, but document parsed with
+      this function may be used as the stylesheet for the XSLT
+      processing. 
+    </DESCRIPTION>
+    <NOTE>
+      You should not modify a document created by this function, if
+      you want to use it for the processing. It might (and probably
+      would) lead to the processor crash.
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id='SablotParseStylesheetBuffer'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Parses a XSLT stylesheet from a buffer.
+    </SUMMARY>
+    <SYNTAX>
+int SablotParseStylesheetBuffer(SablotSituation S,
+      const char *buffer,
+      SDOM_Document *D);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='buffer' type='const char*'>XML string</PARAM>
+      <PARAM name='D' type='SDOM_Document*'>The result goes here</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Does the same as <C>SablotParseBuffer</C>, but document parsed with
+      this function may be used as the stylesheet for the XSLT
+      processing. 
+    </DESCRIPTION>
+    <NOTE>
+      You should not modify a document created by this function, if
+      you want to use it for the processing. It might (and probably
+      would) lead to the processor crash.
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id='SablotLockDocument'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Lock the document before the processing.
+    </SUMMARY>
+    <SYNTAX>
+int SablotLockDocument(SablotSituation S,
+      SDOM_Document D);
+      <PARAM name='S' type='SablotSituation'>Situation object</PARAM>
+      <PARAM name='D' type='SDOM_Document'>document to be locked</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Actually this function doesn't perform any locking in the common
+      sense of the word, but updates some internal values needed for
+      the processing.
+    </DESCRIPTION>
+    <NOTE>
+      You SHOULD call this function whenever you changed the DOM
+      document before the processing. You don't need this, if you just
+      parsed the document (no modification).
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id='SablotDestroyDocument'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Frees the internal document and all resources.
+    </SUMMARY>
+    <SYNTAX>
+int SablotDestroyDocument(SablotSituation S,
+      SDOM_Document D);
+      <PARAM name='S' type='SablotSituation'>Situation object</PARAM>
+      <PARAM name='D' type='SDOM_Document'>document to be destroyed</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This function frees the internal document representation and all
+      resources allocated.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotAddParam'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Sets the value of the parameter for the processing.
+    </SUMMARY>
+    <SYNTAX>
+int SablotAddParam(SablotSituation S,
+      void *processor_,
+      const char *paramName,
+      const char *paramValue);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='processor_' type='void*'>Processor handle</PARAM>
+      <PARAM name='paramName' type='const char*'>parameter name</PARAM>
+      <PARAM name='paramValue' type='const char*'>parameter value</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Use this function if you need to set the external parameter for
+      the upcoming processing (for the top-level &lt;xsl:param>).
+    </DESCRIPTION>
+    <NOTE>
+      Currently the parameter value MUST be UTF-8 encoded.
+    </NOTE>
+    <SEEALSO value='SablotRunProcessorGen'/>
+    <SEEALSO value='.Usage'/>
+  </ENTRY>
+
+  <ENTRY id='SablotAddArgBuffer'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Adds a buffer containing the XML data as the named argument.
+    </SUMMARY>
+    <SYNTAX>
+int SablotAddArgBuffer(SablotSituation S,
+      void *processor_,
+      const char *argName,
+      const char *bufferValue);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='processor_' type='void*'>Processor handle</PARAM>
+      <PARAM name='argName' type='const char*'>argument name</PARAM>
+      <PARAM name='bufferValue' type='const char*'>XML data</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This API adds the named buffer to the list of arguments maintained
+      by the processor instance. Named arguments may be used either
+      while the processed data are specified (e.g. in
+      <C>SablotRunProcessorGen</C> or in the document() XSLT function.
+    </DESCRIPTION>
+    <SEEALSO value='SablotAddArgTree'/>
+  </ENTRY>
+
+  <ENTRY id='SablotAddArgTree'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Adds the pre-parsed tree as the named argument.
+    </SUMMARY>
+    <SYNTAX>
+int SablotAddArgTree(SablotSituation S,
+      void *processor_,
+      const char *argName,
+      SDOM_Document tree);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='processor_' type='void*'>Processor handle</PARAM>
+      <PARAM name='argName' type='const char*'>argument name</PARAM>
+      <PARAM name='tree' type='SDOM_Document'>tree handle</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This function adds the named pre-parsed tree to the list of
+      arguments maintained by the processor instance. Named arguments
+      may be used either while the processed data are specified
+      (e.g. in <C>SablotRunProcessorGen</C> or in the document() XSLT
+      function.
+    </DESCRIPTION>
+    <SEEALSO value='SablotAddArgBuffer'/>
+  </ENTRY>
+
+  <ENTRY id='SablotRunProcessorGen'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Runs the processor.
+    </SUMMARY>
+    <SYNTAX>
+int SablotRunProcessorGen(SablotSituation S,
+      void *processor_,
+      const char *sheetURI,
+      const char *inputURI,
+      const char *resultURI);
+      <PARAM name='S' type='SablotSituation'>Sablotron handle</PARAM>
+      <PARAM name='processor_' type='void*'>Processor handle</PARAM>
+      <PARAM name='sheetURI' type='const char*'>stylesheet URI</PARAM>
+      <PARAM name='inputURI' type='const char*'>data URI</PARAM>
+      <PARAM name='resultURI' type='const char*'>result URI</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This call runs the processing on the given data. Data are
+      specified by URIs; what may be either of URI to the file, org
+      the 'arg:' scheme URI (see <C>SablotAddArg</C>). Other URI
+      schemes may be recognized if the appropriate handler is
+      set.<BR/> 
+    </DESCRIPTION>
+    <SEEALSO value='.Usage'/>
+    <SEEALSO value='.Handlers'/>
+    <SEEALSO value='SablotGetResultArg'/>
+  </ENTRY>
+
+  <ENTRY id='SablotRunProcessorExt'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Runs the processor on the external document.
+    </SUMMARY>
+    <SYNTAX>
+int SablotRunProcessorExt(SablotSituation S,
+      void *processor_,
+      const char *sheetURI,
+      const char *resultURI,
+      NodeHandle doc);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='processor_' type='void*'>Processor handle</PARAM>
+      <PARAM name='sheetURI' type='const char*'>stylesheet URI</PARAM>
+      <PARAM name='resultURI' type='const char*'>result URI</PARAM>
+      <PARAM name='doc' type='NodeHandle'>external root node</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This function acts as the SablotRunProcessorGen does. The
+      difference is, that the data processed are provided by the
+      external DOM provider. 
+      <BR/>
+      See SXP documentation for more details on DOM providers etc.
+    </DESCRIPTION>
+    <NOTE>
+      Currently there is no way to start the processing on an
+      'ordinary' document and access the external data via some XSLT
+      function (opposite to the document() function).
+    </NOTE>
+    <SEEALSO value='SablotRunProcessorGen'/>
+  </ENTRY>
+
+  <ENTRY id='SablotCreateSituation'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Creates a situation object handle.
+    </SUMMARY>
+    <SYNTAX>
+int SablotCreateSituation(SablotSituation *sPtr);
+      <PARAM name='sPtr' type='SablotSituation*'>the result goes here</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This call creates a situation object. This object servers for
+      several reasons like error processing, option settings etc. Most
+      of API functions take the situation handle as their first parameter.
+    </DESCRIPTION>
+    <SEEALSO value='.Usage'/>
+  </ENTRY>
+
+  <ENTRY id='SablotSetOptions'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Sets miscellaneous processing options.
+    </SUMMARY>
+    <SYNTAX>
+int SablotSetOptions(SablotSituation S,
+      int flag);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+      <PARAM name='flag' type='int'>new options</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Options may be any bitwise combination of following:
+      <P/>
+      <C>SAB_NO_ERROR_REPORTING (0x1)</C> suppresses the invocation of the
+      messages handler (if registered)
+      <P/>
+      <C>SAB_PARSE_PUBLIC_ENTITIES (0x2)</C> makes parser to resolve public
+      external entities 
+      <P/>
+      <C>SAB_DISABLE_ADDING_META (0x4)</C> suppresses the generation of the
+      META tag (HTML output method)
+      <P/>
+      <C>SAB_DISABLE_STRIPPING (0x8)</C> suppresses the whitespace stripping
+      (on data files only)
+      <P/>
+      <C>SAB_IGNORE_DOC_NOT_FOUND (0x10)</C> doesn't consider unresolved
+      documents (the document() function) to be lethal
+      <P/>
+      <C>SAB_FILES_TO_HANDLER (0x20)</C> doesn't read 'file' URI internally,
+      but pass it into the scheme handler
+      <P/>
+      <C>SAB_DUMP_SHEET_STRUCTURE (0x40)</C> writes a stylesheet structure 
+      (hierarchy of includes and imports) into the log
+      <P/>
+      <C>SAB_NO_EXTERNAL_ENTITIES (0x80)</C> doesn't parse any external entities
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotGetOptions'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Get current procesor options.
+    </SUMMARY>
+    <SYNTAX>
+int SablotSetOptions(SablotSituation S,
+      int flag);
+      <PARAM name='S' type='SablotSituation'>Situation handle</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Options may be any bitwise combination of following:
+      <P/>
+      <C>SAB_NO_ERROR_REPORTING (0x1)</C> suppresses the invocation of the
+      messages handler (if registered)
+      <P/>
+      <C>SAB_PARSE_PUBLIC_ENTITIES (0x2)</C> makes parser to resolve public
+      external entities 
+      <P/>
+      <C>SAB_DISABLE_ADDING_META (0x4)</C> suppresses the generation of the
+      META tag (HTML output method)
+      <P/>
+      <C>SAB_DISABLE_STRIPPING (0x8)</C> suppresses the whitespace stripping
+      (on data files only)
+      <P/>
+      <C>SAB_IGNORE_DOC_NOT_FOUND (0x10)</C> doesn't consider unresolved
+      documents (the document() function) to be lethal
+      <P/>
+      <C>SAB_FILES_TO_HANDLER (0x20)</C> doesn't read 'file' URI internally,
+      but pass it into the scheme handler
+      <P/>
+      <C>SAB_DUMP_SHEET_STRUCTURE (0x40)</C> writes a stylesheet structure 
+      (hierarchy of includes and imports) into the log
+      <P/>
+      <C>SAB_NO_EXTERNAL_ENTITIES (0x80)</C> doesn't parse any external entities
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotClearSituation'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Clears the status of the situation.
+    </SUMMARY>
+    <SYNTAX>
+int SablotClearSituation(SablotSituation S);
+      <PARAM name='S' type='SablotSituation'>situation handle</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Clear all error info stored with the situation.
+    </DESCRIPTION>
+  </ENTRY>
+
+<!-- not implemented
+  <ENTRY id='SablotGetErrorURI'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Gets the last error URI.
+    </SUMMARY>
+    <SYNTAX>
+const char *SablotGetErrorURI(SablotSituation S);
+      <PARAM name='S' type='SablotSituation'>situation handle</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Returns the URI related to the location of the most recent
+      error. you must not free this string.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotGetErrorLine'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Gets the last error line number.
+    </SUMMARY>
+    <SYNTAX>
+int SablotGetErrorLine(SablotSituation S);
+      <PARAM name='S' type='SablotSituation'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Returns the line number of the most recent error occured.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotGetErrorMsg'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Gets the error message.
+    </SUMMARY>
+    <SYNTAX>
+const char *SablotGetErrorMsg(SablotSituation S);
+      <PARAM name='S' type='SablotSituation'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      <C>SablotGetErrorMsg</C>
+    </DESCRIPTION>
+  </ENTRY>
+-->
+
+  <ENTRY id='SablotDestroySituation'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Destroys the situation object.
+    </SUMMARY>
+    <SYNTAX>
+int SablotDestroySituation(SablotSituation S);
+      <PARAM name='S' type='SablotSituation'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Destroys the situation object. You should call this function as
+      the very last call.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotCreateProcessor'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Creates the processor object.
+    </SUMMARY>
+    <SYNTAX>
+int SablotCreateProcessor(SablotHandle *processorPtr);
+      <PARAM name='processorPtr' type='SablotHandle*'>the result goes here</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This API creates the processor instance. See <C>.Usage</C> for
+      the details to be done.
+    </DESCRIPTION>
+    <NOTE>
+      This function is slightly obsoleted with
+      <C>SablotCreateProcessorForSituation</C>, since we suppose you'd
+      prefer the situation object recently created with
+      <C>SablotCreateSituation</C>. 
+    </NOTE>
+  </ENTRY>
+
+  <ENTRY id='SablotCreateProcessorForSituation'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Creates the processor instance and associate it with the
+      situation object.
+    </SUMMARY>
+    <SYNTAX>
+int SablotCreateProcessorForSituation(SablotSituation S,
+      void **processorPtr);
+      <PARAM name='S' type='SablotSituation'>situation handle</PARAM>
+      <PARAM name='processorPtr' type='void**'>the result goes here</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Use this function if you want to create a processor instance and
+      associate it with the given situation object. This call is
+      preferred over <C>SablotCreateProcessor</C>.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotDestroyProcessor'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Destroys the processor object.
+    </SUMMARY>
+    <SYNTAX>
+int SablotDestroyProcessor(SablotHandle processor_);
+      <PARAM name='processor_' type='SablotHandle'>Processor handle</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Destroys processor and all associated resources.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotRunProcessor'>
+    <DEPRECATED/>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Runs the XSLT transformation.
+    </SUMMARY>
+    <SYNTAX>
+int SablotRunProcessor(SablotHandle processor_,
+      const char *sheetURI,
+      const char *inputURI,
+      const char *resultURI,
+      const char* *params,
+      const char* *argument);
+      <PARAM name='processor_' type='SablotHandle'>processor handle</PARAM>
+      <PARAM name='sheetURI' type='const char*'>sheet URI</PARAM>
+      <PARAM name='inputURI' type='const char*'>data URI</PARAM>
+      <PARAM name='resultURI' type='const char*'>result URI</PARAM>
+      <PARAM name='params' type='const char**'>parameters</PARAM>
+      <PARAM name='argument' type='const char**'>arguments</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This API is deprecated and shouldn't be used. Use
+      <C>SablotRunProcessorGen</C> instead.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotGetResultArg'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Gets the result argument.
+    </SUMMARY>
+    <SYNTAX>
+int SablotGetResultArg(SablotHandle processor_,
+      const char *argURI,
+      char* *argValue);
+      <PARAM name='processor_' type='SablotHandle'>Processor handle</PARAM>
+      <PARAM name='argURI' type='const char*'>argument name</PARAM>
+      <PARAM name='argValue' type='char**'>the result goes here</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This API is used to pull the data output to the 'arg:' scheme URI
+      location. This happens during the transformation e.g. with
+      <C>SablotRunProcessorGen</C>
+      <P/>
+      This function allocates new buffer for you. You have to free
+      its memory with <C>SablotFree</C>, after you use it no more.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotFreeResultArgs'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Frees all internal result arguments.
+    </SUMMARY>
+    <SYNTAX>
+int SablotFreeResultArgs(SablotHandle processor_);
+      <PARAM name='processor_' type='SablotHandle'>processor handle</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      This call frees all memory associated with the output of the
+      most recent transformation. You don't have to make this call,
+      destroying the processor takes care as well as new
+      transformation invocation.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SchemeHandler'>
+    <TYPE value='Types'/>
+    <SUMMARY>
+      This type is used to provide the Sablotron engine with a
+      callback structure for a scheme handler.
+    </SUMMARY>
+    <SYNTAX>
+      typedef int 
+      SchemeHandlerGetAll(void *userData, 
+          SablotHandle processor_,
+          const char *scheme, const char *rest, 
+          char **buffer, int *byteCount);
+
+      typedef int 
+      SchemeHandlerFreeMemory(void *userData, 
+          SablotHandle processor_,
+          char *buffer);
+
+      typedef int 
+      SchemeHandlerOpen(void *userData, 
+          SablotHandle processor_,
+          const char *scheme, 
+          const char *rest, int *handle);
+      
+      typedef int 
+      SchemeHandlerGet(void *userData, 
+          SablotHandle processor_,
+          int handle, char *buffer, int *byteCount);
+      
+      typedef int 
+      SchemeHandlerPut(void *userData, 
+          SablotHandle processor_,
+          int handle, const char *buffer, int *byteCount);
+      
+      typedef int 
+      SchemeHandlerClose(void *userData, 
+          SablotHandle processor_,
+          int handle);
+      
+      typedef struct
+      {
+          SchemeHandlerGetAll *getAll;
+          SchemeHandlerFreeMemory *freeMemory;
+          SchemeHandlerOpen *open;
+          SchemeHandlerGet *get;
+          SchemeHandlerPut *put;
+          SchemeHandlerClose *close;
+      } SchemeHandler;
+    </SYNTAX>
+    <NOTE>See the shandler.h file for more comments.</NOTE>
+  </ENTRY>
+
+  <ENTRY id='MessageHandler'>
+    <TYPE value='Types'/>
+    <SUMMARY>
+      This type is used to provide the Sablotron engine with a
+      callback structure for a message handler.
+    </SUMMARY>
+    <SYNTAX>
+      typedef MH_ERROR 
+      MessageHandlerMakeCode(
+          void *userData, SablotHandle processor_,
+          int severity, unsigned short facility, unsigned short code);
+
+      typedef MH_ERROR 
+      MessageHandlerLog(
+          void *userData, SablotHandle processor_,
+          MH_ERROR code, MH_LEVEL level, char **fields);
+
+      typedef MH_ERROR 
+      MessageHandlerError(void *userData, SablotHandle processor_,
+          MH_ERROR code, MH_LEVEL level, char **fields);
+
+      typedef struct
+      {
+          MessageHandlerMakeCode *makeCode;
+          MessageHandlerLog *log;
+          MessageHandlerError *error;
+      } MessageHandler;
+    </SYNTAX>
+    <NOTE>See the shandler.h file for more comments.</NOTE>
+  </ENTRY>
+
+  <ENTRY id='SAXHandler'>
+    <TYPE value='Types'/>
+    <SUMMARY>
+      This type is used to provide the Sablotron engine with a
+      callback structure for a SAX handler.
+    </SUMMARY>
+    <SYNTAX>
+      typedef SAX_RETURN 
+      SAXHandlerStartDocument(void* userData, SablotHandle processor_);
+
+      typedef SAX_RETURN 
+      SAXHandlerStartElement(void* userData, SablotHandle processor_,
+          const char* name, const char** atts);
+
+      typedef SAX_RETURN 
+      SAXHandlerEndElement(void* userData, SablotHandle processor_,
+          const char* name);
+
+      typedef SAX_RETURN 
+      SAXHandlerStartNamespace(void* userData, SablotHandle processor_,
+          const char* prefix, const char* uri);
+
+      typedef SAX_RETURN 
+      SAXHandlerEndNamespace(void* userData, SablotHandle processor_,
+          const char* prefix);
+
+      typedef SAX_RETURN 
+      SAXHandlerComment(void* userData, SablotHandle processor_,
+          const char* contents);
+
+      typedef SAX_RETURN 
+      SAXHandlerPI(void* userData, SablotHandle processor_,
+          const char* target, const char* contents);
+
+      typedef SAX_RETURN 
+      SAXHandlerCharacters(void* userData, SablotHandle processor_,
+          const char* contents, int length);
+
+      typedef SAX_RETURN 
+      SAXHandlerEndDocument(void* userData, SablotHandle processor_);
+
+
+      typedef struct
+      {
+          SAXHandlerStartDocument     *startDocument;
+          SAXHandlerStartElement      *startElement;
+          SAXHandlerEndElement        *endElement;
+          SAXHandlerStartNamespace    *startNamespace;
+          SAXHandlerEndNamespace      *endNamespace;
+          SAXHandlerComment           *comment;
+          SAXHandlerPI                *processingInstruction;
+          SAXHandlerCharacters        *characters;
+          SAXHandlerEndDocument       *endDocument;
+      } SAXHandler;
+
+    </SYNTAX>
+    <NOTE>This is not a real SAX interface; think about it as about
+    a SAX-like interface. See the shandler.h file for more
+    comments.</NOTE>
+  </ENTRY>
+
+  <ENTRY id='MiscHandler'>
+    <TYPE value='Types'/>
+    <SUMMARY>
+      This type is used to provide the Sablotron engine with a
+      callback structure for a custom handler.
+    </SUMMARY>
+    <SYNTAX>
+      typedef void
+      MiscHandlerDocumentInfo(void* userData, SablotHandle processor_,
+          const char *contentType, const char *encoding);
+
+      typedef struct
+      {
+          MiscHandlerDocumentInfo     *documentInfo;
+      } MiscHandler;
+    </SYNTAX>
+    <NOTE>See the shandler.h file for more comments.</NOTE>
+  </ENTRY>
+
+  <ENTRY id='EncHandler'>
+    <TYPE value='Types'/>
+    <SUMMARY>
+      This type is used to provide the Sablotron engine with a
+      callback structure for an encoding handler.
+    </SUMMARY>
+    <SYNTAX>
+      typedef EHDescriptor 
+      EncHandlerOpen(void* userData, 
+          SablotHandle processor_,
+          int direction, const char *encoding);
+
+      typedef EHResult 
+      EncHandlerConv(void* userData, SablotHandle processor_,
+          EHDescriptor cd, const char** inbuf, size_t *inbytesleft,
+          char ** outbuf, size_t *outbytesleft);
+
+      typedef int 
+      EncHandlerClose(void* userData, SablotHandle processor_,
+          EHDescriptor cd);
+
+      typedef struct
+      {
+          EncHandlerOpen      *open;
+          EncHandlerConv      *conv;
+          EncHandlerClose     *close;
+      } EncHandler;
+    </SYNTAX>
+    <NOTE>See the shandler.h file for more comments.</NOTE>
+  </ENTRY>
+
+  <ENTRY id='SablotRegHandler'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Registers new handler.
+    </SUMMARY>
+    <SYNTAX>
+int SablotRegHandler(SablotHandle processor_,
+      HandlerType type,
+      void *handler,
+      void *userData);
+      <PARAM name='processor_' type='SablotHandle'>processor handle</PARAM>
+      <PARAM name='type' type='HandlerType'>handler type</PARAM>
+      <PARAM name='handler' type='void*'>pointer to the handler struct</PARAM>
+      <PARAM name='userData' type='void*'>user data</PARAM>
+      </SYNTAX>
+    <DESCRIPTION>
+      Registers one of available handlers. The handler type is either
+      of HLR_MESSAGE, HLR_SCHEME, HLR_SAX, HLR_MISC, HLR_ENC. The
+      ``handler'' parameter point to the callback structure. 
+      <P/>The stucture format depends on the handler sype specified.
+      Possible callbacks structures are:<BR/>
+      <C>SchemeHandler</C>, <C>MessageHandler</C>, <C>SAXHandler</C>,
+      <C>MiscHandler</C>, <C>EncHandler</C>.
+
+      <P/>See <C>.Handlers</C> for more.
+    </DESCRIPTION>
+      
+  </ENTRY>
+
+  <ENTRY id='SablotUnregHandler'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Unregisters the handler.
+    </SUMMARY>
+    <SYNTAX>
+int SablotUnregHandler(SablotHandle processor_,
+      HandlerType type,
+      void *handler,
+      void *userData);
+      <PARAM name='processor_' type='SablotHandle'>processor handle</PARAM>
+      <PARAM name='type' type='HandlerType'>handler type</PARAM>
+      <PARAM name='handler' type='void*'>handler</PARAM>
+      <PARAM name='userData' type='void*'>user data</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Registers one of available handlers. See <C>.Handlers</C> for more.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotSetBase'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Sets base URI.
+    </SUMMARY>
+    <SYNTAX>
+int SablotSetBase(SablotHandle processor_,
+      const char *theBase);
+      <PARAM name='processor_' type='SablotHandle'>processor handle</PARAM>
+      <PARAM name='theBase' type='const char*'>base URI</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Sets the base URI. All relatives URIs resolved during the
+      processing are evaluated against this one.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotSetBaseForScheme'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Sets the base URI for given scheme.
+    </SUMMARY>
+    <SYNTAX>
+int SablotSetBaseForScheme(void *processor_,
+      const char *scheme,
+      const char *base);
+      <PARAM name='processor_' type='void*'>processor handle</PARAM>
+      <PARAM name='scheme' type='const char*'>desc</PARAM>
+      <PARAM name='base' type='const char*'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      <C>SablotSetBaseForScheme</C>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotSetLog'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Sets the log filename.
+    </SUMMARY>
+    <SYNTAX>
+int SablotSetLog(SablotHandle processor_,
+      const char *logFilename,
+      int logLevel);
+      <PARAM name='processor_' type='SablotHandle'>desc</PARAM>
+      <PARAM name='logFilename' type='const char*'>desc</PARAM>
+      <PARAM name='logLevel' type='int'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      The logLevel parameter is currently not used. Pass NULL for 
+      logFilename to turn logging off (default).
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotProcess'>
+    <DEPRECATED/>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      <C>SablotProcess</C>
+    </SUMMARY>
+    <SYNTAX>
+int SablotProcess(const char *sheetURI,
+      const char *inputURI,
+      const char *resultURI,
+      const char* *params,
+      const char* *arguments,
+      char* *resultArg);
+      <PARAM name='sheetURI' type='const char*'>desc</PARAM>
+      <PARAM name='inputURI' type='const char*'>desc</PARAM>
+      <PARAM name='resultURI' type='const char*'>desc</PARAM>
+      <PARAM name='params' type='const char**'>desc</PARAM>
+      <PARAM name='arguments' type='const char**'>desc</PARAM>
+      <PARAM name='resultArg' type='char**'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      <C>SablotProcess</C>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotProcessFiles'>
+    <DEPRECATED/>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      <C>SablotProcessFiles</C>
+    </SUMMARY>
+    <SYNTAX>
+int SablotProcessFiles(const char *styleSheetName,
+      const char *inputName,
+      const char *resultName);
+      <PARAM name='styleSheetName' type='const char*'>desc</PARAM>
+      <PARAM name='inputName' type='const char*'>desc</PARAM>
+      <PARAM name='resultName' type='const char*'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      <C>SablotProcessFiles</C>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotProcessStrings'>
+    <DEPRECATED/>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      <C>SablotProcessStrings</C>
+    </SUMMARY>
+    <SYNTAX>
+int SablotProcessStrings(const char *styleSheetStr,
+      const char *inputStr,
+      char* *resultStr);
+      <PARAM name='styleSheetStr' type='const char*'>desc</PARAM>
+      <PARAM name='inputStr' type='const char*'>desc</PARAM>
+      <PARAM name='resultStr' type='char**'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      <C>SablotProcessStrings</C>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotProcessStringsWithBase'>
+    <DEPRECATED/>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      <C>SablotProcessStringsWithBase</C>
+    </SUMMARY>
+    <SYNTAX>
+int SablotProcessStringsWithBase(const char *styleSheetStr,
+      const char *inputStr,
+      char* *resultStr,
+      const char *theHardBase);
+      <PARAM name='styleSheetStr' type='const char*'>desc</PARAM>
+      <PARAM name='inputStr' type='const char*'>desc</PARAM>
+      <PARAM name='resultStr' type='char**'>desc</PARAM>
+      <PARAM name='theHardBase' type='const char*'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      <C>SablotProcessStringsWithBase</C>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotFree'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      <C>SablotFree</C> frees the buffer formerly allocated by the engine.
+    </SUMMARY>
+    <SYNTAX>
+int SablotFree(char *resultStr);
+      <PARAM name='resultStr' type='char*'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Use the <C>SablotFree</C> function whenever you finish a work
+      with a Sablotron generated API. Typically, do it after the
+      <C>SablotrGetResultArg</C> is called. Some DOM-access
+      functions allocate buffers too.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotClearError'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      Clears the 'pending error' flag.
+    </SUMMARY>
+    <SYNTAX>
+int SablotClearError(SablotHandle processor_);
+      <PARAM name='processor_' type='SablotHandle'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      Clears the 'pending error' flag for this instance of Sablotron.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotGetMsgText'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      <C>SablotGetMsgText</C> return a constant pointer to the message
+      for the given error code.
+    </SUMMARY>
+    <SYNTAX>
+const char *SablotGetMsgText(int code);
+      <PARAM name='code' type='int'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      The value returned is typically a format string (contains C
+      ``printf'' formatting specifiers). You need more info (code
+      dependent) to get a full message).
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotSetInstanceData'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      <C>SablotSetInstanceData</C> associates user-defined pointer to
+      the processor instance.
+    </SUMMARY>
+    <SYNTAX>
+void SablotSetInstanceData(SablotHandle processor_,
+      void *idata);
+      <PARAM name='processor_' type='SablotHandle'>desc</PARAM>
+      <PARAM name='idata' type='void*'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      You may use this call to store any pointer-like value with the
+      processor. You may obtain this value later usinf the
+      <C>SablotGetInstanceData</C>. This is usefull for miscellaneous
+      wrapper implementations etc.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotGetInstanceData'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      <C>SablotGetInstanceData</C> reads the user data stored with
+      processor recently with <C>SablotSetInstanceData</C>
+    </SUMMARY>
+    <SYNTAX>
+void *SablotGetInstanceData(SablotHandle processor_);
+      <PARAM name='processor_' type='SablotHandle'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      <C>SablotGetInstanceData</C>
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='SablotSetEncoding'>
+    <TYPE value='Functions'/>
+    <SUMMARY>
+      <C>SablotSetEncoding</C> sets the encoding for the output document.
+    </SUMMARY>
+    <SYNTAX>
+void SablotSetEncoding(SablotHandle processor_,
+      char *encoding_);
+      <PARAM name='processor_' type='SablotHandle'>desc</PARAM>
+      <PARAM name='encoding_' type='char*'>desc</PARAM>
+    </SYNTAX>
+    <DESCRIPTION>
+      The encoding set via the <C>SablotSetEncoding</C> call overrides
+      a stylesheet-defined value.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='.Sablotron DOM'>
+    <TYPE value='DOM'/>
+    <SUMMARY>
+      Sablotron implements <S>DOM Level2</S> API.
+    </SUMMARY>
+    <DESCRIPTION>
+      This book contains a brief description of the implemented interface 
+      only; for more details, please refer to the header file named sdom.h.
+      <P/>	
+      Sablotron DOM interface includes types (see <C>DOM types</C>) and
+      functions (see <C>DOM functions</C>). All of the names related to 
+      the DOM interface start with SDOM_ (for Sablot DOM).
+      <P/>
+      As Sablotron provides a C API for the object-oriented Document Object Model,
+      you can't not expect the API follows the DOM specs literally. Instead,
+      it maps object methods to plain functions, one to one usually.
+      This arrangement makes it possible to write the specs compliant object 
+      oriented wrappers over the Sablotron DOM API. XML::Sablotron::DOM written 
+      in Perl is the primary example. See <C>.Known Issues</C> for the list 
+      of minor deviations from the DOM Level 2 specs.
+    </DESCRIPTION>
+    <EXTERNALREF name="DOM Level2" value="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/"/>
+  </ENTRY>
+
+  <ENTRY id='DOM types'>
+    <TYPE value='DOM'/>
+    <SUMMARY>
+      Types introduced by <C>.Sablotron DOM</C> Level 2 interface.
+    </SUMMARY>
+    <DESCRIPTION>
+      Major new types are <C>SDOM_Document</C> (a DOM tree) and 
+      <B>SDOM_Node</B> (a node of the tree). A document can also be used in 
+      place of a node. This corresponds to the DOM spec, Document is a subclass 
+      of Node. When used in this way, the document represents its own root node 
+      (which is not the same as the `root element' aka 'document element').
+      <P/>
+      Other types include:
+      <P/>
+      <B>SDOM_char</B>: a DOM character type. Currently, this is just char. 
+      Note that the DOM spec requires that the DOM implementations work with 
+      UTF-16. Sablotron deviates from this by using UTF-8 instead.
+      <P/>
+      <B>SDOM_NodeType</B>: a node type enum. Some of the values are 
+      SDOM_ELEMENT_NODE, SDOM_ATTRIBUTE_NODE and SDOM_TEXT_NODE. See sdom.h 
+      for the rest.
+      <P/>
+      <B>SDOM_NodeList</B>: a node list returned by some of the functions.
+      <P/>
+      <B>SDOM_Exception</B>: DOM exception codes enum, with values such as 
+      SDOM_NOT_FOUND_ERR or SDOM_INVALID_NODE_TYPE. See sdom.h for details.
+    </DESCRIPTION>
+  </ENTRY>
+
+  <ENTRY id='DOM functions'>
+    <TYPE value='DOM'/>
+    <SUMMARY>
+      Functions introduced by <C>.Sablotron DOM</C> Level 2 interface.
+    </SUMMARY>
+    <DESCRIPTION>
+      The functions listed below are implemented as defined in the 
+      <C>DOM Level 2</C> specification, with two exceptions: their names are 
+      prefixed with SDOM_ and the first argument is always a SablotSituation. 
+      All the functions return a value of SDOM_Exception type. The functions 
+      aren't described in details as they correspond to well known DOM methods.
+      Please, look to sdom.h for more details.
+      <P/>
+      <C>createElement</C>, <C>createElementNS</C>, <C>createAttribute</C>, 
+      <C>createAttributeNS</C>, <C>createTextNode</C>, <C>createCDATASection</C>,
+      <C>createComment</C>, <C>createProcessingInstruction</C>
+      <P/>
+      <C>getNodeType</C>, <C>getNodeName</C>, <C>getNodeNSUri</C>, 
+      <C>getNodePrefix</C>, <C>getNodeLocalName</C>, <C>setNodeName</C>, 
+      <C>getNodeValue</C>, <C>setNodeValue</C>
+      <P/>
+      <C>getParentNode</C>, <C>getFirstChild</C>, <C>getLastChild</C>, 
+      <C>getPreviousSibling</C>, <C>getNextSibling</C>, <C>getChildNodeIndex</C>,
+      <C>getChildNodeCount</C>, <C>getOwnerDocument</C>
+      <P/>
+      <C>insertBefore</C>, <C>appendChild</C>, <C>removeChild</C>, 
+      <C>replaceChild</C>
+      <P/>
+      <C>cloneNode</C>
+      <P/>
+      <C>getAttribute</C>, <C>getAttributeNS</C>, <C>getAttributeNode</C>, 
+      <C>getAttributeNodeNS</C>, <C>getAttributeNodeIndex</C>, 
+      <C>getAttributeNodeCount</C>, <C>setAttribute</C>, <C>setAttributeNS</C>, 
+      <C>setAttributeNode</C>, <C>setAttributeNodeNS</C>, <C>removeAttribute</C>,
+      <C>removeAttributeNode</C>, <C>getAttributeElement</C>, 
+      <C>getAttributeList</C>
+      <P/>
+      Several functions have been added:
+      <P/>
+      <C>disposeNode</C> frees all memory used by the given node.
+      <P/>
+      <C>cloneForeignNode</C> clones a node from a different document.
+      <P/>
+      <C>docToString</C> serializes the document, returning the resulting string.
+      <P/>
+      <C>nodeToString</C> serializes a node (and its descendants), returning
+      the resulting string.
+      <P/>
+      <C>xql</C> performs an XPath query on the DOM tree, returning a list of the 
+      nodes satisfying the query.
+      <P/>
+      In addition, there are some functions used to manipulate the node lists 
+      returned by xql and getAttributeList functions. These include 
+      <C>getNodeListLength</C>, <C>getNodeListItem</C> and <C>disposeNodeList</C>.
+      <P/>
+      Finally, there are functions to extract DOM exception-related information 
+      from the situation object, namely <C>getExceptionCode</C>, 
+      <C>getExceptionMessage</C> and <C>getExceptionDetails</C>.
+    </DESCRIPTION>
+  </ENTRY>
+
+</API>

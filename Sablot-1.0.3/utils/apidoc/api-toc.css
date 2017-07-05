@@ -1,0 +1,35 @@
+body {
+    background: #ddeeff;
+}
+
+a {
+/*  text-decoration: none;*/
+}
+
+.toc-title {
+    background: lightgrey;
+}
+
+.toc-abc, 
+.toc-group-even {
+    background: white;
+}
+
+.toc-group-odd {
+    background: #EEEEEE;
+}
+
+.toc-entry-deprecated {
+    font-weight: bold;
+}
+
+.toc-ind-deprecated {
+    font-weight: bold;
+    background: #aa0000;
+    color: white;
+}
+
+.title {
+    font-size: 18pt;
+
+}

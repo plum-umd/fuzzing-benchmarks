@@ -1,0 +1,1028 @@
+<?xml version='1.0' encoding='ISO-8859-1' standalone='yes'?>
+<!DOCTYPE api>
+<API id="SXP">
+
+    <FOOT>
+      &amp;copy; 2001-2003 Ginger Alliance<BR/>
+      <I>revision 03-01-31</I><BR/>
+    </FOOT>
+
+<ENTRY id=".Introduction">
+  <TYPE value="General"/>
+  <DESCRIPTION>
+    The <B>Sablotron XPath processor</B> (SXP) enables the user to evaluate
+    an XPath query on a DOM document accessed via callback functions
+    provided by the user. The interface to SXP is written in C. SXP
+    is a part of Sablotron, an XSLT processor by Ginger Alliance.
+  </DESCRIPTION>
+  <SEEALSO value=".Building"/>
+  <SEEALSO value=".Usage"/>
+  <SEEALSO value=".Errors"/>
+</ENTRY>
+
+<ENTRY id=".Building">
+  <TYPE value="General"/>
+  <DESCRIPTION>
+    All declarations described in this document, if
+    not specified otherwise, are to be found in the Sablotron header
+    file <C>sxpath.h</C>. When building an executable using the SXP,
+    include <C>sxpath.h</C> and link the Sablotron library (<C>-lsablot</C>).
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id=".Errors">
+  <TYPE value="General"/>
+  <DESCRIPTION>
+    On error, most SXP interface functions output a Sablotron error
+    message and return an error code which can be passed to functions
+    like <C>SablotGetErrorMsg</C> (declared in <C>sablot.h</C>). 
+
+    <P/>In the callbacks, in contrast, error handling has been kept to
+    a minimum. Typically, in case of an error, a callback just returns
+    a special value such as NULL.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id=".Usage">
+  <TYPE value="General"/>
+  <DESCRIPTION>
+    To work with SXP, the user needs to instantiate a
+    <C>SablotSituation</C>, register a DOM handler (a set of DOM-like
+    callback functions) using <C>SXP_registerDOMHandler</C>, and create a
+    query context using <C>SXP_createQueryContext</C>.
+  </DESCRIPTION>
+  <EXAMPLE>
+    SablotSituation S;
+    SXP_QueryContext Q;
+    DOMHandler my_domhandler=
+    {
+      &amp;getNodeType,
+      /* ... more callbacks follow ... */
+    };
+    /* let us say the root is 123 */
+    SXP_Node root = (SXP_Node) 123;
+    SXP_char *result;
+ 
+    SablotCreateSituation(&amp;S);
+    SXP_registerDOMHandler(S, &amp;my_domhandler);
+    SXP_createQueryContext(S, &amp;Q);
+    /* perform the query with the root as the context node */
+    SXP_query(Q, "//*", root, 1, 1);
+    SXP_getResultString(Q, &amp;result);
+    puts(result);
+    SXP_destroyQueryContext(Q);
+    SablotDestroySituation(S);
+  </EXAMPLE>
+  <NOTE>
+    For clarity, error checking has been omitted from the above
+    excerpt.
+  </NOTE>
+</ENTRY>
+
+<!-- 
+
+  Types
+
+-->
+
+<ENTRY id="SablotSituation">
+  <TYPE value="Types"/>
+  <DESCRIPTION>
+    The type representing a general "context" for Sablotron. Mainly
+    used for error reporting. An object of this type can be created
+    using <C>SablotCreateSituation</C>.
+  </DESCRIPTION>
+  <NOTE>
+    <C>SablotSituation</C> is declared in <C>sablot.h</C>.
+  </NOTE>
+</ENTRY>
+
+<ENTRY id="SXP_char">
+  <TYPE value="Types"/>
+  <DESCRIPTION>
+    SXP character type. Currently just UTF-8 encoded <C>char</C>.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="SXP_Node">
+  <TYPE value="Types"/>
+  <DESCRIPTION>
+    A generic node type. 
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="SXP_Document">
+  <TYPE value="Types"/>
+  <DESCRIPTION>
+    A document type. <C>SXP_Document</C> can be used in place of any
+    <C>SXP_Node</C>, in which case it represents the document root
+    node. A synonym for <C>SXP_Node</C> is <C>NodeHandle</C>.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="SXP_NodeList">
+  <TYPE value="Types"/>
+  <DESCRIPTION>
+    A node list type. Node lists are returned by
+    <C>SXP_getResultNodeset</C> and are manipulated using
+    <C>SXP_getNodeListLength</C> and <C>SXP_getNodeListItem</C>.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="QueryContext">
+  <TYPE value="Types"/>
+  <DESCRIPTION>
+    A type representing the context of a query, which can hold (1)
+    namespace declarations for the next call to <C>SXP_query</C>, (2)
+    variable bindings for the same, (3) the result of a
+    <C>SXP_query</C>. An object of this type is created using
+    <C>SXP_createQueryContext</C> and freed using
+    <C>SXP_destroyQueryContext</C>. The evaluation result may be
+    retrieved using functions like <C>SXP_getResultString</C>. 
+  </DESCRIPTION>
+  <SEEALSO value="SXP_addVariableString"/>
+  <SEEALSO value="SXP_addVariableBinding"/>
+  <SEEALSO value="SXP_addNamespaceDeclaration"/>
+</ENTRY>
+
+<!-- 
+
+  Enums
+
+-->
+
+<ENTRY id="SXP_ExpressionType">
+  <TYPE value="Enums"/>
+  <DESCRIPTION>
+    The type for expressions in the SXP. Possible values include
+    <C>SXP_NONE</C> (unknown type), <C>SXP_NUMBER</C>,
+    <C>SXP_STRING</C>, <C>SXP_BOOLEAN</C> and <C>SXP_NODESET</C>.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_getResultType"/>
+</ENTRY>
+
+<ENTRY id="SXP_NodeType">
+  <TYPE value="Enums"/>
+  <DESCRIPTION>
+    The type for nodes in the SXP. Possible values include:
+    &lt;ul>
+    &lt;li> ELEMENT_NODE,
+    &lt;li> ATTRIBUTE_NODE,
+    &lt;li> TEXT_NODE, 
+    &lt;li> PROCESSING_INSTRUCTION_NODE,
+    &lt;li> COMMENT_NODE,
+    &lt;li> DOCUMENT_NODE,
+    &lt;li> NAMESPACE_NODE.
+    &lt;/ul>
+  </DESCRIPTION>
+</ENTRY>
+
+<!-- 
+
+  Functions 
+
+-->
+
+<ENTRY id="SablotCreateSituation">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SablotCreateSituation(sPtr)
+    <PARAM name="sPtr" type="SablotSituation *">
+      Pointer to where the result is to be stored.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Creates a <C>SablotSituation</C> which is passed to many Sablotron
+    functions and can be later destroyed by a call to <C>SablotDestroySituation</C>. 
+  </DESCRIPTION>
+  <NOTE>
+    <C>SablotCreateSituation</C> is declared in <C>sablot.h</C>.
+  </NOTE>
+</ENTRY>
+
+<ENTRY id="SablotDestroySituation">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SablotDestroySituation(S)
+    <PARAM name="S" type="SablotSituation">
+      The situation to be freed. 
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Frees a <C>SablotSituation</C>.
+  </DESCRIPTION>
+  <NOTE>
+    <C>SablotDestroySituation</C> is declared in <C>sablot.h</C>.
+  </NOTE>
+</ENTRY>
+
+<ENTRY id="SXP_registerDOMHandler">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_registerDOMHandler(S, domh);
+    <PARAM name="S" type="SablotSituation">
+      The current situation.
+    </PARAM>
+    <PARAM name="domh" type="DOMHandler *">
+      Pointer to the new DOM handler.
+    </PARAM>    
+  </SYNTAX>
+  <DESCRIPTION>
+    Registers a new <C>DOMHandler</C> with the given
+    <C>SablotSituation</C>. There may only be one DOM handler per
+    situation. The DOM handler will receive all DOM requests made
+    during evaluation with the situation S. To unregister the handler,
+    use <C>SXP_unregisterDOMHandler</C>.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="SXP_unregisterDOMHandler">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_unregisterDOMHandler(S)
+    <PARAM name="S" type="SablotSituation">
+      The current situation.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Unregisters the <C>DOMHandler</C> registered with the given
+    <C>SablotSituation</C>. All DOM requests will be processed in the
+    default way.
+  </DESCRIPTION>
+</ENTRY>
+ 
+<ENTRY id="SXP_createQueryContext">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_createQueryContext(S, Qptr)
+    <PARAM name="S" type="SablotSituation">
+      The current situation.
+    </PARAM>
+    <PARAM name="Qptr" type="QueryContext *">
+      Pointer to where to store the query context.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Creates a <C>QueryContext</C>.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="SXP_destroyQueryContext">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_destroyQueryContext(Q)
+    <PARAM name="Q" type="QueryContext">
+      The query context to be deleted.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Destroys a <C>QueryContext</C>, freeing all the memory it used,
+    including any <C>SXP_query</C> result and the pending variable
+    bindings and namespace declaration lists.  
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="SXP_addVariableBinding">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_addVariableBinding(Q, name, source)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="name" type="const SXP_char*">
+      The name of the variable.
+    </PARAM>
+    <PARAM name="source" type="QueryContext">
+      Another <C>QueryContext</C> which has been evaluated
+      already. The variable will be bound to its result expression. 
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Binds a variable to the result expression of another
+    <C>QueryContext</C>. The binding will only be in effect for the
+    next <C>SXP_query</C>. <C>SXP_addVariableBinding</C> provides the
+    only way to bind the variable to a node set.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_addVariableNumber"/>
+  <SEEALSO value="SXP_addVariableString"/>
+  <SEEALSO value="SXP_addVariableBoolean"/>
+</ENTRY>
+
+<ENTRY id="SXP_addVariableNumber">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_addVariableNumber(Q, name, value)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="name" type="const SXP_char*">
+      The name of the variable.
+    </PARAM>
+    <PARAM name="value" type="double">
+      The number to bind the variable to.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Binds a variable to a number. The binding will only be in effect for the
+    next <C>SXP_query</C>. 
+  </DESCRIPTION>
+  <SEEALSO value="SXP_addVariableBinding"/>
+  <SEEALSO value="SXP_addVariableString"/>
+  <SEEALSO value="SXP_addVariableBoolean"/>
+</ENTRY>
+
+<ENTRY id="SXP_addVariableString">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_addVariableString(Q, name, value)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="name" type="const SXP_char*">
+      The name of the variable.
+    </PARAM>
+    <PARAM name="value" type="const SXP_char*">
+      The string to bind the variable to.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Binds a variable to a string. The binding will only be in effect for the
+    next <C>SXP_query</C>. 
+  </DESCRIPTION>
+  <SEEALSO value="SXP_addVariableBinding"/>
+  <SEEALSO value="SXP_addVariableNumber"/>
+  <SEEALSO value="SXP_addVariableBoolean"/>
+</ENTRY>
+
+<ENTRY id="SXP_addVariableBoolean">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_addVariableBoolean(Q, name, value)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="name" type="const SXP_char*">
+      The name of the variable.
+    </PARAM>
+    <PARAM name="value" type="int">
+      The boolean value to bind the variable to.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Binds a variable to a boolean. The binding will only be in effect for the
+    next <C>SXP_query</C>. 
+  </DESCRIPTION>
+  <SEEALSO value="SXP_addVariableBinding"/>
+  <SEEALSO value="SXP_addVariableString"/>
+  <SEEALSO value="SXP_addVariableNumber"/>
+</ENTRY>
+
+<ENTRY id="SXP_addNamespaceDeclaration">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_addNamespaceDeclaration(Q, prefix, uri)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="prefix" type="const SXP_char*">
+      The namespace prefix.
+    </PARAM>
+    <PARAM name="uri" type="const SXP_char*">
+      The namespace URI.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Declares a new namespace with the given prefix and URI. The
+    declaration will only be in effect for the next <C>SXP_query</C>.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_addVariableBinding"/>
+</ENTRY>
+
+<ENTRY id="SXP_query">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_query(Q, query, node, position, size)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="query" type="const SXP_char*">
+      The text of the query.
+    </PARAM>
+    <PARAM name="node" type="SXP_Node">
+      The current node for the query.
+    </PARAM>
+    <PARAM name="position" type="int">
+      The position of the current node in the evaluation context. As SXP
+      is a C interface, the position is zero-based (unlike one-based
+      XPath nodesets). Thus, you must set this parameter to 0 if you want 
+      the "position()" query to return 1.
+    </PARAM>
+    <PARAM name="size" type="int">
+      The size of the evaluation context.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Evaluates a query (given as text) based on the current node, the
+    context position (zero-based) and the context size. Any namespaces
+    declared using <C>SXP_addNamespaceDeclaration</C> are used for the
+    evaluation, as are the variable bindings made using functions like
+    <C>SXP_addVariableString</C>. Upon completion of the query, the
+    pending namespace declarations and variable bindings are <B>cleared</B>.
+  </DESCRIPTION>
+  <EXAMPLE>
+	SXP_query(Q, "node[1]/@att", root, 0, 1);
+  </EXAMPLE>
+  <SEEALSO value="SXP_getResultString"/>
+  <SEEALSO value="SXP_getResultType"/>
+</ENTRY>
+
+<ENTRY id="SXP_getResultType">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_getResultType(Q, typePtr)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="typePtr" type="SXP_ExpressionType*">
+      The pointer to store the result type at.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Retrieves the type of a result expression (<C>SXP_ExpressionType</C>) held in
+    <C>QueryContext</C> after <C>SXP_query</C> has been called.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_getResultNumber"/>
+  <SEEALSO value="SXP_getResultBool"/>
+  <SEEALSO value="SXP_getResultString"/>
+  <SEEALSO value="SXP_getResultNodeset"/>
+</ENTRY>
+
+<ENTRY id="SXP_getResultNumber">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_getResultNumber(Q, resultPtr)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="resultPtr" type="double*">
+      The pointer to store the result at.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Retrieves the result of a <C>SXP_query</C> as a double, performing
+    a type conversion if necessary.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_getResultBool"/>
+  <SEEALSO value="SXP_getResultString"/>
+  <SEEALSO value="SXP_getResultNodeset"/>
+  <SEEALSO value="SXP_getResultType"/>
+</ENTRY>
+
+<ENTRY id="SXP_getResultBool">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_getResultBool(Q, resultPtr)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="resultPtr" type="int*">
+      The pointer to store the result at.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Retrieves the result of a <C>SXP_query</C> as a boolean, performing
+    a type conversion if necessary.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_getResultNumber"/>
+  <SEEALSO value="SXP_getResultString"/>
+  <SEEALSO value="SXP_getResultNodeset"/>
+  <SEEALSO value="SXP_getResultType"/>
+</ENTRY>
+
+<ENTRY id="SXP_getResultString">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_getResultString(Q, resultPtr)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="resultPtr" type="const char**">
+      The pointer to store the result at.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Retrieves the result of a <C>SXP_query</C> as a string, performing
+    a type conversion if necessary.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_getResultNumber"/>
+  <SEEALSO value="SXP_getResultBool"/>
+  <SEEALSO value="SXP_getResultNodeset"/>
+  <SEEALSO value="SXP_getResultType"/>
+</ENTRY>
+
+<ENTRY id="SXP_getResultNodeset">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_getResultNodeset(Q, resultPtr)
+    <PARAM name="Q" type="QueryContext">
+      The current query context.
+    </PARAM>
+    <PARAM name="resultPtr" type="SXP_NodeList*">
+      The pointer to store the result at.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Retrieves the result of a <C>SXP_query</C> as a nodeset. This can
+    be subsequently manipulated using <C>SXP_getNodeListItem</C> and
+    <C>SXP_getNodeListLength</C>. If the result is not of type
+    nodeset, then XPath does not allow its conversion to a nodeset,
+    and <C>SXP_ getResultNodeset</C> returns NULL in *resultPtr.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_getResultNumber"/>
+  <SEEALSO value="SXP_getResultBool"/>
+  <SEEALSO value="SXP_getResultString"/>
+  <SEEALSO value="SXP_getResultType"/>
+</ENTRY>
+
+<ENTRY id="SXP_getNodeListLength">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_getNodeListLength(list)
+    <PARAM name="list" type="SXP_NodeList">
+      A node list.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the number of items in a node list.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_getNodeListItem"/>
+</ENTRY>
+
+<ENTRY id="SXP_getNodeListItem">
+  <TYPE value="Functions"/>
+  <SYNTAX>
+    SXP_getNodeListItem(list, index)
+    <PARAM name="list" type="SXP_NodeList">
+      A node list.
+    </PARAM>
+    <PARAM name="index" type="int">
+      A zero-based index into the list.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The error code.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the item at the given (zero-based) position in the node list.
+  </DESCRIPTION>
+  <SEEALSO value="SXP_getNodeListLength"/>
+</ENTRY>
+
+<!--
+
+  Callbacks
+
+-->
+
+<ENTRY id="DOMHandler">
+  <TYPE value="Callbacks"/>
+  <DESCRIPTION>
+    A structure holding the addresses of all the callback functions
+    that reveal the DOM document to the SXP. It contains the following
+    callbacks (in the given order):
+
+    &lt;ul>
+    &lt;li> <C>getNodeType</C>,
+    &lt;li> <C>getNodeName</C>,
+    &lt;li> <C>getNodeNameURI</C>,
+    &lt;li> <C>getNodeNameLocal</C>,
+    &lt;li> <C>getNodeValue</C>,
+    &lt;li> <C>getNextSibling</C>,
+    &lt;li> <C>getPreviousSibling</C>,
+    &lt;li> <C>getNextAttrNS</C>,
+    &lt;li> <C>getPreviousAttrNS</C>,
+    &lt;li> <C>getChildCount</C>,
+    &lt;li> <C>getAttributeCount</C>,
+    &lt;li> <C>getNamespaceCount</C>,
+    &lt;li> <C>getChildNo</C>,
+    &lt;li> <C>getAttributeNo</C>,
+    &lt;li> <C>getNamespaceNo</C>,
+    &lt;li> <C>getParent</C>,
+    &lt;li> <C>getOwnerDocument</C>,
+    &lt;li> <C>compareNodes</C>,
+    &lt;li> <C>retrieveDocument</C>.
+    &lt;/ul>
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getNodeType">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getNodeType(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_NodeType">
+      The type of the node.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the type of the given node, or SXP_NONE on error.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getNodeName">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getNodeName(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="const SXP_char*">
+      The name of the node.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the qualified name of the given node (prefix:local-part). On error, returns NULL.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getNodeNameURI">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getNodeNameURI(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="const SXP_char*">
+      The URI of the node's namespace.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the namespace URI of the given node. On error, returns NULL.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getNodeNameLocal">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getNodeNameLocal(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="const SXP_char*">
+      The local name of the node.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the local part of the given node's name. On error, returns NULL.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getNodeValue">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getNodeValue(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="const SXP_char*">
+      The value of the node.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the value of the given node, or NULL on error. The node
+    values are as specified in the DOM Level 1 Core specification,
+    with the addition that the value of a namespace node is the
+    namespace URI.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getNextSibling">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getNextSibling(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Node">
+      The next sibling of the node.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the following sibling of the node, in document order. If
+    there is no such sibling, returns NULL. If the node is an
+    attribute or a namespace node, NULL is returned. 
+  </DESCRIPTION>
+  <NOTE>
+    In the early versions of the SXP, <C>getNextSibling</C> acted
+    like <C>getNextAttrNS</C> when used on attributes and namespace
+    nodes.
+  </NOTE>
+</ENTRY>
+
+<ENTRY id="getPreviousSibling">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getPreviousSibling(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Node">
+      The preceding sibling of the node.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the preceding sibling of the node, in document order. If
+    there is no such sibling, returns NULL. If the node is an
+    attribute or a namespace node, NULL is returned. 
+  </DESCRIPTION>
+  <NOTE>
+    In the early versions of the SXP, <C>getPreviousSibling</C> acted
+    like <C>getPreviousAttrNS</C> when used on attributes and namespace
+    nodes.
+  </NOTE>
+</ENTRY>
+
+<ENTRY id="getNextAttrNS">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getNextAttrNS(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Node">
+      The attribute/namespace node after the given one.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    If the given node is an attribute, the following attribute is
+    returned; if it is a namespace node, the following namespace node
+    is returned. If the node is not of these two types, or if there is
+    no following node of the same type, the callback returns NULL.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getPreviousAttrNS">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getPreviousAttrNS(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Node">
+      The attribute/namespace node preceding the given one.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    If the given node is an attribute, the preceding attribute is
+    returned; if it is a namespace node, the preceding namespace node
+    is returned. If the node is not of these two types, or if there is
+    no preceding node of the same type, the callback returns NULL.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getChildCount">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getChildCount(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The number of children of the node. 
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the number of children of the node. In particular, if the
+    node is neither an element nor a document node, 0 is returned. 
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getAttributeCount">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getAttributeCount(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The number of attributes of the node. 
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the number of attributes of the node. In particular, if the
+    node is not an element, 0 is returned. 
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getNamespaceCount">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getNamespaceCount(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The number of namespace declarations belonging to the node. 
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the number of namespace declarations belonging to the node. In particular, if the
+    node is not an element, 0 is returned. 
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getChildNo">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getChildNo(node, index)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="index" type="int">
+      Index of a child.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Node">
+      The node's child with the given index. 
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the node's child at the given index. If the index is
+    out of bounds, or if the node has no children, NULL is returned.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getAttributeNo">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getAttributeNo(node, index)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="index" type="int">
+      Index of an attribute.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Node">
+      The node's attribute with the given index. 
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the node's attribute at the given index. If the index is
+    out of bounds, or if the node has no attributes, NULL is returned.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getNamespaceNo">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getNamespaceNo(node, index)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="index" type="int">
+      Index of a namespace node.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Node">
+      The namespace node with the given index among those belonging
+      to the given node.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the namespace node which appears at the given position
+    among those belonging to the given node. If the index is
+    out of bounds, or if the node has no namespace nodes, NULL is returned.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getParent">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getParent(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Node">
+      The node's parent. 
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the given node's parent. If the node has no parent
+      (i.e. is a SXP_Document), NULL is returned. 
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="getOwnerDocument">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    getOwnerDocument(node)
+    <PARAM name="node" type="SXP_Node">
+      The node to operate on.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Document">
+      The owner document. 
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the given node's owner document. 
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="compareNodes">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    compareNodes(node1,node2)
+    <PARAM name="node1" type="SXP_Node">
+      The first node to be compared.
+    </PARAM>
+    <PARAM name="node2" type="SXP_Node">
+      The second node to be compared.
+    </PARAM>
+    <PARAM name="(RET)" type="int">
+      The result of the comparison.
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Compares two nodes based on the document order. Returns -1 if
+    node1 &lt; node2 in this order, +1 if node1 &gt; node2, and 0 if
+    the nodes are identical. Any other value signifies an error.
+  </DESCRIPTION>
+</ENTRY>
+
+<ENTRY id="retrieveDocument">
+  <TYPE value="Callbacks"/>
+  <SYNTAX>
+    retrieveDocument(uri)
+    <PARAM name="uri" type="const SXP_char*">
+      The URI of the document to be retrieved.
+    </PARAM>
+    <PARAM name="(RET)" type="SXP_Document">
+      The retrieved document. 
+    </PARAM>
+  </SYNTAX>
+  <DESCRIPTION>
+    Returns the document found at the given URI. If the document could
+    not be retrieved, NULL is returned. 
+  </DESCRIPTION>
+</ENTRY>
+
+</API>
+
+
+
+
+
+
+
+
+
+
+

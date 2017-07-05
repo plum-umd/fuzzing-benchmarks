@@ -1,0 +1,416 @@
+#====================================================================#
+#  The release file for Sablotron                                    #
+#====================================================================#
+
+Version 1.0.3
+June 26, 2006
+-------------
+	- added dyn:evaluate() EXSLT function to evaluate strings
+	  as XPath expressions
+	- fixed segfault when stylesheet import fails
+	  [patch by Adam Dickmeiss]
+	- user-defined scheme URIs no more encoded
+	  [patch by Adam Dickmeiss]
+	- fixed a bug in sabcmd.cpp for Sun One Studio 8 Compiler
+	  [patch by Martin Adolfsson]
+
+Version 1.0.2
+December 29, 2004
+-----------------
+	- fixed a bug in declarations of namespaces
+          during serialization
+	- minor fixes for gcc 3.4.x
+	- fixed mistakes in error messages
+
+Version 1.0.1
+November 24, 2003
+-----------------
+	- minor changes to configure (snprintf tested)
+	- fixed a bug of wrong error line numbers in imported or 
+	  included template
+	- fixed a bug of count() function argument casting
+	- misplaced xsl:import no more processed
+	  [reported by Bob Kline]
+	- fixed a bug of crashing current() [reported by Alex Greg]
+	- fixed a bug in DOM (inserting child nodes)
+	- fixed a bug of pointers sized differently from boolean on
+	  64-bit platforms
+
+Version 1.0
+August 8, 2003
+---------------
+        - two flags SAB_DUMP_SHEET_STRUCTURE (0x40) and
+ 	  SAB_NO_EXTERNAL_ENTITIES (0x80) added
+	- nested xsl:attribute reported as error
+	- &gt; is always escaped to prevent problems with CDATA end
+	- new configurable set of makefiles for Windows MSVC++ has been 
+	  created to replace existing Makefile.nt file 
+	  [by Rosimildo daSilva, patch by Bob Kline]
+	- fixed a type comparison failing on arm, powerpc and s390
+	  [reported by Debian maintainers]
+	- fixed a bug of default NS in imported/included templates
+	- fixed a segfault in keys defined on empty nodes
+	  [reported by Simon Spanihel]
+	- minor changes to compile under QNX 6.2
+	  [patch by Adrian Weiler]
+	- fixed a bug of nested imports [reported by Dave Brooks]
+	- fixed a bug of UTF-16 encoded files on Win 
+	  [reported by Andrey Sokolov]
+	- fixed a bug of defenition check in shandler.h for Borland
+	  compilers [reported by Vladimir Lukianov]
+	- fixed a bug of crashing sorting on Windows
+	- fixed a bug of crashing key() on RTF 
+	  [reported by Valeriy Ovechkin]
+	- solved the issue of too many files open with exsl:document
+	- fixed a bug of  casting of 64-bit pointers to (int)
+	  [patch by Steve Crockett]
+	- fixed a bug absolute paths starting with a drive letter on 
+	  Windows (unsupported scheme is reported)
+	- fixed a bug of SDOM_DestroyDocument
+
+Version 0.98
+April 7, 2003
+-------------
+	- added stylesheet chaining to sabcmd [by Stefan Behnel]
+	- changes in XML::Sablotron (new layout, added DOMHandler SXP 
+          interface) [by Nicolas Trebst and Anselm Kruis]
+	- fixed a bug of variables bound for SXP queries
+	- fixed a bug of the self axis (principal node type)
+	- fix for Metrowerks C/C++ compiler [suggested by Tim Crook]
+	- fixed a bug of forbidden XPath (child::xxx@yyy)
+	- configuration fixes (APIDOC docs are built only when 
+          Perl/XML::Parser found)
+	- fixed defaults for xsl:number
+	- fixed a bug of required order of top-level variables
+	- fixes in the outputting of NS declarations
+	- fixes in the import precedence [report by Roy Huggins]
+	- added a new config switch for sabcmd to abort on XSLT error 
+          (--enable-abort-on-error)
+	- fixed a bug in namespace-alias
+	- fixed segfault occurring when formating big numbers (>1e127)
+	- fixed comparison of char to 0 for unsigned-char platforms
+
+Version 0.97
+December 30, 2002
+-----------------
+	- fixed the problem with Expat 1.95.5
+	- fixed a bug in xsl:message [report by Bob Kline]
+	- fixed an infinite loop bug in recursive imports
+          [report by Michael Vladimirov]
+	- added SablotGetOptions() function
+	- added a new option (SAB_FILES_TO_HANDLER) to pass the 'file'
+	  URIs to the scheme handler
+	- fixed collisions with PHP/Java extension, Arena* renamed to 
+	  SabArena [suggested by Christian Stocker]
+	- mapping of namespaces added to xql() function (DOM)
+	- chars illegal in output encoding displayed as references 
+	  (for xml, html, xhtml output methods)
+	- fixed resolution of relative URIs in document()
+	- fixed a bug of not overridden imported parameters
+	- documentation sources (APIDOC XML) added to distribution
+
+Version 0.96
+September 5, 2002
+-----------------
+	- XSLT debugger implemented (sabcmd --debugger)
+	- API fixes for PHP extension
+	- log() function added to write to Sablot's log from JS scripts
+	- conflicts of top-level elements (variable, key, script) 
+	  initializations resolved
+	- fixed xslt_process buffer overflow
+	- fixed a bug of duplicate NS qualified attributes
+	- minor SXP bug fixes [using patches by Tim Crook]
+	- fixed a bug of the 'mod' operator [report by Jork Behrends]
+	- fixed a bug of sorting with multiple keys [report by Jork Behrends]
+	- fixed a bug of comparison [report by Jork Behrends]
+	- DOM: fixed a bug of the default XML namespace 
+	  [report by Albert Micheev]
+	- DOM: fixed a bug of PIs [report by Albert Micheev]
+	- improved configuration [by Melvyn Sopacua]
+	- fragment identifiers allowed in document() for custom 
+	  schemes [report by Bob Kline]
+
+Version 0.95
+June 24, 2002
+-------------
+	- DOM support upgraded to DOM Level2
+	- xsl:strip-space and xsl:preserve-space implemented
+	- XSLT on external documents (accessed via callbacks)
+	- esxlt:document instruction implemented
+	- unparsed-entity-uri() function implemented
+	- added a manual page for sabcmd
+	- added a batch mode (multiple sources/stylesheets)
+	  for sabcmd [by Stefan Behnel]
+	- added a system property to display version
+	- added a flag for document() to return an empty node-set when
+  	  it refers to non-existing document
+	- fixed a bug in relative paths to ext. entities
+	- fixed a sorting bug on Solaris
+	- fixed matching precedence for processing-instruction('lit')
+	- fixed a bug in xsl:decimal-format/format-number()
+	- fixed a bug in string() - comments excluded
+	- fixed a bug of RTFs in xsl:attribute (comment, pi)
+	- fixed a bug of generate-id for multiple documents
+	- various minor fixes
+
+Version 0.90
+March 8, 2002
+-------------
+	- xsl:import implemented
+	- fixed a bug in boolean expressions with nodesets
+	  [reported by John Holland]	
+	- current() implementation redesigned
+	- variables not allowed in 'match' attributes of templates
+	- fixed a bug in attribute value escaping [Christian Lefebvre]
+	- fixed a bug in ext. entities base URI [Christian Lefebvre]
+	- fixed a bug in sabcmd --base option [Christian Lefebvre]
+	- span not indented with html method
+	- processing-instruction() node test allows literal arguments
+	- only top-level variables and params visible in xsl:attribute-set
+	- fixed a bug in xsl:number
+	- fixed a bug in master situation cleanup
+	  [patch proposed by Bill Hofmann and Bob Kline]
+	- fixed a bug in error reports from included files
+	- correct name of element, attribute and pi is checked
+
+Version 0.82
+January 30, 2002
+----------------
+	- fixed the text output method 
+	  (nothing but text nodes are outputted)
+	- SCRIPT and STYLE escaped for xhtml
+	- fixed a bug in escaping attributtes (src, href)
+	- fixed a bug in aliasing doctype declaration
+	- fixed bugs related to Sun CC compiler [Tim Crook, Greg Cope]
+	- fixed a memory management bug [Tim Crook]
+
+Version 0.81
+January 16, 2002
+----------------
+	- PUBLIC URLs in doctypes and ext. entities not parsed 
+  	  by default (SAB_PARSE_PUBLIC_ENTITIES situation option)
+	- non-xsl elements allowed inside xsl:stylesheet
+	- xsl attributes not outputted anymore
+	- xsl:namespace-alias translates attributes as well
+	- content of SCRIPT and STYLE not escaped for html/xhtml
+	- Boolean attributes are abbreviated for html output method
+
+Version 0.80
+January 8, 2002
+---------------
+	- implemented extensions (JavaScript functions + DOM, 
+	  extension-element-prefixes, xsl:fallback, function-available(),
+	  element-available())
+	- fixed a bux in the 'following' axis
+	- fixed current() assertion fault
+	- fixed "META tag placed outside HEAD" bug
+	- fixed a bug in abbreviated [position] expression in 
+	  template 'match' attribute
+	- implemented lang () function
+	- added 'namespace' attribute of xsl:element
+	- implemented 'exclude-result-prefixes'
+	- implemented xsl:attribute-set and 'use-attribute-sets'
+	- added 'namespace' attribute of xsl:attribute
+	- fixed translate() bug
+	- key() now works with document()
+	- fixed short stylesheet notation output bugs
+	- added use-attribute-sets attribute to xsl:copy
+	- minor bugs fixed
+
+Version 0.71
+November 5, 2001
+----------------
+	- sum() bug fixed
+	- fixed a Solaris problem with key() [report by Archie Russell]
+	- SXP minor bugs fixed
+	- implemented axes 'following' and 'preceding'
+	- added an SXP callback for id() and a 'user data' pointer for
+	  some callbacks
+	- fixed a namespace bug in SXP
+	- improved error messages
+	- fixed a bug in parsing external files [reported by Tim Crook]
+	- fixed a bug of current() in inner context() 
+	  [reported by Ian Davis]
+	- fixed a bug of calling XSLT instructions inside xsl:text
+	- fixed a SablorRunProcessorGen assertion bug
+	- fixed a scheme handler bug [reported by Tim Crook]
+
+Version 0.70
+September 17, 2001
+------------------
+	- added Sablotron XPath processor
+	- implemented xsl:key and key()
+	- implemented format-number() and xsl:decimal-format
+	- implemented xsl:number
+	- fixed namespace treatment in the DOM part
+	- the string functions now work correctly with non-ASCII text
+	  [fix partly by Christian Lefebvre]
+	- fixed a bug in the DOM interface
+	- fixes for BeOS [Gabe Bauman]
+
+Version 0.65
+August 15, 2001
+---------------
+	- improved HTML indentation
+	- fixed bug causing output of XML declaration when method='text'
+	  [reported by Jason Dumler]
+        - parameter entities are always parsed
+        - xml declaration ends with ?> using HTML method
+	- > is escaped in HTML
+ 	- fixed the RTF serialization [report by Christian Lefebvre]
+	- fixed the non-ASCII character escaping in URIs
+	- changed SDOM_xql so it uses namespace declarations on the
+	  document element
+	- a few more minor bug fixes
+
+Version 0.60
+June 13, 2001
+-------------
+	- implemented a subset of DOM level 1 (see sdom.h)
+	- added sdom.cpp and sdom.h to the project
+	- new interface methods for Sablotron (preferred use)
+	  SablotRunProcessorGen, SablotAddArgTree, SablotAddArgBuffer
+	  SablotAddParam
+	- added a simple support of <xsl:output indent>
+	- fixed a namespace node name bug [report by A. Nuzhdov]
+	- added support for parametr entities [suggested by Peter Blum]
+	- fixed a bug related to evaluation of arithmetic 
+	  expressions [reported by Sam Brauer] 
+	- fixed a minor bug related to the xhtml output method
+
+Version 0.52
+March 29, 2001
+--------------
+
+        - added support for encoding conversions using iconv
+        - all memory leaks occuring on processing errors are fixed
+	  [thanks for project support to Mitel Networks Corporation]
+        - fixed the "duplicit attribute error" bug [Marc Lehmann]
+        - fixed a bug in context evaluation [reported by Marco Guazzone]
+        - fixed several bugs related to the hash table [Tom Moog]
+
+Version 0.51
+------------
+        - a maintenance release
+        - fixed the quoting of quotes in HTML output [patch by Mark Bartel].
+        - fixes by Tim Crook for AIX
+        - Sablot runs even without wcsxfrm() or wchar.h (although
+          it doesn't sort)
+        - the problem with the type of an iconv() call argument is fixed
+        - added support for the xhtml output method [Marc Lehmann]
+        - fixed bug causing elements being output as <:x> [Andreas Buschmann]
+        - xsl:sort works if wcsxfrm() is not present (sorts naively though)
+
+Version 0.50
+------------
+        - added match predicate optimization
+        - added proper character class handling [patch by Marc Lehmann]
+        - fixed a bug in last() [reported by Dirk Siebnich]
+        - fixed a problem with empty NS decls [reported by S. Tryggvason]
+        - added SablotSetEncoding().
+        - fixed an error with xml:lang [reported by Nicolas Sauret]
+        - fixed the 'divide by zero' MSVC warning [suggestion by Dirk Siebnich]
+        - added support for xsl:sort
+        - fixed an expression parsing error [report by Clayton Cottingham]
+        - fixed a bug in current() [report by Daniel Hammond]
+        - minor fix for RedHat 7 [David Hedbor] 
+        - fixed another bug in translate()
+        - fixed a bug related to starts-with() [reported by Myoungki Kim]
+        - fixed top-level elements check 
+
+Version 0.44
+------------
+        - Fixed an elusive bug in HashTable causing occassional crashes
+        - Added the namespace-alias() and message() functions
+          [patch by Major]
+        - More fixes related to: XML namespace declarations, nested
+          stylesheet inclusion, Byte Order Mark in UTF-8 doc,
+          "SYSTEM" in DOCTYPE declaration, the preceding-sibling and
+          following-sibling axes, iconv.
+        - Patch for OpenBSD [Anil Madhavapeddy].
+
+Version 0.43
+------------
+        - Fundamental changes to improve performance.
+        - Added Latin2 input support [thanks to Matt Sergeant]
+        - Added Japanese encodings support [patch by Rui Hirokawa]
+        - Fixed treatment of NaNs etc. [based on patch by Robin Houston]
+        - Minor bug fixes.
+        - Added platform.cpp for platform-dependent code.
+        - Added code to generate the <META> tag when using the
+          html output method.
+
+Version 0.42
+------------
+        - Sablotron is now thread-safe [thanks to Leo Yu].
+        - Output recoding can be done if iconv is present [Sven Neumann].
+        - Match predicates work.
+        - Several bug fixes [Robin Houston].
+        - Added:
+                MiscHandler with documentInfo()
+                SablotSetBaseForScheme()
+                the current() function [Robin]
+        -The actual error code is returned from SablotProcess etc.
+
+Version 0.41
+------------
+        - Sablotron now uses autoconf and works with an unmodified
+          copy of expat. Its layout is a bit different.
+        - Bug fix (reported by Kay Sievers).
+
+Version 0.4
+-----------
+        - The license was changed to MPL+GPL. 
+        - Output conformance improved considerably (proper escaping
+          etc.).
+        - A SAX interface to the result document is available so one
+          can bypass the construction to the result tree.
+        - Some changes to the Sablotron interface.
+        - Implemented <xsl:output>, <xsl:comment>,
+          <xsl:processing-instruction>.
+        - External general entities work now.
+        - Bug fixes (thanks for reports and/or patches to Hans Raaf,
+          Florian Hars, <robin@kitsite.com>, Mark W. Eichin and 
+          Robin Berjon).
+        - Performance improvements.
+
+Version 0.36
+------------
+        - optimized string handling, resulting in a significant
+          performance improvement
+        - implemented <xsl:copy>
+
+Version 0.35
+------------
+        - fixed a bug concerning the descendant axis, reported by Les
+          Woolsey
+        - included the Solaris port (patch contributed by Steven Rowe)
+        - added SablotSetLog() for setting the log file. Turned
+          logging off by default. 
+        - added SablotRegMessageHandler() for setting a message
+          handler. Using this, you can handle all error/warning/log
+          messages the way you like.   
+        - if the xsl prefix is bound to an obsolete URI, a warning is
+          issued
+        - added SablotProcessStringsWithBase() which makes it possible
+          to override the stylesheet's physical URI with a 'hard base
+          URI' 
+        - added some command-line switches to sabcmd, e.g. --log-file
+          and --measure
+
+Version 0.34
+------------
+        - bug fixes
+        - major memory leak fixes
+
+Version 0.33
+------------  
+CVS: tag SABLOT_0_33 (tom, main trunk)
+        - this release log started
+        - first major release following Sablotron 0.3
+        - added URI processing with relative URI resolution
+        - added support for the arg: scheme (named buffers)
+        - added support for passing global parameters
+        - introduced the SablotProcess() function as a general interface
+        - sabcmd can pass named buffers as well as the global params
+        - added a lot of core library functions

@@ -1,0 +1,112 @@
+This file describes Sablotron installation procedure on Windows. To 
+find out more on Sablotron, please read the README file in the same 
+directory as this file. To get more info on installing on Linux or Unix, 
+please read the file INSTALL.
+
+
+1. Intro
+2. Sablotron binaries
+  2.1. Binaries and dependencies
+3. Building Sablotron from sources
+  3.1. Notes on dependencies
+4. More information
+
+
+1. Intro
+========================================
+
+Sablotron is based on Expat XML parser. 
+
+There is a significant change of how Expat is used since version
+0.50. Sablotron _never_ looks for Expat under its own source tree, but
+it supposes, that you have installed Expat library (1.95.1 or later) 
+in your system.
+
+To get Expat, visit
+
+http://sourceforge.net/projects/expat/
+
+and download/install source/binary package.
+
+
+2. Sablotron binaries
+========================================
+
+Download and extract the binary package. The only requirement is that 
+expat.dll must be installed in your system. You can download
+the Sablot dll as binary from http://sourceforge.net/projects/expat/.
+If you download a Windows binary of expat you have to rename it to expat.dll
+(without a version number). Ensure expat.dll is on your PATH.
+
+Copy sablot.dll and sabcmd.exe somewhere to your PATH.
+
+2.1. Binaries and dependencies
+------------------------------
+
+To support other than built-in charsets you must use the iconv library.
+To support JavaScript extensions you must use JS library by Mozilla.
+For your convenience, There is a Sablotron binary package available 
+supporting both iconv and JavaScript. This package 
+(Sablot-Win-x.xx-FullPack.zip) actualy contains three independent products:
+
+- Sablotron binary (linking iconv)
+- iconv binary (look at ftp://ftp.ilog.fr/pub/Users/haible/gnu/ for sources)
+- JavaScript binary (look at http://www.mozilla.org/js/ for sources)
+
+Copy iconv.dll, js32.exe, sablot.dll and sabcmd.exe somewhere to your PATH.
+
+
+3. Building Sablotron from sources
+========================================
+
+If you have downloaded the binary distribution, you can skip reading this
+section.
+
+To build Sablotron from sources you have to build expat first. Download
+expat sources from http://sourceforge.net/projects/expat/ and build it
+(project file for MS DevStudio 6.0 is included).
+
+Sablotron can be built with many different options. These options are defined
+in sablot_config.msvc file. You can either edit this file or preferably create
+its local copy named sablot_config.local. The config file itself is rather
+self-decriptive. 
+
+The recommended procedure is the following:
+
+1. copy sablot_config.msvc to sablot_config.local
+2. edit sablot_config.local
+3. type 'nmake -f makefile.msvc' 
+
+Then install the Sablotron DLL and executable as described in section 2. 
+Make sure expat.dll (iconv.dll, js32.dll) are on your PATH (if you link them).
+
+
+3.1. Notes on dependencies
+--------------------------
+
+Iconv is a library for encoding conversions. You don't need to have it 
+installed, but in that case, you will only be able to use a few encodings. 
+Sablot has been tested on NT with Bruno Haible's implementation of iconv, 
+available from ftp://ftp.ilog.fr/pub/Users/haible/gnu/libiconv-1.3.tar.gz
+
+If you change the way Sablot or iconv are being built, make sure they both 
+use the DLL version of the C runtime library (msvcrt.dll), i.e. compile 
+with /MD. This is because they need to share the global variable errno.
+
+JavaScript is the popular Netscape-developed object scripting language. 
+Sablotron has to link the JS engine to enable extension functions. 
+See http://www.mozilla.org/js/ for more details or to get sources.
+
+
+4. More information
+========================================
+
+If you are in trouble and haven't read the README file, you may find some
+useful information there. You can check our website as well: 
+
+http://www.gingerall.com
+
+
+Enjoy Sablotron!!
+
+GA

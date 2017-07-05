@@ -1,0 +1,160 @@
+/* autocfg/config.h.in.  Generated from configure.in by autoheader.  */
+
+/* define whether to check for memory leaks */
+#undef CHECK_LEAKS
+
+/* define if we want to supress the DOM interface (needed in sdom.h) */
+#undef DISABLE_DOM
+
+/* define if we want to publish the DOM interface */
+#undef ENABLE_DOM
+
+/* define, whether to build the JS extension */
+#undef ENABLE_JS
+
+/* defined if JS threading is enabled */
+#undef ENABLE_JS_THREADS
+
+/* define whether Expat supports (working) XML_SetReturnNSTriplet */
+#undef EXPAT_SUPPORTS_TRIPLETS
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you have the <expat.h> header file. */
+#undef HAVE_EXPAT_H
+
+/* finite */
+#undef HAVE_FINITE
+
+/* Define to 1 if you have the `ftime' function. */
+#undef HAVE_FTIME
+
+/* Define to 1 if you have the `gettimeofday' function. */
+#undef HAVE_GETTIMEOFDAY
+
+/* Define to 1 if you have the <iconv.h> header file. */
+#undef HAVE_ICONV_H
+
+/* Define to 1 if you have the `iconv_open' function. */
+#undef HAVE_ICONV_OPEN
+
+/* Define to 1 if you have the <ieeefp.h> header file. */
+#undef HAVE_IEEEFP_H
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* isinf */
+#undef HAVE_ISINF
+
+/* isnan */
+#undef HAVE_ISNAN
+
+/* isnand */
+#undef HAVE_ISNAND
+
+/* Define to 1 if you have the <jsapi.h> header file. */
+#undef HAVE_JSAPI_H
+
+/* Define to 1 if you have the <limits.h> header file. */
+#undef HAVE_LIMITS_H
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `mtrace' function. */
+#undef HAVE_MTRACE
+
+/* Define to 1 if you have the <readline/history.h> header file. */
+#undef HAVE_READLINE_HISTORY_H
+
+/* Define to 1 if you have the <readline/readline.h> header file. */
+#undef HAVE_READLINE_READLINE_H
+
+/* Define to 1 if you have the `setvbuf' function. */
+#undef HAVE_SETVBUF
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sunmath.h> header file. */
+#undef HAVE_SUNMATH_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/timeb.h> header file. */
+#undef HAVE_SYS_TIMEB_H
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <timeb.h> header file. */
+#undef HAVE_TIMEB_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* define if you have wchar.h header */
+#undef HAVE_WCHAR_H
+
+/* Define to 1 if you have the `wcscmp' function. */
+#undef HAVE_WCSCMP
+
+/* Define to 1 if you have the `wcsxfrm' function. */
+#undef HAVE_WCSXFRM
+
+/* Define to 1 if you have the <xmlparse.h> header file. */
+#undef HAVE_XMLPARSE_H
+
+/* Define to 1 if you have the <xmltok/xmlparse.h> header file. */
+#undef HAVE_XMLTOK_XMLPARSE_H
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* abort on XSLT error */
+#undef SABLOT_ABORT_ON_ERROR
+
+/* define if we want to build the debugger */
+#undef SABLOT_DEBUGGER
+
+/* define if don't want to generate the META html tag */
+#undef SABLOT_DISABLE_ADDING_META
+
+/* define if don't want to produce errors in the document() function */
+#undef SABLOT_DISABLE_DOC_ERRORS
+
+/* define if we want to build under GPL */
+#undef SABLOT_GPL
+
+/* define whether second param of iconv has to be typecasted */
+#undef SABLOT_ICONV_CAST_OK
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS

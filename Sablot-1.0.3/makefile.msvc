@@ -1,0 +1,135 @@
+#////////////////////////////////////////////////////////////////////////////
+# $Id: makefile.msvc,v 1.1.2.2 2003/11/24 13:30:40 cvspetr Exp $
+#
+# Copyright (c) 2003 Rosimildo da Silva, All Rights Reserved.
+#
+# See the file COPYING for copying permission.
+#
+# MODULE DESCRIPTION: 
+#
+# MODIFICATION/HISTORY:
+# $Log: makefile.msvc,v $
+# Revision 1.1.2.2  2003/11/24 13:30:40  cvspetr
+# ''
+#
+# Revision 1.1.2.1  2003/07/17 11:29:25  cvspetr
+# ''
+#
+# Revision 1.1  2003/04/11 12:33:22  cvspavel
+# ''
+#
+#
+# Created 2003/03/23 Rosimildo da Silva, ConnectTel Inc.
+# [rdasilva@connecttel.com]
+#
+#////////////////////////////////////////////////////////////////////////////
+
+TOP = .
+
+SABLOTRON_VERSION=1.0.1
+
+.SUFFIXES: .cc
+
+# Configuration MUST be included first !
+!IF EXIST("$(TOP)\sablot_config.local")
+!include "$(TOP)\sablot_config.local"
+!ELSE	
+!include "$(TOP)\sablot_config.msvc"
+!ENDIF
+
+!include "$(TOP)\makefile_include.msvc"
+
+SABLOT_LIB   = $(LIBDIR)\sablot.lib
+SABLOT_DLL   = $(BINDIR)\sablot.dll
+
+TFLAGS = $(TFLAGS) /OUT:$(SABLOT_LIB)
+
+TLFLAGS =
+
+SABLOT_OBJS = \
+     $(OBJDIR)\arena.obj       \
+     $(OBJDIR)\base.obj        \
+     $(OBJDIR)\context.obj     \
+     $(OBJDIR)\datastr.obj     \
+     $(OBJDIR)\decimal.obj     \
+     $(OBJDIR)\domprovider.obj \
+     $(OBJDIR)\encoding.obj    \
+     $(OBJDIR)\error.obj       \
+     $(OBJDIR)\expr.obj        \
+     $(OBJDIR)\hash.obj        \
+     $(OBJDIR)\key.obj         \
+     $(OBJDIR)\numbering.obj   \
+     $(OBJDIR)\output.obj      \
+     $(OBJDIR)\parser.obj      \
+     $(OBJDIR)\platform.obj    \
+     $(OBJDIR)\proc.obj        \
+     $(OBJDIR)\sablot.obj      \
+     $(OBJDIR)\sdom.obj        \
+     $(OBJDIR)\situa.obj       \
+     $(OBJDIR)\tree.obj        \
+     $(OBJDIR)\uri.obj         \
+     $(OBJDIR)\utf8.obj        \
+     $(OBJDIR)\vars.obj        \
+     $(OBJDIR)\verts.obj       \
+     $(OBJDIR)\sxpath.obj      \
+     $(OBJDIR)\jsext.obj       \
+     $(OBJDIR)\debugger.obj    \
+     $(OBJDIR)\jsdom.obj
+
+!ifdef VC_DLL
+all: sablot_dll sabcmd
+!else
+all: sablot_static sabcmd
+!endif
+
+sablot_dll: makedirs $(SABLOT_DLL)
+
+sablot_static: makedirs $(SABLOT_LIB)
+
+clean:
+   nmake -f sabcmd.msvc clean
+   -@rd  $(OBJDIR) /s/q  2>NUL
+   -@rd  $(LIBDIR) /s/q  2>NUL
+   -@rd  $(BINDIR) /s/q  2>NUL
+   -@del  vc?0.*         2>NUL
+
+makedirs:
+  -@mkdir $(LIBDIR)  2>NUL
+  -@mkdir $(BINDIR)  2>NUL
+  -@mkdir $(OBJDIR)  2>NUL
+
+sabcmd:
+   nmake -f sabcmd.msvc
+
+!include "$(TOP)\makefile_rules.msvc"
+
+$(SABLOT_LIB): $(SABLOT_OBJS)
+    -del $(SABLOT_LIB)
+	$(LIBUTIL) $(TFLAGS) $(SABLOT_OBJS)
+
+$(SABLOT_DLL): $(SABLOT_OBJS)
+  -del $(SABLOT_DLL)
+  $(LINK) /dll /out:$(SABLOT_DLL) $(LFLAGS) $(SABLOT_OBJS) \
+                                  $(XLIBS) $(EXPAT_LIB)
+  move $(BINDIR)\sablot.lib $(LIBDIR)\sablot.lib 
+!ifdef ENABLE_JS
+  -@copy $(JS_ROOT)\lib\js32.dll $(BINDIR)
+!endif
+
+install: all sabcmd
+  -@rd  sablot         /s/q
+  mkdir sablot         2>NUL
+  mkdir sablot\include 2>NUL
+  mkdir sablot\lib     2>NUL
+  mkdir sablot\bin     2>NUL
+  copy bin\*.exe       sablot\bin
+  copy bin\*.dll       sablot\bin
+  copy lib\*.lib       sablot\lib
+  copy src\engine\sabdbg.h   sablot\include
+  copy src\engine\sablot.h   sablot\include
+  copy src\engine\sdom.h     sablot\include
+  copy src\engine\shandler.h sablot\include
+  copy src\engine\sxpath.h   sablot\include
+
+zip: install
+  zip -r sablot-windows-$(SABLOTRON_VERSION).zip sablot

@@ -1,0 +1,106 @@
+.TH sabcmd 1 "June 17, 2002"
+.LO 1
+.SH NAME
+sabcmd \- a command line interface to Sablotron XSLT processor
+.SH SYNOPSIS
+.B sabcmd
+[options] <stylesheet> [<input> [<output>]] [assignments]
+.br
+.B sabcmd
+[options] -batch-xml <input> [<stylesheet> [<output>]]+ [assignments]
+.br
+.B sabcmd
+[options] -batch-xsl <stylesheet> [<input> [<output>]]+ [assignments]
+.br
+.SH DESCRIPTION
+.B sabcmd
+is a command line interface to Sablotron XSLT processor. You can
+use is to transform XML files with XSLT stylesheets.
+.P
+The only required parameter is a stylesheet; this is a URI of
+an XSLT stylesheet to be used for the transformation process. If you
+omit an input file, the standard input is used. In addition, you can
+specify an output file. If no output file is given, the output is sent to 
+the standard output. 
+.P
+sabcmd can also run in a batch mode to process single input file with 
+multiple stylesheets (--batch-xml) or to apply a stylesheet to multiple
+input files (--batch-xsl).
+.P
+.B Assignments
+allow to pass parameters and named buffers to the
+processor. The assignments have always the form of
+.IP
+name1=value1 name2=value2 ...
+.P
+where name is either an ASCII string for named buffers or an ASCII string
+with the leading '$' sign for parameters. (Note that you need to use the 
+right quotes to prevent the shell interpreter from performing an expansion
+of variables). 
+.SH OPTIONS
+Option can be of two forms - short or long. If some options have
+values, the values are separated with a whitespace for short options 
+and with a equal sign ('=') for long options. 
+.IP
+-L mylog.log
+.P
+is the same as
+.IP
+--log-file=mylog.log
+.SS COMMON OPTIONS
+.TP
+.B -x, --batch-xml
+multiple stylesheets, single input file
+.TP
+.B -s, --batch-xsl
+multiple input files, single stylesheet
+.TP
+.B -b, --base=NAME
+set the hard base URI to NAME
+.TP
+.B --debug-options		
+display the information on debugging options
+.TP
+.B \-?, --help
+display this help message
+.TP
+.B \-L, --log-file=NAME
+set the log file, turns logging on
+.TP
+.B \-m, --measure
+measure the time of processing
+.TP
+.B -v, --version
+display the version information
+.SS DEBUG OPTIONS
+.TP
+.B --debug			
+display results of the command line parse
+.TP
+.B \-t, --times=COUNT
+run sabcmd the specified number of times
+.TP
+.B \-f, --flags
+pass flags given to SablotSetOptions()
+.TP
+.B \-F, --use-SPF
+use SablotProcessFiles()
+.TP
+.B \-S, --use-SPS
+use SablotProcessStrings(). Give 2 args (stylesheet,
+input). Precede each by @.
+.TP
+.B --use-SPS-on-files	
+use SablotProcessStrings() on the contents of the given files.
+.SH ENVIRONMENT
+When the <xsl:sort> instruction is used without the 'lang' attribute,
+common locale related environment variables apply..
+.SH BUGS
+There are no known bugs related to
+.B sabcmd
+currently. Most of bugs you can meet are related to Sablotron
+processor itself. In such a case, please take a look at Sablotron's
+home website (www.gingerall.org) or contact us at <sab-bugs@gingerall.cz>.
+
+.SH AUTHOR
+Pavel Hlavnicka <pavel@gingerall.cz>

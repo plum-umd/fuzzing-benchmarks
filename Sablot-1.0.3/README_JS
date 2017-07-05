@@ -1,0 +1,107 @@
+Sablotron XSLT Extensions Readme File
+=====================================
+
+1. Building
+----------------------------------------
+
+Extension elements and functions as defined by XSLT 1.0 are 
+implemented in Sablotron since the version 0.80. Sablotron recognizes
+the extension element <http://www.exslt.org/functions/script> as 
+suggested by exslt.org. There are some exceptions described later in 
+this document. Please note, that this feature is still supposed to be 
+EXPERIMENTAL.
+
+If you want to benefit form this feature, you have to install
+JavaScript engine from mozilla.org (SpiderMonkey). You have to do it
+even when you have Mozilla browser installed, because the binary
+browser installation doesn't include essential header files.
+
+An alternative way to get all neccessary JS files is to download and 
+install Charlie application framework (see gingerall.org).
+
+All you need to do on Sablotron side is to run the configure script 
+with --enable-javascript option. To use JS engine from Charlie
+installation, type: ./configure  --enable-javascript --enable-perlconnect
+
+If you have installed JS libraries into non-standard directories, you 
+need to set (and export) CPLUS_INCLUDE_PATH/LIBRARY_PATH to point to
+directories where the header files/lib files (e.g. libjs.so) can be found.
+
+The default name for the linked library is 'js' (-ljs switch) - if you
+need to override this value, you may set SABLOT_JSLIB environment
+variable - the configure script uses -l$(SABLOT_JSLIB) in this case.
+
+
+2. What is working
+----------------------------------------
+
+Sablotron supports JavaScript (ECMA) scripting as described in XSTL WD
+1.1. with few exceptions:
+
+- DOM functions handling namespaces (with NS in their name) are not
+  supported (throw NOT_SUPPORTED exception)
+
+- DOM model is read only (as supported, may be changed later)
+
+- XSLTContext.stringValue is not supported
+
+- Document.getElementsByTagName{NS} are not supported
+
+- Element.getElementsByTagName{NS} are not supported
+
+- DTD definition nodes are not supported
+
+
+The following summarizes what IS supported:
+
+- exslt:script element support
+
+- XSLTContext object
+
+- DOM2 acces to a processed document
+
+- type mapping between XPath and JavaScript including the XSLT
+  external object support
+
+- function-available() function
+
+- element-available() function
+
+
+3. Sample stylesheet
+----------------------------------------
+
+<?xml version='1.0'?>
+<xsl:stylesheet version='1.0'
+		xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+		xmlns:exslt='http://www.exslt.org/functions'
+		xmlns:my='http://gingerall.org/sablot/myfunc'
+		extension-element-prefixes='exslt'
+		exclude-result-prefixes='my'>
+
+  <xsl:output method='xml' indent='yes'/>
+
+  <exslt:script language='javascript' implements-prefix='my'>
+  <![CDATA[
+    
+    function getNodeNames(nodeList)
+    {
+      ret = '';
+      for (i = 0; i < nodeList.length; i++)
+      {
+        ret += nodeList[i].nodeName + " ";
+      }
+      return ret;
+    }  	  
+
+  ]]>
+  </exslt:script>
+
+
+  <xsl:template match='/'>
+    <output>
+      <xsl:value-of select='my:getNodeNames(*)'/>
+    </output>
+  </xsl:template>
+
+</xsl:stylesheet>

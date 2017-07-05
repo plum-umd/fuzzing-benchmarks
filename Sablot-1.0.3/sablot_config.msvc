@@ -1,0 +1,107 @@
+#////////////////////////////////////////////////////////////////////////////
+# $Id: sablot_config.msvc,v 1.2.2.2 2004/12/20 09:36:12 cvspavel Exp $
+#
+# Copyright (c) 2003 Rosimildo da Silva, All Rights Reserved.
+#
+# See the file COPYING for copying permission.
+#
+# MODULE DESCRIPTION: This allows the SABLOTRON compilation options
+# to be programmed.
+#
+# MODIFICATION/HISTORY:
+# $Log: sablot_config.msvc,v $
+# Revision 1.2.2.2  2004/12/20 09:36:12  cvspavel
+# *** empty log message ***
+#
+# Revision 1.2.2.1  2003/07/17 11:29:25  cvspetr
+# ''
+#
+# Revision 1.2  2003/07/16 12:29:08  cvspavel
+# ''
+#
+# Revision 1.1  2003/04/11 12:33:22  cvspavel
+# ''
+#
+#
+# Created 2003/03/23 Rosimildo da Silva, ConnectTel Inc.
+#////////////////////////////////////////////////////////////////////////////
+
+# On/Off Options..
+
+# Compile as a DLL. When this options is active, the 3rd party compoenents
+# such as EXPAT, ICONV, JS32 should be properly set.
+VC_DLL=1
+
+# Compile for DEBUG. Proper selection of the 3rd party components MUST be
+# tweaked to operate correctly.
+VC_DEBUG=1
+
+# ENABLE/DISABLE Java Script
+#ENABLE_JS=1
+#ENABLE_JS_THREADS=1
+
+# ENABLE/DISABLE ICONV 
+#ENABLE_ICONV=1
+
+# Check for memory leaks
+# CHECK_LEAKS = 1
+
+# Enable/Disable DOM extension
+# DISABLE_DOM = 1
+
+# Control Warning level and Optimization level.
+WARNING_LEVEL      = /W3
+OPTIMIZATION_LEVEL = /O2
+
+# Any extra flags for static compilation
+!ifndef VC_DLL
+STATIC_FLAGS       = /DSABLOT_STATIC=1
+!endif
+
+# FIXME: These Options are not working !!!!
+
+# SABLOT_ABORT_ON_ERROR
+
+# may be defines, in such a case no <META> tags are emitted for html 
+# output method by default
+# SABLOT_DISABLE_ADDING_META = 1
+
+# disables xslt errors if document() couldn't find the uri
+# SABLOT_DISABLE_DOC_ERRORS = 1
+
+####### xslt debugger
+ENABLE_DEBUGGER=1
+
+#######  3rd Party Components Setup
+
+# EXPAT setup.
+
+# IMPORTANT: If you want to debug, you must set the proper EXPAT libraries.
+EXPAT_ROOT   = ..\Expat
+EXPAT_INC    = $(EXPAT_ROOT)\Source\lib
+!ifdef VC_DLL
+EXPAT_LIB    = $(EXPAT_ROOT)\Libs\libexpat.lib
+EXPAT_CFLAGS =
+!else
+EXPAT_LIB    = $(EXPAT_ROOT)\StaticLibs\libexpatMT.lib
+EXPAT_CFLAGS = /DXML_STATIC
+!endif
+
+# ICONV setup
+
+!ifdef ENABLE_ICONV
+ICONV_ROOT   = ..\Iconv
+ICONV_INC    = /I$(ICONV_ROOT)\include
+ICONV_LIB    = $(ICONV_ROOT)\lib\iconv.lib
+ICONV_CFLAGS = /DHAVE_ICONV_H /DHAVE_ICONV_OPEN 
+!endif
+
+# JAVA SCRIPT Setup
+
+!ifdef ENABLE_JS
+JS_ROOT   = ..\JS
+JS_INC    = /I$(JS_ROOT)\include
+JS_LIB    = $(JS_ROOT)\lib\js32.lib
+JS_CFLAGS = /DENABLE_JS /DXP_PC
+!endif
+
