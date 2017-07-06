@@ -17,3 +17,7 @@ mupdf: COVERSET
 pdf2svg: COVERSET
 
 FFMpeg: COVERSET, and FuzzSim(n0.5.10)
+
+mplayer: COVERSET
+
+mp3gain: COVERSET
