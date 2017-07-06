@@ -5,3 +5,5 @@ Cyber Grand Challenge (CGC): Driller, Skyfire (not reported in paper), and Vuzze
 binutils: AFLFast (version not known).
 
 Sablotron-1.0.3: Skyfire
+
+libxslt-1.1.29: Skyfire
