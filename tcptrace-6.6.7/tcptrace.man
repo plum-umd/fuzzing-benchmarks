@@ -1,0 +1,403 @@
+.TH tcptrace 1 "14 Oct 2002"
+.SH NAME
+tcptrace - a TCP connection analysis tool
+.SH SYNOPSIS
+.B tcptrace [options] filename
+.SH DESCRIPTION
+tcptrace
+takes a tcpdump file specified on the command line (or from standard input)
+and produces a summarization of the connections.
+.SH "OPTIONS"
+.I Output format options
+.TP 5
+.B \-b
+brief output format
+.TP 5
+.B \-l
+long output format
+.TP 5
+.B \-r
+print rtt statistics (slower for large files)
+.TP 5
+.B \-W
+report on estimated congestion window (not generally useful)
+.TP 5
+.B \-q
+no output (if you just want modules output)
+.PP
+.I Graphing options
+.TP 5
+.B \-T
+create throughput graph[s], (average over 10 segments, see -A)
+.TP 5
+.B \-R
+create rtt sample graph[s]
+.TP 5
+.B \-S
+create time sequence graph[s]
+.TP 5
+.B \-N
+create owin graph[s] (_o_utstanding data on _N_etwork)
+.TP 5
+.B \-F
+create segsize graph[s]
+.TP 5
+.B \-G
+create ALL graphs
+.PP
+.I Output format detail options
+.TP 5
+.B \-D
+print in decimal
+.TP 5
+.B \-X
+print in hexadecimal
+.TP 5
+.B \-n
+don't resolve host or service names (much faster)
+.TP 5
+.B \-s
+use short names (list "picard.cs.ohiou.edu" as just "picard")
+.PP
+.I Connection filtering options
+.TP 5
+.B \-iN
+ignore connection N (can use multiple times)
+.TP 5
+.B \-oN[-M]
+only connection N (or N through M).  Arg can be used many times.    
+In N is a file rather than a number, read list from file instead.                            
+.TP 5
+.B \-c
+ignore non-complete connections (didn't see syn's and fin's)
+.TP 5
+.B \-BN
+first segment number to analyze (default 1)
+.TP 5
+.B \-EN
+last segment number to analyze (default last in file)
+.PP
+.I Graphing detail options
+.TP 5
+.B \-C
+produce color plot[s]
+.TP 5
+.B \-M
+produce monochrome (b/w) plot[s]
+.TP 5
+.B \-AN
+Average N segments for throughput graphs, default is 10
+.TP 5
+.B \-z
+zero axis options:
+.TP 5
+.B \-z
+plot time axis from 0 rather than wall clock time (backward compat)
+.TP 5
+.B \-zx
+plot time axis from 0 rather than wall clock time
+.TP 5
+.B \-zy
+plot sequence numbers from 0 (time sequence graphs only)
+.TP 5
+.B \-zxy
+plot both axes from 0
+.TP 5
+.B \-y
+omit the (yellow) instantaneous throughput points in tput graph
+.PP
+.I Misc options
+.TP 5
+.B \-Z
+dump raw rtt sample times to file[s]
+.TP 5
+.B \-p
+print all packet contents (can be very long)
+.TP 5
+.B \-P
+print packet contents for selected connections
+.TP 5
+.B \-t
+\'tick' off the packet numbers as a progress indication
+.TP 5
+.B \-v
+print version information and exit
+.TP 5
+.B \-w
+print various warning messages
+.TP 5
+.B \-d
+whistle while you work (enable debug, use -d -d for more output)
+.TP 5
+.B \-e
+extract contents of each TCP stream into file
+.TP 5
+.B \-h
+print help messages
+.TP 5
+.B \-u
+print minimal UDP information too
+.TP 5
+.B \-Ofile
+dump matched packets to tcpdump file 'file'
+.TP 5
+.B \+[v]
+reverse the setting of the -[v] flag (for booleans)
+.PP
+.I Extended boolean options
+(unambiguous prefixes also work)
+.TP 5
+.B \--showsacks
+show SACK blocks on time sequence graphs (default)
+.TP 5
+.B \--noshowsacks
+DON'T show SACK blocks on time sequence graphs 
+.TP 5
+.B \--showrexmit
+mark retransmits on time sequence graphs (default)
+.TP 5
+.B \--noshowrexmit
+DON'T mark retransmits on time sequence graphs 
+.TP 5
+.B \--showoutorder
+mark out-of-order on time sequence graphs (default)
+.TP 5
+.B \--noshowoutorder
+DON'T mark out-of-order on time sequence graphs 
+.TP 5
+.B \--showzerowindow
+mark zero windows on time sequence graphs (default)
+.TP 5
+.B \--noshowzerowindow
+DON'T mark zero windows on time sequence graphs 
+.TP 5
+.B \--showurg
+mark packets with URGENT bit set on the time sequence graphs (default)
+.TP 5
+.B \--noshowurg
+DON'T mark packets with URGENT bit set on the time sequence graphs
+.TP 5
+.B \--showrttdongles
+mark non-RTT-generating ACKs with special symbols
+.TP 5
+.B \--noshowrttdongles
+DON'T mark non-RTT-generating ACKs with special symbols (default)
+.TP 5
+.B \--showdupack3
+mark triple dupacks on time sequence graphs (default)
+.TP 5
+.B \--noshowdupack3
+DON'T mark triple dupacks on time sequence graphs 
+.TP 5
+.B \--showzerolensegs
+show zero length packets on time sequence graphs (default)
+.TP 5
+.B \--noshowzerolensegs
+DON'T show zero length packets on time sequence graphs 
+.TP 5
+.B \--showzwndprobes
+show zero window probe packets on time sequence graphs (default)
+.TP 5
+.B \--noshowzwndprobes
+DON'T show zero window probe packets on time sequence graphs 
+.TP 5
+.B \--showtitle
+show title on the graphs (default)
+.TP 5
+.B \--noshowtitle
+DON'T show title on the graphs 
+.TP 5
+.B \--res_addr
+resolve IP addresses into names (may be slow) (default)
+.TP 5
+.B \--nores_addr
+DON'T resolve IP addresses into names (may be slow) 
+.TP 5
+.B \--res_port
+resolve port numbers into names (default)
+.TP 5
+.B \--nores_port
+DON'T resolve port numbers into names 
+.TP 5
+.B \--checksum
+verify IP and TCP checksums 
+.TP 5
+.B \--nochecksum
+DON'T verify IP and TCP checksums (default)
+.TP 5
+.B \--dupack3_data
+count a duplicate ACK carrying data as a triple dupack 
+.TP 5
+.B \--nodupack3_data
+DON'T count a duplicate ACK carrying data as a triple dupack (default)
+.TP 5
+.B \--check_hwdups
+check for 'hardware' dups (default)
+.TP 5
+.B \--nocheck_hwdups
+DON'T check for 'hardware' dups 
+.TP 5
+.B \--warn_ooo
+print warnings when packets timestamps are out of order 
+.TP 5
+.B \--nowarn_ooo
+DON'T print warnings when packets timestamps are out of order (default)
+.TP 5
+.B \--warn_printtrunc
+print warnings when packets are too short to analyze
+.TP 5
+.B \--nowarn_printtrunc
+DON'T print warnings when packets are too short to analyze (default)
+.TP 5
+.B \--warn_printbadmbz
+print warnings when MustBeZero TCP fields are NOT 0 
+.TP 5
+.B \--nowarn_printbadmbz
+DON'T print warnings when MustBeZero TCP fields are NOT 0 (default)
+.TP 5
+.B \--warn_printhwdups
+print warnings for hardware duplicates 
+.TP 5
+.B \--nowarn_printhwdups
+DON'T print warnings for hardware duplicates (default)
+.TP 5
+.B \--warn_printbadcsum
+print warnings when packets with bad checksums 
+.TP 5
+.B \--nowarn_printbadcsum
+DON'T print warnings when packets with bad checksums (default)
+.TP 5
+.B \--warn_printbad_syn_fin_seq
+print warnings when SYNs or FINs rexmitted with different sequence numbers 
+.TP 5
+.B \--nowarn_printbad_syn_fin_seq
+DON'T print warnings when SYNs or FINs rexmitted with different sequence numbers (default)
+.TP 5
+.B \--dump_packet_data
+print all packets AND dump the TCP/UDP data
+.TP 5
+.B \--nodump_packet_data
+DON'T print all packets AND dump the TCP/UDP data (default)
+.TP 5
+.B \--continuous
+run continuously and don't provide a summary 
+.TP 5
+.B \--nocontinuous
+DON'T run continuously and don't provide a summary (default)
+.TP 5
+.B \--print_seq_zero
+print sequence numbers as offset from initial sequence number 
+.TP 5
+.B \--noprint_seq_zero
+DON'T print sequence numbers as offset from initial sequence number (default)
+.TP 5
+.B \--limit_conn_num
+limit the maximum number of connections kept at a time in real-time mode 
+.TP 5
+.B \--nolimit_conn_num
+DON'T limit the maximum number of connections kept at a time in real-time mode (default)
+.TP 5
+.B \--xplot_all_files
+display all generated xplot files at the end 
+.TP 5
+.B \--noxplot_all_files
+DON'T display all generated xplot files at the end (default)
+.TP 5
+.B \--ns_hdrs
+assume that ns has the useHeaders_flag true (uses IP+TCP headers) (default)
+.TP 5
+.B \--nons_hdrs
+DON'T assume that ns has the useHeaders_flag true (uses IP+TCP headers)
+.TP 5
+.B \--csv
+display the long output as comma separated values
+.TP 5
+.B \--nocsv
+DON'T display the long output as comma separated values (default)
+.TP 5
+.B \--tsv
+display the long output as tab separated values
+.TP 5
+.B \--notsv
+DON'T display the long output as tab separated values (default)
+.PP
+.I Extended variable options
+(unambiguous prefixes also work)
+.TP 5
+.B \--output_dir=``STR''
+directory where all output files are placed (default: '<NULL>')
+.TP 5
+.B \--output_prefix=``STR''
+prefix all output files with this string (default: '<NULL>')
+.TP 5
+.B \--xplot_title_prefix=``STR''
+prefix to place in the titles of all xplot files (default: '<NULL>')
+.TP 5
+.B \--update_interval=``STR''
+time interval for updates in real-time mode (default: '<NULL>')
+.TP 5
+.B \--max_conn_num=``STR''
+maximum number of connections to keep at a time in real-time mode (default: '<NULL>')
+.TP 5
+.B \--remove_live_conn_interval=``STR''
+idle time after which an open connection is removed in real-time mode (default: '<NULL>')
+.TP 5
+.B \--remove_closed_conn_interval=``STR''
+time interval after which a closed connection is removed in real-time mode (default: '<NULL>')
+.TP 5
+.B \--xplot_args=``STR''
+arguments to pass to xplot, if we are calling xplot from here (default: '<NULL>')
+.TP 5
+.B \--sv=``STR''
+separator to use for long output with <STR>-separated-values (default: '<NULL>')
+.PP
+.I Included Modules
+.TP 5
+  http             Http analysis package
+.TP 5  
+  tcplib           TCPLib analysis package
+.TP 5  
+  traffic          traffic analysis package
+.TP 5  
+  slice            traffic efficiency data by time slices
+.TP 5  
+  rttgraph         round trip time analysis graphs
+.TP 5  
+  collie           connection summary package
+.TP 5  
+  realtime         example real-time package
+.PP  
+For module-specific options, please use `tcptrace -hxargs`
+
+.I Filter Variables:
+.PP
+Please use 'tcptrace -hfilter' for the complete listing of filter variables.
+
+.I Filter Syntax:
+.PP
+Please use 'tcptrace -hfilter' for filter syntax.
+
+.PP
+.SH ENVIRONMENT
+Options are first read from the file $HOME/.tcptracerc
+(if it exists), and then from the environment variable TCPTRACEOPTS
+(if it exists), and finally from the command line.
+.SH AUTHOR
+Shawn Ostermann (ostermann@cs.ohiou.edu)
+.SH CREDITS
+Thanks to Mark Foster (mafoster@george.arc.nasa.gov) for writing this manual
+page. Thanks to Avinash Lakhiani (alakhian@irg.cs.ohiou.edu) for updating it.
+.SH FILES
+Dump File Names
+.br
+Trailing (unrecognized) arguments are taken to be one or more filenames.
+The files can be compressed, see compress.h for configuration.
+If the dump file name is 'stdin', then we read from standard input
+rather than from a file.
+.SH SEE ALSO
+.TP 8
+.B xplot
+an interactive tool for examining .xpl files output by tcptrace.
+.TP 8
+.B jPlot
+a Java version of xplot.

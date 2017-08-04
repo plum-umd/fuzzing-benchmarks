@@ -1,0 +1,6 @@
+1 arg remaining, starting with 'reno.epeek.gz'
+
+996 packets seen, 996 TCP packets traced
+trace file elapsed time: 0:00:08.000000
+TCP connection info:
+  1: 132.235.3.145:3999 - 132.235.3.157:1031 (a2b)  261>  735<

@@ -1,0 +1,177 @@
+				History
+			(also see the note at the end)
+
+* 2.5.8 @ 2012-03-09
+  Codebase is now statically checked using splint, with stronger type safety.
+
+* 2.5.7 @ 2012-03-08
+  Fix CVE-2009-5018, filename buffer overflow bug detected by Gentoo security.
+
+* 2.5.6 @ 2012-03-07
+  Fix patch for building with png-1.5, by Thomas Klausner <tk@giga.or.at>.
+  Blink production for visual checking in the regression-test suite.
+
+* 2.5.5 @ 2012-01-28
+  Added -m (preserve file modification time) option by Steve Ward.
+  web2png is checked with pylint.
+
+* 2.5.4 @ 2010-11-24
+  Fix some web2png bugs revealed by pychecker.
+
+* 2.5.3 @ 2010-10-20
+  PNGs with transparency have been OK for web use since 2006.
+  The gif2png -w switch no longer filters out GIFs with transparency,
+  and the gif2png -t switch to enable them to pass is gone. Accordingly
+  the -t switch of web2png is also gone.
+
+* 2.5.2 @ 2009-11-11
+  Apply C style tweaks from Glenn Randers-Pehrson, eliminating
+  some deprecated API calls.
+
+* 2.5.1 @ 2003-12-29 
+  Make RPMs buildable by non-root user.
+
+* 2.5.0 @ 2003-12-26 
+  Updated RPM generation and packaging for Freshmeat release.
+
+* 2.4.7 @ 2003-12-26 
+  Fixed man page paths in RPM spec.
+  Fixed a bug in manual-page rendering.
+
+* 2.4.6 @ 2002-07-30 
+  Document masters converted to DocBook.
+
+* 2.4.5 @ 2002-06-26 
+  Work around an apparent automake bug that produced bad SRPMs.
+  Man page typo fix.
+
+* 2.4.4 @ 2002-04-28
+  Glen Randers-Pehrson's configure.in tweaks to avoid testing
+  for a deprecated function.
+
+* 2.4.3 @ 2002-01-30 
+  Typo fix in the web2png script.
+  Document -f, restore -1 for backwards compatibility.
+
+* 2.4.2 @ 2001-03-39
+  Mac porting fixes from Paul Matzke <pmatzke@macline.com>.
+
+* 2.4.1 @ 2001-02-26
+  Update to use the post-0.8.9 initialization code, so it
+  will play nice with shared libraries.
+
+* 2.4.0 @ 2001-12-23
+  Added -t option to enable conversion of transparent images.
+
+* 2.3.3 @ 2000-09-09
+  Handle malformed (zero-length) GIF comments without coredumping.
+  This was Debian bug #59830.
+
+* 2.3.2 @ 2000-02-26
+  Bug fix for aspect-ratio handling (Glenn Randers-Pehrson
+  <glennrp@home.com>).
+
+* 2.3.1 @ 2000-02-26
+  No more direct assignments of the PNG info structure members;
+  it's all done through the API now.
+
+* 2.3.0 @ 2000-01-15
+  Cosmetic cleanup for stable release.
+
+* 2.2.5 @ 1999-12-08
+  Deal gracefully with files that have leading numerics in the name.
+  Bernhard Reiter's fix to use relative pathnames.
+
+* 2.2.4 @ 1999-11-30
+  On -O, set maximum compression when writing the conversion.
+  New -g option to write a gamma chunk by Glenn Randers-Pehrson.
+  Configure option --with-png to set libpng header/library location.
+
+* 2.2.3 @ 1999-11-15
+  Corrected the warning in the README and on the web page.
+
+* 2.2.2 @ 1999-11-15
+  README: Added a warning about malfunctions under RH 6.1.
+  gif2png.c: Added some explanatory comments.
+  web2png: Added Python version check.
+
+* 2.2.1 @ 1999-11-14
+  License changed (with Alexander Lehman's and David Koblas's 
+  permission) to the libpng/zlib license.
+  Option-processing cleanup.
+
+* 2.2.0 @ 1999-11-11
+  Simpler DJGPP machinery if you have long file names.
+  discard optional preceding # on gif2png -b option value.
+  Fix to RCS machinery in web2png.
+
+* 2.1.3 @ 1999-11-09
+  Added -b option to gif2png for painting transparent pixels 
+  with a specified background color.
+
+* 2.1.2 @ 1999-11-08
+  64-bit cleanliness patch for gif2png from Jesse Perry.
+
+* 2.1.1 @ 1999-11-07
+  Fixed an option-processing bug in web2png.
+
+* 2.0.3 @ 1999-11-07
+  Added -a option to web2png.
+  Fix references in .inc/.css/.js files.
+
+* 2.0.2 @ 199-11-05
+  John Hascall's patch for filtermode.
+
+* 2.0.1 @ 1999-11-01
+  gif2png man page now warns about potential browser problems.
+  Use env in web2png's #! for portability.
+
+* 2.0.0 @ 1999-10-31
+  Greg Roelofs sent a couple of minor fixes.  This version
+  is ready for Burn All GIFs Day.
+
+* 1.2.2 @ 1999-10-28
+  Fixed a bug in configure that was preventing it from finding
+  the png library properly.
+
+* 1.2.1 @ 1999-10-27
+  Fixed a brown-paper-bag bug -- web2png ignored directory arguments.
+
+* 1.2.0 @ 1999-20-24
+  Added capability to web2png to handle BACKGROUND tags and http URLs.
+  Thanks to Rob Reid <reid@astro.utoronto.ca>.
+
+* 1.1.1 @ 1999-10-14
+  Fixed bug in converting grayscale images which are smaller when
+  paletted (unusual situation).  Thanks to Borek Lupomesky
+  <Borek.Lupomesky@ujep.cz> for sending us the image that revealed
+  this problem.
+
+* 1.1.0 @ 1999-10-07
+  Added -w (web-probe) option for use with web2png and other script.
+  Added 0.99 release of web2png script.
+
+* 1.0.0 @ 1999-09-25
+  Dramatically improved manual page.
+  Added -O option, replaced -q with -v
+  Fixed a bug affecting multiple conversions after a grayscale image.
+
+* 0.99 @ 1999-09-20
+  -d option now actually deletes the source GIF(s).
+  Release packaging using automake/autoconf
+
+This program was written by a German university student named Alexander
+Lehmann <alex@hal.rhein-main.de> in 1995. He evolved it to a beta
+version 0.6 and then dropped off the face of the net.  In Fall 1999,
+after the program had been stable and in production use for four years, 
+Greg Roelofs <newt@pobox.com> added some minor features and released 0.7.
+
+A short time later, with Greg's consent, I took over maintaining
+gif2png in order to give it a proper manual page and release
+packaging. Alexander Lehmann is OK with this and has even approved
+a change in the license terms to use the libpng/zlib license.
+
+This code was totally stable between 2004 and 2009, so it lay dormant
+in a bunch of RCS files for six years before being converted to a more
+modern VCS.  If you really care about the release dates for all the
+ancient versions, you can deduce them by mining the tagged versions.

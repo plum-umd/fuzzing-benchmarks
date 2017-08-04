@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC 
+   "-//OASIS//DTD DocBook XML V4.2//EN"
+   "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<refentry id='web2png.1'>
+<refmeta>
+<refentrytitle>web2png</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class='date'>6 October 1999</refmiscinfo>
+<refmiscinfo class='source'>web2png</refmiscinfo>
+<refmiscinfo class='product'>web2png</refmiscinfo>
+<refmiscinfo class='manual'>Graphics</refmiscinfo>
+</refmeta>
+<refnamediv id='name'>
+<refname>web2png</refname>
+<refpurpose>convert a web tree from using GIFs to using PNGs</refpurpose>
+</refnamediv>
+<refsynopsisdiv id='synopsis'>
+
+<cmdsynopsis>
+  <!--  web2png  [ \-adnrtv ]   [ directory ...  ]  -->
+  <command>web2png</command>  <arg choice='opt'>-adnrtv </arg>
+  <arg choice='opt' rep='repeat'><replaceable>directory</replaceable></arg>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1 id='description'><title>DESCRIPTION</title>
+<para>Web2png is a front end for gif2png(1) that automatically converts
+entire web page hierarchies from using GIFs to using PNGs.  It does
+image conversion and patches IMG SRC references in web pages.</para>
+
+<para>The arguments to <command>web2png</command> must be directories;
+if none are given, the current directory is assumed.</para>
+
+<para>In each directory, <command>web2png</command> tries to convert
+every GIF to a PNG.  It leaves alone GIFs that have multiple images,
+because these will not display properly in all current browsers.  It
+also does not reconvert GIFs that already have corresponding PNGs
+(e.g. the same name except for the .gif file extension).  The original
+GIFs are left in place.</para>
+
+<para>Web2png tracks successful conversions.  It then looks at each HTML,
+secure HTML, HTML inclusion, PHP page, JavaScript program or Cascading
+Style Sheet under the argument directories (extensions html, shtml,
+.inc, .php, .js, .css). In these pages, it fixes each reference to
+each successful converted GIF to point at the PNG.  References in
+relative HREF and BACKGROUND tags are recognized by filename and fixed
+(any base directory declared by a BASE tag will be be prepended to the
+relative URL).  References that are HTTP URLs are matched against the
+list of convertible GIFs by basename; if there is such a match, the
+contents of the URL is retrieved and compared to the convertible GIF.
+If both basename and data match, the HTTP reference is fixed.
+ 
+If the pages are under RCS version control, they're checked out for
+modification before being altered; otherwise, a copy of the original
+of each modified web page is left in the same directory, with the
+additional extension .bak.</para>
+
+<para>The following options change the behavior of the program:</para>
+
+<variablelist remap='TP'>
+<varlistentry>
+<term>
+  <option>-a</option>
+</term>
+<listitem>
+<para>Convert all GIF files, including those with multiple images.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-d</option>
+</term>
+<listitem>
+<para>Delete originals.  Removes all GIFs with corresponding PNGs, and all
+.bak files.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-n</option>
+</term>
+<listitem>
+<para>Make no changes.  With this option, <command>web2png</command> reports on what needs to
+be done (and on GIFs that have multiple images),
+but neither converts GIFs nor touches web pages.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-r</option>
+</term>
+<listitem>
+<para>Reverse.  Restore all HTML/SHTML/PHP pages from the .bak files created
+by a previous run (or, if the files were under version control, revert
+them).  Remove PNGs with corresponding GIFs.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-v</option>
+</term>
+<listitem>
+<para>Verbose.  Utter more trace information about the conversion
+process.  Web2png can be run on a directory that has already been
+partly converted by previous runs; it will do the minimum necessary
+amount of work.  The changes it makes will be fully reversible with
+<option>-r</option> until you run it in <option>-d</option> mode.
+Web2png is written in Python.  Python 1.5.2 or better must be
+installed and accessible on your system in order for
+<command>web2png</command> to run.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1 id='note'><title>NOTE</title>
+<para>Sometimes it's possible to convert transparent GIFs without altering
+the appearance of the page, by knowing from context that they will
+always place within an area of fixed and solid color.  Web2png can't 
+deduce when this will be, so it doesn't try; but it may be useful 
+to apply gif2png with the -b option by hand.</para>
+
+</refsect1>
+
+<refsect1 id='known_problems'><title>KNOWN PROBLEMS</title>
+<para>The algorithm for fixing HTTP URLs is not foolproof. It could be
+confused into incorrectly patching an HTTP URL reference to a GIF into
+an invalid reference to a PNG if the GIF matches a local target GIF by
+both basename and binary content, but actually lives on another host.</para>
+
+<para>This program does not automatically convert CGIs; you'll have to do
+that by hand.  Other dynamic-content methods (such as server-side
+inclusions) may also require hand-hacking.</para>
+
+<para>The program cannot tell converted from preexisting PNGs; if you have
+PNGs with the same stem name as corresponding GIFs but carrying
+different information, the <option>-r</option> mode will clobber them.</para>
+
+</refsect1>
+
+<refsect1 id='see_also'><title>SEE ALSO</title>
+<para>gif2png(1)</para>
+
+</refsect1>
+
+<refsect1 id='authors'><title>AUTHORS</title>
+<para>Eric S. Raymond &lt;esr@thyrsus.com&gt;, October 1999.</para>
+<para>Slightly modified for Debian by Aaron Isotton &lt;aaron@isotton.com&gt;.</para>
+</refsect1>
+</refentry>
+

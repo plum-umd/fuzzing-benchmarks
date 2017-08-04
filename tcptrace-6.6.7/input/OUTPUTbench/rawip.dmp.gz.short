@@ -1,0 +1,6 @@
+1 arg remaining, starting with 'rawip.dmp.gz'
+
+14 packets seen, 14 TCP packets traced
+trace file elapsed time: 0:00:16.800000
+TCP connection info:
+  1: 208.200.110.46:1351 - 207.110.0.206:80 (a2b)    7>    7<

@@ -1,0 +1,134 @@
+.TH "MPG321" "1" 
+.SH "NAME" 
+mpg321 \(em Simple and lightweight command line MP3 player 
+.SH "SYNOPSIS" 
+.PP 
+\fBmpg321 [options] file(s) | URL(s) | \-\fR 
+.SH "DESCRIPTION" 
+.PP 
+\fBmpg321\fR is a free command-line mp3 player, 
+which uses the mad audio decoding library. mpg321 was written to be a  
+drop-in replacement for the (by-then) non-free \fBmpg123\fR player. 
+Some functions remain unimplemented, but mpg321 should function as a 
+basic drop-in replacement for \fBmpg123\fR front-ends such as  
+\fBgqmpeg\fR, and those programs which use mpg123 to decode 
+mp3 files (like \fBgtoaster\fR, and other CD-recording  
+software). 
+.SH "OPTIONS" 
+.IP "\fB-o devicetype\fP         " 10 
+Set the output device type to \fBdevicetype\fP.  
+\fBdevicetype\fP can be one of: 
+.IP "" 10 
+oss \- the Linux Open Sound System; 
+.IP "" 10 
+sun \- the Sun audio system; 
+.IP "" 10 
+alsa \- the Advanced Linux Sound Architecture; 
+.IP "" 10 
+alsa09 \- the Advanced Linux Sound Architecture, version 0.9; 
+.IP "" 10 
+esd \- the Enlightened Sound Daemon; 
+.IP "" 10 
+arts \- the analog real-time synthesiser  
+.IP "" 10 
+See \fB-a device\fP, below. 
+.IP "\fB-a device\fP, \fB\-\-audiodevice device\fP" 10 
+Use \fBdevice\fP for audio-out instead of the default device,  
+depending on the output device you've chosen (via \fB-o devicetype\fP). 
+By default this is the native sound device. 
+Generally this is the device for \fBdevicetype\fP  
+(or the default system device) to use for output (i.e. \fB/dev/sound/dsp1\fP). 
+ 
+.IP "" 10 
+This option has no effect with \fB-o arts\fP. 
+.IP "" 10 
+For \fB-o esd\fP, specify the host on which esd is running; defaults to localhost.  
+.IP "" 10 
+For \fB-o alsa\fP, specify audio device using the hw:x,y syntax, where x and y are numbers, default is hw:0,0. 
+For example, if there is only one device installed, in most cases, the device should be named hw:0,0.  
+When there is only one device, the device should always have the same name and numbers. 
+.IP "\fB-g N\fP, \fB\-\-gain N\fP         " 10 
+Set gain (volume) to N (1-100). 
+.IP "\fB-k N\fP, \fB\-\-skip N\fP         " 10 
+Skip N frames into the file being played. 
+.IP "\fB-n N\fP, \fB\-\-frames N\fP         " 10 
+Decode only the first N frames of the stream. By default, the entire stream is decoded. 
+.IP "\fB-@ list\fP, \fB\-\-list list\fP         " 10 
+Use the file list for a playlist. The list should be in a format of filenames followed by a line feed. Multiple \-@ or \-\-list specifiers will be ignored; only the last \-@ or \-\-list option will be used. The playlist is concatenated with filenames specified on the command-line to produce one master playlist. A filename of '\-' will cause standard input to be read as a playlist. 
+ 
+.IP "\fB-z\fP, \fB\-\-shuffle\fP" 10 
+Shuffle playlists and files specified on the command-line. Produces a randomly-sorted playlist which is then played through once. 
+.IP "\fB-Z\fP, \fB\-\-random\fP" 10 
+Randomise playlists and files specified on the command-line. Files are played through, choosing at random; this means that random files will be played for as long as mpg321 is running. 
+.IP "\fB-v\fP, \fB\-\-verbose\fP         " 10 
+Be more verbose. Show current byte, bytes remaining, time, and time remaining, as well as more information about the mp3 file. 
+.IP "\fB-s\fP, \fB\-\-stdout\fP         " 10 
+Use standard output instead of an audio device for output. Output is in 16-bit PCM, little-endian. 
+.IP "\fB-w N\fP, \fB\-\-wav N\fP         " 10 
+Write to wav file N instead of using the audio device. This option will be preferred if \-\-cdr or \-\-au are specified too. Specifying '\-' for N will cause the file to be written to standard output. 
+.IP "\fB\-\-cdr N\fP         " 10 
+Write to cdr file N instead of using the audio device. Specifying '\-' for N will cause the file to be written to standard output. 
+.IP "\fB\-\-au N\fP         " 10 
+Write to au file N instead of using the audio device. Specifying '\-' for N will cause the file to be written to standard output. 
+.IP "\fB-t\fP, \fB\-\-test\fP         " 10 
+Test mode; do no output at all. 
+ 
+.IP "\fB-q\fP, \fB\-\-quiet\fP         " 10 
+Quiet mode; suppress output of mpg123 boilerplate and file and song name. 
+ 
+.IP "\fB-B\fP         " 10 
+Read recursively the given directories. Allows you to define only the directory or directories and then mpg321 recursively plays all the songs. 
+ 
+.IP "\fB-F\fP         " 10 
+Turn on FFT analysis on PCM data. Remote mode only 
+ 
+.IP "\fB-S\fP         " 10 
+Report song to AudioScrobbler (last.fm). 
+ 
+.IP "\fB-x\fP         " 10 
+Set xterm title setting 
+ 
+.IP "\fB-b\fP         " 10 
+Number of decoded frames for the output buffer. 
+ 
+.IP "\fB-K\fP         " 10 
+Enable Basic Keys. 
+ 
+.IP "\fB-R\fP         " 10 
+"Remote control" mode. Useful for front-ends. Allows seeking and pausing of mp3 files. See README.remote (in /usr/share/doc/mpg321 on Debian and some other systems.) 
+ 
+.IP "\fB-3\fP, \fB\-\-restart\fP         " 10 
+Restart "remote shell". Used only when in "Remote control" mode. 
+.IP "\fB\-\-stereo\fP         " 10 
+Force stereo output: duplicates mono stream on second output channel. Useful for output for devices that don't understand mono, such as some CD players. 
+ 
+.IP "\fB\-\-aggressive\fP         " 10 
+Aggressive mode; try to get higher priority on the system. Needs root permissions. 
+ 
+.IP "\fB\-\-skip-printing-frames=N\fP         " 10 
+Skip N frames between printing a frame status update, in both Remote Control (\-R) and verbose (\-v) mode. Can help CPU utilisation on slower machines. This is an mpg321-specific option. 
+ 
+.IP "\fB-l N\fP, \fB\-\-loop N\fP         " 10 
+Loop song or playlist N times.If N is 0 means infinite times. 
+.IP "\fB\-\-help\fP, \fB\-\-longhelp\fP         " 10 
+Show summary of options. 
+.IP "\fB-V\fP, \fB\-\-version\fP         " 10 
+Show version of program. 
+.SH "Basic keys: " 
+.IP "\fB * or / \fP  " 10 
+Increase or decrease volume. 
+.IP "\fB n \fP  " 10 
+Skip song. 
+.IP "\fB m \fP  " 10 
+Mute/unmute. 
+.SH "AUTHOR" 
+.PP 
+This manual page was written by Joe Drew <drew@debian.org>. 
+.PP 
+Maintained by Nanakos Chrysostomos <nanakos@wired-net.gr>. 
+.PP 
+Permission is granted to copy, distribute and/or modify 
+this document under the terms of the BSD license. 
+On Debian systems, this can be found in  
+\fB/usr/share/common-licenses/BSD\fP. 
+.\" created by instant / docbook-to-man, Sun 19 Feb 2012, 12:56 

@@ -1,0 +1,48 @@
+dnl Autoconfigure input file for gif2png
+dnl Eric S. Raymond <esr@thyrsus.com>
+dnl
+dnl Process this file with autoconf to produce a configure script.
+dnl
+
+AC_INIT(gif2png.h)		dnl A distinctive file to look for in srcdir. 
+
+AM_INIT_AUTOMAKE(gif2png, 2.5.8)
+AM_CONFIG_HEADER(config.h)
+
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_CPP			dnl Later checks need this.
+AC_PROG_CC_C_O
+AC_HEADER_STDC
+
+AC_ARG_WITH(png,[  --with-png=DIR             location of png lib/inc],
+		[LDFLAGS="-L${withval} ${LDFLAGS}"
+		CFLAGS="-I${withval} ${CFLAGS}"])
+  
+AC_ARG_WITH(png-lib,[  --with-png-lib=DIR         location of png library],
+		[LDFLAGS="-L${withval} ${LDFLAGS}"])
+                
+AC_ARG_WITH(png-inc,[  --with-png-inc=DIR         location of the libpng include files],
+                [CFLAGS="-I${withval} ${CFLAGS}"])
+
+AC_CHECK_LIB(z, deflate)
+AC_CHECK_LIB(m, pow)
+AC_CHECK_LIB(png, png_get_io_ptr, , , $LIBS)
+
+if test "$ac_cv_lib_png_png_get_io_ptr" = "no"
+then
+    AC_ERROR([PNG library is missing! Please get it.])
+fi
+if test "$ac_cv_lib_z_deflate" = "no"
+then
+    AC_ERROR([ZLIB library is missing! Please get it.])
+fi
+
+AC_OUTPUT(Makefile)
+
+dnl Local Variables:
+dnl comment-start: "dnl "
+dnl comment-end: ""
+dnl comment-start-skip: "\\bdnl\\b\\s *"
+dnl compile-command: "make configure config.h.in"
+dnl End:

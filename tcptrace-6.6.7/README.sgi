@@ -1,0 +1,56 @@
+[I got the following very useful note from a user at SGI with some notes
+ on compiler problems.  As nobody has ever mentioned these problems before,
+ I suspect that they are peculiar to the SGI C compiler.  Perhaps these
+ notes will be helpful to others...
+
+ sdo - Fri Sep 18, 1998]
+
+
+Date: Mon, 14 Sep 1998 22:07:02 -0300
+From: Alejandro Saez <xxxxxxxxxxxx>
+Organization: Silicon Chile
+To: ostermann@cs.ohiou.edu
+Subject: IRIX problem solved
+
+Hi,
+
+[...]
+
+I compiled the program on a IRIX 6.2 SGI workstation. First of all,
+the SGI cc compiler didn't work basically because it doesn't accept
+(unlike gcc) unterminated strings for formated output functions (it
+forces you to have a long line) so this was a problem for the
+postscript generation bit. I installed gcc, and here a new problem
+arose. Some of your files (mfiles.c, tcptrace.c and plotter.c),
+includes and uses the stdarg.h include file. This file uses a SGI
+compiler built-in macro called __builtin_alignof, so when using gcc,
+ld would complain about not being able to resolve that symbol (makes
+sense, it's provided by cc). I was able to solve it by making a local
+copy of stdarg.h and changing ocurences of __builtin_alignof by
+__alignof__ which is a gcc extension. Of course I had to change
+#include <stdarg.h> for #include "stdarg.h" but the nice thing is it
+worked (well, it compiled and run with no arguments). I though you
+would like to hear about this. Hope comes in handy.
+
+
+------------------------------------------------------------------------
+Alejandro Saez
+Software Engineer
+Silicon Chile S.A.
+
+------------------------------------------------------------
+Mon Sep 21, 1998
+
+
+[...] After I got your e-mail I did a full search and realized that
+the gcc distribution included the stdarg.h file (they were pretty
+hidden too, and undocumented ) . Funny since I've compiled with gcc on
+other SGI boxes and always used SGI's includes, and it made sense,
+they are the STANDARD libraries, it never ocurred to me that I needed
+two pairs of standard library headers, until now that this one include
+depended on a compiler internal.  So maybe is not a good idea to
+include the stuff in the notes, or at least say that it's only
+necessary if you are using the gcc compiler and SGI's header files,
+which of course doesn't make much sense.
+
+

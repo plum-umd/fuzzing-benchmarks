@@ -1,0 +1,7 @@
+1 arg remaining, starting with 'hardware_dups.dmp.gz'
+
+1458 packets seen, 1458 TCP packets traced
+trace file elapsed time: 0:00:03.710329
+TCP connection info:
+  1: 144.16.64.215:20 - 144.16.64.141:1644 (a2b)  486>  972<  (complete)
+    ** Warning, b2a: detected 486 hardware duplicate(s) (same seq # and IP ID)

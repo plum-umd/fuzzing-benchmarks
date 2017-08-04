@@ -1,0 +1,36 @@
+
+# Makefile for gif2png with Borland C++
+
+PNGLIB=libpng-0.81
+ZLIB=zlib-0.95
+
+CC=bcc
+WILDARGS=d:/bc45/lib/16bit/wildargs.obj
+
+
+LIBS=$(PNGLIB)/libpng.lib $(ZLIB)/zlib.lib
+INCLUDE=-I$(PNGLIB) -I$(ZLIB)
+
+CFLAGS=$(INCLUDE) -O2 -Z -ml -DTMPFILE
+LDFLAGS=-ml
+
+OBJS=gif2png.obj gifread.obj version.obj 437_l1.obj memory.obj
+
+all: gif2png.exe
+
+gif2png.exe: $(OBJS) $(LIBS)
+	echo $(OBJS) >link.opt
+	echo $(LIBS) >>link.opt
+	echo $(WILDARGS) >>link.opt
+	$(CC) $(LDFLAGS) -e$@ @link.opt
+	del link.opt
+
+gif2png.obj: gif2png.c gif2png.h
+gifread.obj: gifread.c gif2png.h
+memory.obj: memory.c gif2png.h
+
+version.obj: version.c
+	$(CC) $(CFLAGS) -DPNGLIB="$(PNGLIB)" -DZLIB="$(ZLIB)" -c version.c
+
+clean:
+	rm -f gif2png *.o

@@ -1,0 +1,118 @@
+ABOUT MPG321
+------------
+
+mpg321 is a Free replacement for mpg123, a very popular command-line mp3
+player. mpg123 is used for frontends, as an mp3 player and as an mp3 to
+wave file decoder (primarily for use with CD-recording software.) In all 
+of these capacities, mpg321 can be used as a drop-in replacement for
+mpg123.
+
+mpg321 is a project conceived and written by Joe Drew <hoserhead@woot.net>.
+It uses code from the MAD distribution by Rob Leslie; XMMS; and plaympeg
+from the SMPEG distribution. mpg321 is licensed under the GNU General
+Public License version 2, as documented in the 'COPYING' file.
+
+WHY MPG321?
+-----------
+
+mpg123 is very popular because of its relative simplicity and its general
+facility. It is very good at what it does. It is, however, under a non-free
+license: you can't incorporate its code into your own without getting 
+special permission, and commercial entities also need special permission
+just to use it.
+
+Being a Free Software advocate, I saw a deficiency in the dependency many
+people had on mpg123. Therefore, I created mpg321, and as more features
+of mpg123 are implemented, it becomes less and less likely that anyone
+will need mpg123 for anything any more.
+
+INSTALLING MPG321
+-----------------
+
+Please read the document 'INSTALL' to find mpg321's dependencies and
+configuration, compilation and installation instructions.
+
+mpg321 has been tested on Debian GNU/Linux (x86), as well as Sun Solaris
+(UltraSparc). It is also available from several BSD vendors, and may be 
+included in other Linux distributions. Any problems encountered on any 
+system, though, should be reported to the author.
+
+GETTING INVOLVED/INFORMED
+-------------------------
+
+If you like mpg321, please donate to the Electronic Frontier Foundation (EFF).
+They help ensure that software for any purpose can continue to be written 
+legally. Find out more information at http://www.eff.org .
+
+To be informed of any new releases of mpg321, please subscribe to the
+mpg321-announce mailing list: send an email with 'subscribe' in the body or 
+subject to mpg321-announce-request@lists.sourceforge.net, or visit
+http://lists.sourceforge.net/lists/listinfo/mpg321-announce .
+
+There are a number of tasks that are still on-going with the develompent
+of mpg321. If you're interested, please read the TODO and HACKING files.
+Also, always feel free to e-mail me, Joe Drew <hoserhead@woot.net>.
+
+There is also a sourceforge project for mpg321:
+http://sourceforge.net/projects/mpg321
+
+HISTORY OF MPG321
+-----------------
+
+`mpg321' started long ago (sometime in 1999) as a wrapper script for 
+the mpg123 frontend of the media player FreeAmp. It was contributed 
+to the Debian package of FreeAmp, and for several revisions was 
+included as 'mpg123.freeamp.' (This script has since been removed.)
+
+mpg123.freeamp didn't work very well, and was limited by FreeAmp's 
+implementation of the mpg123 frontend, but it worked for what I needed
+it to do: play music from the command-line without needing mpg123
+installed.
+
+Early in 2001, I decided that a real alternative to mpg123 was needed,
+and started looking around for a good mp3 decoding library. I came
+across SMPEG, which was written by Loki Software, and based on SDL.
+It was very simple programatically and handled most everything that
+was needed. mpg321 was born, and it did all the simple things that
+were required of it.
+
+SMPEG, however, required SDL for output, which in turn required many
+other libraries. This was a very sub-optimal arrangement. So, in 2001,
+I performed what amounted to almost a full rewrite of mpg321, porting
+it to Rob Leslie's MAD MPEG audio decoder library. I chose MAD because
+it provides very high-quality output, and also because it operates entirely 
+with fixed point (integer) instructions. 
+
+At the same time, I also switched to the Ogg Vorbis (Xiphophorous) project
+libao for all audio output.
+
+That's pretty much where mpg321 stands right now. There are still
+unimplemented features, and undoubtedly still bugs. But it works well
+for many people, and it liberates one more dependency people had on
+non-Free software. That's worth it, to me.
+
+TROUBLESHOOTING
+---------------
+
+1) If mpg321 gives:
+	"libao - OSS cannot set rate to 44100" or/and
+	"Can't find a suitable libao driver. (Is device in use?)"
+   a) Try apt-get install libsamplerate0
+   b) Is alsa's OSS emulation loaded? Try: 
+   	"apt-get install alsa-oss"
+   	"modprobe snd_pcm_oss"
+	"modprobe snd_mixer_oss" as root.
+
+2) mpg321 has one resource, allowTitleOps, that enables or disables
+   special operations which mpg321 relies on. If any of these resources are
+   set(or defaults) to false mpg321 may hang. The resources corresponds to mpg321
+   options as:
+
+   allowTitleOps:
+   	--title
+   
+   To set this resource value persistenly you can add the following to either your
+   local ~/.Xdefaults file, or to system-wide resource file like
+   /etc/X11/app-defaults/XTerm:
+
+   *VT100.allowTitleOps: true

@@ -1,0 +1,654 @@
+3.2.2 - Late 1996
+  added better checking for looking too far into truncated
+    packets
+
+3.2.3 - Thu Jan 23, 1997
+  added a lot more truncation checking!
+
+3.2.4 - Tue Feb  4, 1997
+  changed plotter.c:HostLetter(ix)
+	to support unlimited (26**8) different endpoints (for mallman)
+  fixes from Bill Fenner, thanks
+	fixed bug in va_start/va_end in DoPlot.
+	fixed bug with temporary colors not being done correctly
+		when using text.  Caused by Changes to xplot at last
+		version and I didn't catch it
+3.2.5 - Wed Feb  5, 1997
+  fixed small "off by one" error introduced by the LAST fix
+3.2.6 - Thu Feb 13, 1997
+  fixed small bug in etherpeek reading.  slicelength stored as "0" when
+  entire packet was grabbed, didn't work before, now it does.
+3.2.7 - Fri Feb 14, 1997
+  fixes from Jeff Semke, PSC
+    fixed bug in output.c that make it fail on some machines
+    added FDDI support (untested by me, don't have FDDI)
+    added Makefile flags so that it will compile on a "NetBSD 1.2 on a
+	Pentium box"  (also untested by me, I don't have one)
+  an HP compiler picked out some places where I missed a static
+    decl for some functions.  Not fatal, but I fixed it.
+3.2.8 - Tue Mar  4, 1997
+  added changes for Mark
+     allow connection reuse on same pair of IP addresses and ports
+     4 minutes must have passed and either new segment has a SYN
+     or old connection had seen both FINs
+  added fix to tcptrace.c so that ^C processing is re-enabled after
+     all packets read so that the output can be killed from the
+     keyboard
+  fix by Bill Fenner - Endian boo boo caused PC's not to read
+     any packets.
+  removed the "-m" option and made all of the array structures
+     resizable (now supports an "infinite" number of connections)
+  changed elapsed() routine to return double to prevent overflow
+     of microsecond stored in a long int
+3.2.9 - Wed Mar  5, 1997
+  changes by Rich Jones at HP to run under HPUX
+     mostly fixed the non-ansii standard
+	#endif FOO
+       to be
+	#endif /* FOO */
+  fixed minor printing bug, 1323 flags printed wrong
+  fixed snoop and netm so that they worked on PC's
+	(more byte sex problems)
+3.2.10 - Thu Mar 27, 1997
+  Mark "pushed" segments on TSG plots
+    top arrow is red instead of white
+  Compute slow-start window size (should be one except for "new" tcp's)
+  Compute estimated congestion window
+3.2.11a - Mon Mar 31, 1997
+  Fixed bug is TS options are not 4-byte aligned
+  Fixed tick printing (bad % value) for HUGE files (millions of packets)
+     
+3.2.12a - Thu Apr 24, 1997
+  Fixed bug for file with large snap length
+     
+3.2.13a - Mon Apr 28, 1997
+  Big fix for Rob Austein <sra@epilogue.com>
+  otherdir->ack being initialized incorrectly in trace.c at SYN time
+     
+3.3.0 - Mon Jul 14, 1997
+  Added modules support
+    Included http module for NASA
+  Backed out delete of libpcap, causes too many problems
+  Now using libpcap 0.4
+
+4.0.1 - Tue Jul 15, 1997
+  Ready for next public release (I hope)
+  Verified on the platforms I have access to
+
+4.0.2 - Wed Jul 16, 1997
+  Added '-W' option to turn off Mark's estimated Cwin stuff, it's not
+    generally useful
+  Added raw packet printing to mod_http
+
+4.0.3 - Thu Jul 24, 1997
+  Fixed tcpdump.c to work with lastest libpcap
+   (can no longer assume that header is aligned :-(  )
+  Added plast into all packet reading routines to better check for the end
+   of packets
+  Added fix from Kacheong Poon for sack truncation problem
+
+4.0.4 - Wed Aug 13, 1997
+  Added some very minor patches to ease FreeBSD patch.  All you should need to do
+    now is change the Makefile for FreeBSD (thanks Bill Fenner)
+  Added hack by Mark Allman for http module
+  Added minor changes to support Linux compilation (mostly just left
+    the standard include files in a separate linux directory)
+4.1.0 - Fri Aug 22, 1997
+  Added support for reading compressed files (configurable, .gz and .Z by default)
+  Added option to save TCP stream data into files (-e)
+  Modified mod_http.c to support HTTP1.1 streams (ick)
+  Added help argument "-h" with several options for information
+    including docs for long format output
+4.1.1 - Fri Sep  5, 1997
+  Minor mfiles bug fixes
+  mod_http now generates plot files, still experimenting
+  fixed tcpdump to allow files with DLT_NULL headers
+4.1.2
+  Added more module interface routines
+  Allow modules to have per-connection data structures
+  Fixed some compression bugs
+4.1.3
+  Added "percent done" for compressed files, just a guess but better than N/A
+  Passed filesize and compressed state to modules
+  Added mod_traffic
+  fixed bug in extract_contents (for mod_http) that caused it to fail if the first segment
+    seen was not the first segment of the connection (oops!)
+  Added -z flag to plot time axis from 0 rather than wallclock time
+  big lint cleanup
+  added support for "configure" to simplify cross-platform stuff
+  added Mark's "data xmit time" code
+4.1.4
+  minor LINT fix in print.c
+  added  ECHO/ECHOREPL CC/CCNEW/CCECHO to understood options
+  added support for Etherpeek version 7 save file format
+  fixed minor http modules bugs
+  changed some longer fields to use "long long" if available
+  added "pushed packets" counter
+  added hardware duplicate detection
+5.0a
+  adding Nasseef's IPv6 support
+  added the -y flag to turn off the (yellow) instantaneous dots in the tput plot
+  first cut at the output filtering code (slick!)
+5.0.2
+  added support for DLT_RAW under tcpdump (pcap)
+5.0.3
+  bug fix for John Tysko, tcp_length & tcp_data_length were unsigned
+    and resulting in a HUGE amount of data if the tcp header was
+    truncated.  Changed to unsigned.
+  count/print truncated bytes/segs ALWAYS, not just when extracting data
+  changed to use flex/bison for better portability
+  fixed bug in etherpeek for odd-sized packets from compressed files
+5.0.4 - Thu May 14, 1998
+  forced the "char" types for tcp_opt for ws and sack_count to be
+    "SIGNED char", because the compiler on my PB3400/Linux makes them
+     unsigned by default.  The "-fsigned-char" could also fix it, but this
+     seems easier.
+5.0.5 - Tue Jun 23, 1998 -- Fri Aug  7, 1998
+  fixed mod_traffic memory allocation bug.  I wonder why nobody reported this? 
+  added "pure ack" counter (for Mark)
+  added call to print modules usage for "-hargs"
+  added Eric's tcplib-generating module
+  added check for ASCII input
+  added reading of arguments from resource file, then from envariable, and
+    then from the command line (suggestion from Jeff Semke)
+  can read from standard input if filename is "stdin"
+  extended "-z" option to allow you to lock either the X or the Y axis
+     (or both) to zero (for Brian Utterback)
+  added printing of zero-sized packets (for Brian Utterback)
+  zero-sized packets pointed out a "bug" in the zero-based time stuff from
+    version 4.1.3.  Both graphs in a pair don't have the same "zero point",
+    which is a little confusing.  They were off by 1/2 a RTT, the
+    difference between the SYN and the SYN/ACK.  I fixed this by adding a
+    green dot corresponding the the first SYN in the second graph.  Kind
+    of helpful in general, too.
+  added Mallman's netbsd mkstemp change in compress.c
+  extended the "-w" flag to make the normal case quieter
+  lots of changes to mod_traffic, plus a few bugfixes, mostly for my use
+5.0.6 - Fri Aug 14, 1998
+  added UDP connection support, a lot of people have been asking for it
+  finished mod_collie
+5.0.7 - Mon Aug 24, 1998
+  fixed bug in StringToArgv() that messed up when the arg buffer started
+    with whitespace
+5.0.8 - Wed Sep  9, 1998
+  changed mod_traffic to ALWAYS 'quiet' the final traffic output
+  fixed bug report from Mark, SYN RTT's weren't being included in min
+	RTT report.  Fixed so that both SYNs and FINs are included in that
+	calculation.
+5.0.9 - Thu Sep 24, 1998
+  fixed bug with "only" connections not detecting reuse of ports
+  added warnings for re-ordered packets and/or files
+5.0.10 - Thu Oct  1, 1998
+  bug fix in snoop.c, netm.c, and epeek.c
+    Just a check for bogus save files with invalid packet lengths to
+    keep the program from crashing without warning
+  fixed args in tcplib module to match the conventions in the other modules
+  added "long duration" connection graph to traffic module
+  bug fixes from Michele Clark - UNC
+    thruput plot files - graph for both directions had the same title
+    suggested making the type for the xplot sequence number axis "double"
+	rather than "unsigned".  The unsigned was from Tim Shepard's
+	original xplot demo files.  She says that double makes it work
+	better for large sequence numbers.  I'll try it and see if anybody
+	has trouble.
+  changed "new connection" heuristic.  Then a new connection uses the same
+    pair of ports as a previous connection, it wasn't always being detected.
+    This was originally pointed out by Brian Utterback and later by Mark
+    Allman.  New heuristic is more in line with RFC1122 (SYN is out of
+     the sequence space for the previous connection).
+5.0.11 - Mon Oct 19, 1998
+  Brian Utterback found another case where I was splicing connections
+    together.  Bad unsigned match caused it...  fixed (knock, knock)
+5.0.12 - Mon Nov  2, 1998
+  Added generic, high-level line drawing functions to plotter.c
+  Used same in mod_traffic to add an overall RTT plot
+  Added one more minor patch to the connection splicing heuristic
+  Lots of changes to make the RTT calculation better in cases of
+    retransmissions and etc
+  Added RTT graph to the traffic module
+  Added triple-dupack counter
+  Added triple dupack tick on TSG graphs
+  Added dongles to ACKS on the TSG graphs to distinguish different kinds of
+    ACKS that need to be handled differently for RTT calculation
+5.0.13 - Wed Nov  4, 1998
+  Fixed tcpdump OUTPUT bug, created files generated "truncated-ip"
+    warnings from real tcpdump program, I fixed it.
+  Added cwin graph (-N) for Mark
+  Added segsize graph (-F!) for Jeff Fedor
+  Added elapsed time to "tick" output to make it easier to stop early
+  Added "pure acks/second" to traffic module
+  Added "halfopen conns" to traffic module
+5.0.14 - Wed Nov 18, 1998
+  Changed the way that connections are stored and searched.  Has a major
+    impact in improving performance when the program's VM Size
+    grows above the machine's physical memory.  It can now continue to run
+    well under these conditions (up to available swap space), before it
+    just thrashed itself to a standstill.
+5.0.15 - Fri Nov 20, 1998
+  possible fix for pipe() failure with too many files open
+  added some minor argument parsing checks
+  added a few extended arguments "--foo" to control lesser-used functions
+  fixed PAGESIZE reference for Craig Metz - not under some Linux
+  fixed error in stats when SYNs and FINs rexmitted, unique bytes was wrong
+    (which threw off missed data and throughput)
+  fixed a bug where rexmitted SYNs were not being included in the
+    rexmit counts (also fixed marking on tsg graphs)
+  added another case to the connection-splicing code to fix something
+    I saw with FACK/SACK
+  fixed references to the idle_max counter to give the same answer everywhere
+    (some machines were overflowing sooner than others, I changed the math)
+5.1.0 - Tue Dec  1, 1998
+  Getting ready for a new multi-platform distribution
+5.1.1 - Wed Dec  9, 1998
+  Fixed bug from Brian Utterback, both RTT graphs had same title
+  ... which led me to discover a rather obscure bug that caused the first RTT plot
+      to get corrupted, but only if no other plots were requested
+5.1.2 - Mon Dec 14, 1998
+  Added extended options for 
+	  --showrttdongles   mark non-RTT-generating ACKs with special symbols
+	  --noshowrttdongles DON'T mark non-RTT-generating ACKs with special symbols
+	  --showdupack3	     mark triple dupacks on time sequence graphs
+	  --noshowdupack3    DON't mark triple dupacks on time sequence graphs
+	  --show0lensegs     show zero length packets on time sequence graphs
+	  --noshow0lensegs   DON'T show zero length packets on time sequence graphs
+    made the default for the RTT dongles FALSE, they're not generally useful
+  Minor Docs changes for filtering
+  Added new filter syntax prefix 'b_'
+     to recap:
+        # 'c_' means just "Client"
+	./tcptrace '-fc_segs>100' file
+	Output filter: (c_segs>100)
+
+        # 's_' means just "Server"
+	./tcptrace '-fs_segs>100' file
+	Output filter: (s_segs>100)
+
+        # no prefix, either one
+	./tcptrace '-fsegs>100' file
+	Output filter: ((c_segs>100)OR(s_segs>100))
+
+        # 'e_' means "Either", same as without prefix
+	./tcptrace '-fe_segs>100' file
+	Output filter: ((c_segs>100)OR(s_segs>100))
+
+        # 'b_' means "Both"
+	./tcptrace '-fb_segs>100' file
+	Output filter: ((c_segs>100)AND(s_segs>100))
+  Added initial support for the NLANR tsh packet format
+  bug fix, packets/connection were being passed to modules even though they
+    were supposed to be ignored (caused mod_rtt to break, probably others too)
+  name resolution: split in half to
+		resolve_ipaddresses
+		resolve_ports
+	+-n still toggles both, but extended args let you control either
+  changed "-o" option to allow "-oM-N"
+  bug fix from Jamshid Mahdavi, sack blocks not converted to local byte order
+	(made intel platforms plot/print sacks wrong)
+  added support for TCP/UDP/IP checksum verification
+	only implemented for IPv4
+	--checksum turns it on, it's expensive
+5.1.3 - Tue Jan 19, 1999
+  added FDDI support in snoop module (for Brian Utterback)
+  changes from Jun-ichiro Hagino, made compliant with latest IPv6
+   API/implementations (just changes to constant names in ipv6.[ch])
+  minor bug fixes to tcplib module
+5.1.4 - Wed Jan 27, 1999
+  fixed bug in congestion window graph, REALLY long connections would
+    cause a counter to wrap around, messing up the average
+  fixed major bug in tcplib module, ftp data and control ports were backwards
+  The -O options was writing IPv6 packets incorrectly (wrong length)
+5.1.5 - Wed Feb 17, 1999
+  fixed bug in reading .tcptracerc files, caused core dump on some files
+  when printing packets, IP options are now printed too
+5.1.6 - Tue Mar 16, 1999
+  added extended arg for triple dupack stats (--dupack3_data)
+    by default: if a segment has data, it can't be a triple dupack
+    optional:   if a segment has data, it CAN be a triple dupack
+  bug fix from Brian Utterback in snoop.c.  Obscure alignment problem fixed.
+  added "total data" graph to traffic module
+  made counters "long long" in traffic module
+  patches from Kevin Lahey to print ECN information
+  patches from Kevin Lahey to read LBL Network Simulator (ns) output
+  allow unambiguous prefixes of extended args (--foo)
+  added --dump_packet_data to add TCP/UDP packet DATA printout along
+    with individual packet dumps (--dump is good enough prefix)
+  bug fixed to the http module from Daikichi Osuga (byte sex problems)
+  added support for DLT_ATM_RFC1483-format tcpdump files
+5.2.0 - Tue Sep  7, 1999
+  patch in gache.c for Linux/Redhat stupidity with the strncmp() macro
+  fixed ipv6.h to work with the way that Linux/Redhat built IPv6
+  fixed bug in recording window stats from SYN packets when using scaling
+  fixed off-by-one in final report on number of packets seen
+  fixed ipv6 packet printing byte-sex problems
+5.2.1 - Wed Sep 15, 1999
+  fixed bug (probably introduced in 5.2.0) that kept -B from working
+  fixed bug in snoop-format code that caused it to fail if it saw a
+    non-IP packet
+5.2.2 - Mon Sep 27, 1999
+  bug fix from Jamshid Majdavi (and Kevin Lahey), SYN-ACKs containing window
+    scaling were getting scaled (and shouldn't be).
+5.2.3 - Interal changes and enhancements
+5.2.4 - Tue Apr 11, 2000
+  bug fix by Priya - we were detecting rexmitted bytes in segments in error in
+   some cases
+  fixed bug in IPv6 header processing reported by Takayoshi Ohnishi,
+    IPPROTO_ICMPV6 was causing infinite loop
+5.2.6 - Thu Jul  6, 2000
+  fixed bug in TCP checksum code, it was always saying CORRECT
+6.0.0a - preparing for alpha release of version 6
+6.0.1a - added support for atmsnoop output format in snoop.c
+6.0.1a2 - changed all of the DLT_ constants in tcpdump.[ch] to PCAP_DLT_
+   with the same numbers to avoid OSs that are renumbering them.
+====
+Note:
+  Wed Jun  6, 2001
+  We've switched to CVS for everything and there's a bunch of us working on
+  the code, so this file might not get updated the way that it should.  We'll
+  try to make the CVS logs visible in some fashion...
+====
+6.0.1a3 - added format characters to several options, as an extension of a
+   suggestion by Brian Utterback:
+   
+  --output_dir="STR"     directory where all output files are placed (default: '<NULL>')
+  --output_prefix="STR"  prefix all output files with this string (default: '<NULL>')
+  --xplot_title_prefix="STR" prefix to place in the titles of all xplot files (default: '<NULL>')
+
+  These options (which are handy in .tcptracerc for example), let you include
+  the format characters:
+
+   %f	basename of the current input file
+   %d	execution date, standard unix output, spaces ==> underscores
+   %t	execution time & date, standard unix output, spaces ==> underscores
+   %D	execution date, format "1-14-1963"
+
+  others could be added, but that's the only stuff I could think of for now.
+
+6.0.0b4- Saturday, 6 Oct 2001
+
+Added options :
+	--xplot_all_files and --xplot_args. 
+		--xplot_all_files calls the xplot program to display all the
+        generated graphs automatically .
+		--xplot_args can be passed an argument as in
+		--xplot_args=-1
+		to pass arguments to the xplot program when calling
+		it to display the graphs.
+
+Added support for zero window probe packets and urgent data packets.
+tcptrace -l output shows four new fields 
+zwnd probe pkts, zwnd probe bytes, urgent data pkts and urgent data
+bytes.
+
+Fixed all sprintf's in the code to snprintf's to thwart any 
+buffer overflow attacks.
+
+Changed functionality for window scaled connections so that
+the output of "min win adv" does not print the minimum window
+as advertised in SYN packets as SYN packets cannot be scaled 
+themselves.
+
+Completely revamped the http module with code sent by Bruce Mah.
+
+Added code to verify TCP and UDP checksums in IPv6 packets.
+However, code has not been tested thoroughly yet.
+
+6.0.1 - Mon Dec  3, 2001
+
+This is the version we'll release
+
+Also, added support with --print_seq_zero for printing sequence numbers
+  as relative to the SYN rather than absolute.  NOTE: this only works for
+  "-P" which uses connection records, but NOT for "-p" (which doesn't)
+  Also fixed the SACK-printing code to print in decimal if requested.
+
+Updated the manual page and made the necessary change to Makefile.in so
+that the manual page gets installed when tcptrace is installed.
+
+Fixed a bug with with the statistics for average window advertisement.
+Average was showing more than max.
+
+Fixed a bug with ACK sequence comparisons in the HTTP module. Many thanks to
+Daikichi Osuga for pointing out the error.
+
+Fixed a divide-by-zero error in PlotHist() in mod_rttgraph.c.
+
+Matt Muggeridge has been very kind in providing detailed information regarding
+porting tcptrace to OpenVMS. Please read the new file README.OpenVMS if you
+are interested in running tcptrace on OpenVMS.
+
+Changes made to code in order to be able to compile tcptrace under cygwin on
+Windows. Now works on windows too. Does not support reading compressed dump
+files directly though.
+
+The ns code was modified by Angelos Stavrou to read in the more detailed
+output from the extra headers in the ns FullTcp.
+
+Fixed a bug with the host letters. The function HostLetter was skipping host
+names after y, z ... jumping to ba, bb, ... instead of aa, ab ...
+
+6.2.0 - Stable - Fri Jul 26, 2002
+This is the version we'll release
+
+6.2.1 - Fri Aug 09, 2002
+enhance fulltcp file reading from r.schramp@kpn.com
+
+6.2.2 - Fri Aug 30, 2002
+added vlan support to snoop for Tysko.  Need to add support in other
+formats too, but I don't have a packet dump to test against yet - sdo
+
+6.2.3 - Wed Sep 18, 2002
+bugfix: For FIN segments with data only FIN was getting plotted and not the
+	data. Now data gets plotted with the default color and then one byte
+	is plotted with the synfin color. For no data, only one byte of FIN
+	is plotted with the synfin color.
+
+6.2.4 - Wed Sep 18, 2002
+bugfix: RST_IN relative offset was being calculated using the incorrect
+        sequence space.
+	
+        trace.c:1894
+		
+        plotter_text(to_tsgpl,
+                     current_time, SeqRep(thisdir,plot_at),
+                     "a", "RST_IN");
+								  
+
+	changed to:
+
+        plotter_text(to_tsgpl,
+	             current_time, SeqRep(otherdir,plot_at),
+	             "a", "RST_IN");
+
+6.2.5 - Mon Nov 11, 2002
+bugfix: Negative sequence numbers were being printed by function
+	PrintSeqRep() for the packet print '-p' / '-P' switches. Changed the
+	print format from %d to %u. 
+
+6.2.6 - Thu Nov 14, 2002
+bugfix: '-c' option - ignore non-complete connections was working only for
+	long output. Fixed it to work for brief output too.
+
+Release 6.4.0
+=============
+Bugfix made to fix misbehavior due to FILE synchronization issues
+found when tcptrace exits with "PCAP error - truncated file" when asked to
+read real-time network packets from STDIN - Mani.
+
+Patches added to process dumpfiles with 802.11 wireless headers for the
+Prism2 chipset. Courtesy - Brandon Eisenmann.
+
+Added new extended option "--nonreal_live_conn_interval" option to let the
+user set the duration to timeout live connections, in non real-time mode 
+- Ramani.
+
+Merged from development tree:
+
+Added the options --oUDP, --iUDP, --oTCP, --iTCP to filter out TCP
+and UDP connections - Mani
+
+Added options --csv, --tsv, --sv=<SP> for comma/tab/<SP>-separated values to be
+printed with the long output - Avinash
+
+6.4.1 : 26 APR 2003 Mani
+-----
+Fixed a bug in the processing of IPv6 extension headers in ipv6.c:findheader()
+
+6.4.2 :  3 MAY 2003 Jitesh
+-----
+Fixed the processing of duplicate ACKs as in the BSD stack to count towards
+the 3 dupacks required for fast-retransmit. 
+
+6.4.3 : 17 MAY 2003 Mani
+-----
+Fixed the bug in processing IPv6 extension headers in ipv6.c:gethdrlength()
+based on the patch sent by Thomas Bohnert.
+
+6.4.4 : 19 MAY 2003 Wes
+-----
+Added dsack counter to long output format and dsack sample input and output
+
+6.4.5 : 13 JUN 2003 Mani
+-----
+Fixed bug in the calculation of the "avg win adv" field, so that now avg.
+falls in between min and max.
+
+6.4.6 :  1 JUL 2003 Mani
+-----
+Changes made to make gcc-3.3 make lesser warnings with tcptrace.
+
+6.4.7 :  1 AUG 2003 Mani
+-----
+Made the --csv/--tsv/--sv options' implementation better.
+
+6.4.8 :  4 AUG 2003 Mani
+-----
+Fixed a bug in traffic module, so that the number of open connections are
+printed correct in the traffic_stats.dat file, even without giving 
+the -C option.
+
+6.4.9 : 6 AUG 2003 Jitesh
+-----
+
+Included the code to recognize Endace ERF (Extensible Record Format), sent
+by Jesper Peterson.
+
+6.4.10: 14 Aug 2003 Jitesh
+------
+
+Included the code to recognize the PPP (Point-to-Point) input file format,
+sent by Yann Samama.
+
+6.4.11: 14 Aug 2003 Mani
+------
+
+Fixing the bug with filtering connections based on hostname/portname with
+the -f option.
+
+6.4.12: 15 Sep 2003 Jitesh
+------
+
+Included the code to generate PF file with '-c' option. Error messages are
+made more logical when generating error messages for unsupported input and
+captured file formats.
+
+6.4.13: 7 OCT 2003 Mani
+------
+
+Applied patch from Ulisses Alonso Camaro that lets SYN segments following
+zero window advertisements from the opposite direction *not* be treated
+as window probes. Also fixed a compilation problem due to the previous
+patch by Jitesh (moved the "static int count=0" line to the beginning of
+trace_done() function in trace.c).
+
+6.4.14: 12 OCT 2003 Mani
+------
+
+Fixed bunch of gcc3.3.1 warnings in erf.c (unused variable warning), netm.c,
+ns.c (dereferencing type-punned pointer warnings).
+
+6.4.15: 21 OCT 2003 Mani
+------
+
+Fixed the typo(?) that made us have a #ifndef __WIN32 to #ifdef __WIN32 in
+ipv6.h for the in6_addr structure definition.
+
+Patching in changes to mod_http.c making it more robust to print
+information in cases where connections get closed with RST instead of
+FINs and other trivia based on Yufei Wang's patch.
+
+6.4.16: 31 OCT 2003 Mani
+------
+
+Applying the patch courtesy John Heffner that displays a yellow rwnd line
+in owin plots. Also adding --showrwinline option to control the yellow
+rwnd line, in case it gets annoying.
+
+Also fixing trivia (type conversions for certain uint to int, etc.) in 
+output.c to keep gcc3.3 from warning on MacOSX 10.3.
+
+6.6.0: 4 Nov 2003 Mani
+-----
+
+All the changes you see above in the 6.4.x series are part of the release
+6.6.0.
+
+6.6.1: 25 Nov 2003 Mani
+-----
+
+Includes a bugfix by Ramani, that restored the old semantics of the
+SameConn() and WhichDir() functions and includes
+new functions AVL_CheckHash() and AVL_CheckDir() to support the AVL tree
+hash-bucket implementation.
+
+Includes a fix to ns.c to correctly read port numbers; added
+functionality to track LEAST variables and reno LEAST algorithm to trace.c;
+added isRTO() in rexmit.c : all by Wes.
+
+6.6.2: 25 Feb 2004 Mani & Jitesh
+-----
+
+Fixed tcpdump.c to trace IP packets buried under VLAN headers.
+
+6.6.3: 1 Mar 2004 Mani
+-----
+
+Added a function MissingData() in trace.c to check if TCP segments were
+missing or were truncated when the -e option is given to extract
+contents.
+
+6.6.4: 4 Mar 2004 Mani
+-----
+
+Adding in the INBOUNDS module into the main tcptrace development tree.
+It is NOT built in by default though; you need to uncomment a line in
+Makefile.in to enable it.
+
+6.6.5: 1 Oct 2004 Mani
+-----
+
+* Josh fixed the file format searching order, putting tcpdump format to
+the end in file_formats.h as a work around for libpcap brokenness.
+
+* Fixed Mfopen() in mfiles.c to open content data files that we
+generate in "binary" mode - by changing fopen mode from "w" to "wb+" and "a"
+to "ab+". The 'b' is dummy in UNIX systems, but seems to have some
+semantic in the Windows world.
+
+* Fixed QuitSig() function in tcptrace.c by adding a call to
+udptrace_done() so that we print out UDP connection stats too (if one
+were piping live tcpdump traffic to tcptrace and "ctrl-c"-ed it in the
+middle, for example). On the way, also fixed the arbitrary "buf[4096]"
+declaration to be written correctly as "buf[COMP_HDR_SIZE]" in the
+PipeFitting() function. 
+
+6.6.6: 7 Oct 2004 Mani
+-----
+
+Fixed the callback function in tcpdump.c to prevent garbage data from
+getting into the ip_buf buffer.
+
+6.6.7: 4 Nov 2004 Mani with help from Dr.Ostermann & Josh
+-----
+
+Fixed bugs found in the AVL search function that had major bugs /
+complexity issues. 

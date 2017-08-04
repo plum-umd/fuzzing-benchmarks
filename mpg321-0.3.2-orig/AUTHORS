@@ -1,0 +1,20 @@
+mpg321 was written by Joe Drew <drew@debian.org>, and based upon 'plaympeg'
+from the smpeg sources, which was written by various people from Loki Software 
+(http://www.lokigames.com).
+
+It also incorporates some source from mad, written by Robert Leslie, and
+SDL, by Sam Lantinga.
+
+Tobias Bengtsson <tobbe@tobbe.nu> is the original author of the playlist
+code.
+
+Eduard Bloch <edi@gmx.de> and Stan Seibert <volsung@asu.edu>, among many
+others, submitted patches to convert mpg321 to use the libao 0.8.0 api.
+
+Giuseppe Corbelli <cowo@lugbs.linux.it> wrote the ID3 tag handling code.
+
+Bill Nottingham <notting@redhat.com> has contributed several patches to
+mpg321.
+
+Stephen Depooter <sbdep@woot.net> has contributed to managing patches and
+bug fixing to get the latest release out.

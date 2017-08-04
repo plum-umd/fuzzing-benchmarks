@@ -1,0 +1,35 @@
+* Make sure that removing the if (quit_now) stuff from mpg321.c didn't wreck
+  remote control mode
+* fix repeating end of file for pipes
+
+Please help! This list is in the order I (generally) want to get to them.
+Version 0.3.0 will support buffering and proxies (please help). 
+Red Hat users, RPMs and good spec files would be appreciated.
+
+* Buffering. mpg123 uses shared memory (mitshm); one process decodes all data,
+  and places it in a user-specified size buffer; the other outputs it to the
+  sound card independently of the decoding process.
+* We need to make sure we're always doing the right thing wrt seeking
+  and buffering when playing over the network. I don't think we special-case
+  network enough, and there are definitely bugs. Oh yes.
+* Error message printing, like mpg123 - just need to hook in an error
+  handler function on mad_decoder_init.
+* Look at downsampling in madplay to duplicate for mpg321
+* Look up information as to how to implement -o h, -o s, -o l on sun machines
+  (headphones, speakers, line out) - probably just an ioctl. Maybe roll
+  this support into libao.
+* RPM files, of mpg321 and its dependencies (mad and libao)
+
+On-going potential design and speed improvements:
+* The routines read_header and output in mad.c are absolutely critical to 
+  performance, because they're called for every single frame in the mp3 file.
+  If there are any gains to be made within the mpg321 code, this is it. I
+  encourage any performance-minded hackers to take a look.
+* MAD itself could possibly benefit from more speed work.
+  The best places to optimize performance are probably synthesis 
+  (synth.c:synth_full()), the Layer III IMDCT (layer3.c:imdct36()),
+  and maybe Layer III Huffman decoding (layer3.c:III_huffdecode()).
+  To help out with MAD, contact Rob Leslie <rob@mars.org>
+* A lot of the design is pretty disjointed and sketchy at best. I know about 
+  this, but sometimes I just don't have the will, desire, or time to do the
+  'right thing.' I welcome better people than I to improve upon it.

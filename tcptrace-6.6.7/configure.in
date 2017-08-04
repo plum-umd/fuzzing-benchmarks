@@ -1,0 +1,103 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(tcptrace.c)
+
+AC_CANONICAL_SYSTEM
+
+AC_LBL_C_INIT(V_CCOPT, V_INCLS)
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_MAKE_SET
+
+AC_PROG_LEX
+AC_PROG_YACC
+
+dnl Checks for libraries.
+dnl Replace `main' with a function in -lm:
+AC_CHECK_LIB(m, main)
+
+dnl See if "unsigned long long int" works
+AC_CHECK_SIZEOF(unsigned long long int)
+
+dnl Find a good type for other binary data types (in headers)
+AC_CHECK_SIZEOF(unsigned long int)
+AC_CHECK_SIZEOF(unsigned int)
+AC_CHECK_SIZEOF(unsigned short)
+
+
+dnl include additional checking if developing
+AC_LBL_DEVEL(V_CCOPT)
+
+dnl check for needed network libraries
+AC_LBL_LIBRARY_NET()
+
+dnl use fpurge if available, otherwise fflush
+AC_CHECK_FUNCS(fpurge)
+
+dnl use mkstemp if available, otherwise tempnam
+AC_CHECK_FUNCS(mkstemp)
+
+dnl use valloc if available, then memalign, then malloc
+AC_CHECK_FUNCS(valloc memalign)
+
+dnl check for the IPv6 routines inet_pton
+AC_CHECK_FUNCS(inet_pton)
+
+AC_MSG_CHECKING(how to print unsigned long long)
+AC_SUBST(FS_ULL)
+dnl AC_TRY_RUN is a test program that performs a run-time test to find out
+dnl the correct syntax to print unsigned long long ints in printf stmts.
+dnl If strcmp returns 0, we are on an enironment that uses %llu, otherwise
+dnl we are on a MacOSX environment that uses %qu
+AC_TRY_RUN([
+#include <stdio.h>
+
+#define NIX "%llu"
+
+int main ()
+{
+  char test[11];
+  unsigned long long int num = 0xdeadbeef;
+  sprintf (test, NIX, num);
+  if (strcmp (test, "3735928559") == 0)
+     exit (0);
+  else
+     exit (1);
+}],
+AC_DEFINE(USE_LLU)
+AC_MSG_RESULT(%llu), 
+AC_MSG_RESULT(%qu),
+AC_MSG_ERROR(can not run test program while cross compiling))
+
+dnl Grab standard includes under weird Linux versions
+dnl case "$target_os" in
+dnl  *inux*)	V_INCLS="$V_INCLS -Ilinux-include";
+dnl esac
+
+dnl Grab includes from ./cygwin-includes under Windows versions
+case "$target" in
+  *cygwin*)	V_INCLS="$V_INCLS -I./cygwin-includes";
+esac
+
+dnl define -D__USE_BSD -D__FAVOR_BSD -D__USE_MISC -D__WIN32 for windows
+case "$target" in
+  *cygwin*)	V_DEFINES="$V_DEFINES -D__USE_BSD -D__FAVOR_BSD -D__USE_MISC -D__WIN32";
+esac
+
+dnl setting the correct PCAP_LDLIBS for windows
+V_PCAP_LDLIBS="-lpcap";
+case "$target" in
+  *cygwin*)	V_PCAP_LDLIBS="-lwpcap";
+esac
+
+dnl define _BSD_SOURCE for libc-2
+if [[ -f /lib/libc-2* ]]; then
+ V_DEFINES="$V_DEFINES -D_BSD_SOURCE"
+fi
+
+AC_SUBST(V_CCOPT)
+AC_SUBST(V_INCLS)
+AC_SUBST(V_DEFINES)
+AC_SUBST(V_PCAP_LDLIBS)
+
+AC_OUTPUT(Makefile)

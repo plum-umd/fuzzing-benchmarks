@@ -1,0 +1,6 @@
+1 arg remaining, starting with 'http.epeek7.gz'
+
+33 packets seen, 33 TCP packets traced
+trace file elapsed time: 0:00:01.834824
+TCP connection info:
+  1: 132.235.67.34:3759 - 132.235.67.19:80 (a2b)    9>   24<

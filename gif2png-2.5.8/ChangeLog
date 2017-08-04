@@ -1,0 +1,276 @@
+ There is no longer any point to this file, the actual information in it
+ lives in the repo history.  But the GNU gods must be appeased until we can
+ dump the fscking autotools cruft.
+
+2005-11-19  Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* gif2png.c: Removed a possible bug in transparency handling.
+	* gif2png.xml: Note that the patent has expired.
+	* gif2png.c: Lop off trailing non-ASCII garbage.
+	* memory.c: Get rid of access_data entirely.
+	* gifread.c: Get rid of access_data entirely.
+	* gif2png.h: Get rid of access_data entirely.
+	* gif2png.c: Get rid of access_data entirely.
+	* Get rid of the TMPFILE code.  It's ridiculous on modern machines
+	and only adds complexity.
+
+2003-12-29  Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Improved RPM packaging.
+	* gif2png.spec.in: Improved RPM packaging.
+	* Improved RPM packaging.
+
+2003-12-26  Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Makefile.am: Get rid of some brokenness.
+	* This seems to be a known-good state.
+	* Makefile.am: This seems to be a known-good state.
+	* This seems to be a known-good state.
+
+2003-07-26  Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Makefile.am: rpm -> rpmbuild.
+	* specgen.sh: Counteract RH 8.0 brain death.
+	* configure.in: Suppress an error message.
+	* Ready to ship.
+	* Ready to ship.
+	* README: Ready to ship.
+	* NEWS: Ready to ship.
+	* Ready to ship.
+	* Ready to ship.
+	* configure.in: Ready to ship.
+	* gif2png.xml: man page rendering doesn't handle <cmdsynopsis>
+	quite right outside of leading section.
+2002-07-30  Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* specgen.sh: Correct site.
+	* Makefile.am: Ready to ship.
+	* Update.
+	* web2png.sgml: XML conversion.
+	* XML conversion.
+	* Makefile.am: XML conversion.
+	* gif2png.sgml: XML conversion.
+
+2002-07-12  Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* Makefile.am: Add SGML to sources.
+2002-07-11  Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* Makefile.am: SGML conversion.
+	* gif2png.sgml: SGML conversion.
+	* web2png.1: SGML conversion.
+	* web2png.1: Last cleanup before SGML conversion.
+	* gif2png.1: SGML conversion.
+
+2002-06-26  Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* NEWS: Added note about automake bug workaround.
+
+2002-04-28  Eric S Raymond  <esr@snark.thyrsus.com>
+
+	* configure.in: GRP's configuration changes.
+
+2002-01-31  Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* gif2png.c: -1/-f fix (thanks to Ambrose Li).
+
+2002-01-30  Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* configure.in: Version bump.
+	* web2png: Typo fix.
+
+2001-11-29 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* gif2png.1: Correct the LZW patent URL.
+
+2001-03-08 Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* gif2png.c: Macintosh port changes.
+	* configure.in: Version bump.
+
+2001-02-26  Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Makefile.am: Actually pummeled automake into working.
+	* configure.in: Version bump.
+	* gif2png.c: Converted to modern (post 0.89) API.
+
+2000-12-25 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* README: Note the ImageMagick 5.2.2 bugfix.
+
+2000-09-09 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* configure.in: Ready to ship 2.3.3.
+	* gif2png.c: Handle vh401.gif correctly.
+
+2000-09-01 Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* gif2png.spec.in: Johan Vroman's fix to allow building RPMS
+	without root.
+	* gifread.c: Fix minor bug in GIF header reading.
+	* web2png, gif2png.c: Markus Ueberall's bug fixes.
+
+2000-02-26 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* configure.in: Release 2.3.2.
+	* gif2png.c: Fix aspect-ratio handling.
+
+2000-02-06 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* configure.in: Release 2.3.1.
+
+2000-02-05 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* gif2png.c: Eliminate direct structure assignments.
+
+2000-01-20 Eric S. Raymond   <esr@golux.thyrsus.com>
+
+	* gif2png.c: Go through the API, not structure members.
+
+2000-01-05 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* configure.in: Version bump for 2.3.0.
+
+1999-12-23 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* web2png: Minor cleanup.
+
+1999-12-08 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* configure.in: Version bump.
+
+1999-12-05 Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* web2png: Applied Bernhard Reiter's fix.
+
+1999-12-03 Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* web2png: Deal gracefully with GIF names that have leading
+	numerics.
+
+1999-11-27 Eric S. Raymond   <esr@golux.thyrsus.com>
+
+	* web2png: Anand Kumria's bug fix.
+	* gifread.c: GRP's changes.
+	* gif2png.c: GRP's changes.
+	* gif2png.1: GRP's changes.
+	* INSTALL: GRP's changes.
+
+1999-11-15 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Release 2.2.3.
+	* configure.in, README: Warnung corrected.
+	* Release 2.2.2.
+	* web2png: Added Python version check to web2png.
+	* gif2png.c: Cosmetic change.
+	* configure.in: Improved configuration mchinery.
+
+1999-11-13 Eric S. Raymond   <esr@golux.thyrsus.com>
+
+	* Release 2.2.1.
+	* COPYING, gifread.c: License change.
+
+1999-11-12 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* COPYING: Change the main license to linbpng/zlib.
+	* gif2png.c, gif2png.1: Option cleanup.
+
+1999-11-11 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Release 2.2.0.
+	* web2png: Simpler DJGPP machinery if you have long file names.
+	* gif2png.c: discard optional preceding # on gif2png -b option value.
+	* web2png: Fix to RCS machinery in web2png.
+
+1999-11-09 Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* Release 2.1.3.
+	* gif2png.c: Don't require colon separators in the matte option value.
+	* gif2png.h, gif2png.c, gif2png.1: Added background-matte (-b) option.
+	* gifread.c: cleanup.
+
+1999-11-08 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Release 2.1.2
+	* gifread.c: 64-bit cleanliness.
+
+1999-11-07 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Release 2.1.1
+	* web2png: fix for an options bug.
+
+1999-11-05 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Release 2.0.2.
+
+1999-11-03 Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* web2png: Fix CSS and JavaScript files.
+	* web2png: Process .inc files.
+	* web2png: Added -a option.
+
+1999-11-02 Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* configure.in: Croak if libz or libpng are not accessible.
+	* gif2png.c, gif2png.1: Add filter mode.
+
+1999-11-01 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Release 2.0.1
+
+1999-10-31 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Release 2.0.0.
+	* gifread.c: Version name change.
+	* gif2png.c, version.c: Minor fixes by Greg Roelofs.
+
+1999-10-28 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* Release 1.2.2.
+	* configure.in: Fixed a configure problem.  
+
+1999-10-27 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* web2png: Tell it to handle directories properly.  Version 1.2.1.
+
+1999-10-24 Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* web2png: Version 1.2.0.
+
+1999-10-14 Eric S. Raymond   <esr@golux.thyrsus.com>
+
+	* configure.in: Ready to ship 1.1.1.
+	* web2png: Minor fixes.
+
+1999-10-13 Eric S. Raymond  <esr@golux.thyrsus.com>
+
+	* gif2png.c: Fixed bug in converting grayscale images which are
+	smaller when paletted.
+
+1999-10-07 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* web2png: Version 0.99
+
+1999-10-04 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* gif2png.c, gif2png.1, README: Added -w option.
+
+1999-10-03 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* 1.0.0 packaged for release.
+	* gif2png.c: Fixed a multiple-conversion bug.
+	* gif2png.c: Style cleanup.
+
+1999-09-25 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* README, INSTALL: Clean up build instructions.
+	* gifread.c, gif2png.c: Emit error message on unused color entries
+	and add -O option.
+	* version.c, gifread.c, gif2png.c: replace -q with
+	inverse -v (verbose) option.
+
+1999-09-20 Eric S. Raymond  <esr@snark.thyrsus.com>
+
+	* 0.99 packaged for production release.
+
+

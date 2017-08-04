@@ -1,0 +1,57 @@
+2009-07-29
+Version 0.2.11. This is a bug fix and patch inclusion release put together 
+by Stephen Depooter and Chris Nanakos. This version supports basic proxy server
+authentication, xterm title setting and much more from the TODO-list.
+We still plan for the 0.3.0 release.
+
+2004-09-28
+Version 0.2.11. This is a bug fix and patch inclusion release put together
+by Stephen Depooter.  This version adds ipv6 support, basic support for 
+winamp style playlists, and tries to fix up a number of other assorted bugs
+that have been found. since the last release.  We still plan to for 
+version 0.3.0 to be a 'network-ready' release.
+
+2001-11-30:
+Version 0.2.3. Hopefully have finally worked out all the bugs needed
+for release with Debian 3.0, woody. Notable new features are the --stereo
+option, for forcing stereo output, and buffered input on the remote control
+interface.
+
+2001-10-13:
+Version 0.2.1. Futher bugfixing and polishing of documentation, for
+release with Debian woody.
+mpg321 now has a sourceforge project! See 
+http://sourceforge.net/projects/mpg321 .
+There is also now a mailing list for mpg321 announcements: 
+To subscribe, send an email with 'subscribe' in the body or subject to 
+mpg321-announce-request@lists.sourceforge.net, or visit
+http://lists.sourceforge.net/lists/listinfo/mpg321-announce .
+
+2001-09-23:
+Version 0.2.0 of mpg321. Ported to libao 0.8.0, and implemented remote
+control (-R) option for frontends. As well, added compile-time default
+setting of audio output device, and other assorted goodies, bug fixes and
+introductions. There are bugs in mpg321. I did my best to make things 
+generally work, but I would appreciate it if people would test. 
+In particular, if you try to seek while using a network stream, I expect 
+that mpg321 will just blow up. Version 0.3.0 is my target for 
+'network-readiness.' I welcome bug reports and patches.
+
+2001-08-08:
+Fixed a wav creation bug. The next release of mpg321 is likely to be a major
+feature update, now that most bugs have been ironed out of it.
+
+2001-07-15:
+Release 0.1.0 of mpg321. This involved a great refactoring of code, and
+is more-or-less a rewrite. mpg321 now uses libmad for decoding, and libao
+for all output (not just wave files). It also compiles and works on solaris.
+Playlist support is now included in mpg321 as well (Thanks to Tobias 
+Bengtsson <tobbe@tobbe.nu> for the first run at this!)
+
+* As of 2001-03-17 (0.0.5), mpg321 should be ready for everyday use. 
+* I am currently investigating using libraries other than smpeg for playing
+  mp3 files (such as libmad, used in madplayer, and mpg123's own libmpg, 
+  which is distributed under the terms of the GPL). This will remove the
+  dependency on SDL, which in turn removes a lot of other dependencies; all
+  that would have to remain would be libao, for audio output, and the mpeg-
+  playing library. This, however, remains to be seen.

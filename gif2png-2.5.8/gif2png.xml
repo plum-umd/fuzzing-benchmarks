@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC 
+   "-//OASIS//DTD DocBook XML V4.1.2//EN"
+   "docbook/docbookx.dtd">
+<refentry id='gif2png.1'>
+<refmeta>
+<refentrytitle>gif2png</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class='date'>20 September 1999</refmiscinfo>
+<refmiscinfo class='source'>gif2png</refmiscinfo>
+<refmiscinfo class='product'>gif2png</refmiscinfo>
+<refmiscinfo class='manual'>Graphics</refmiscinfo>
+</refmeta>
+<refnamediv id='name'>
+<refname>gif2png</refname>
+<refpurpose>convert GIFs to PNGs</refpurpose>
+</refnamediv>
+<refsynopsisdiv id='synopsis'>
+
+<cmdsynopsis>
+  <command>gif2png</command>  <arg choice='opt'>-bdfghinprsvwO</arg>
+  <arg choice='opt' rep='repeat'><replaceable>file.[gif]</replaceable></arg>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1 id='description'><title>DESCRIPTION</title>
+
+<para>The <command>gif2png</command> program converts files in the
+obsolescent Graphic Interchange Format (GIF) to Portable Network
+Graphics (PNG) format, an open W3C standard.</para>
+
+<para>Normally <command>gif2png</command> converts each file named on
+the command line, leaving the original in place.  If a name does not
+have a .gif extension, the unmodified name will be tried first,
+followed by the name with .gif appended.  For each file named
+<filename>foo.gif</filename>, a foo.png will be created.</para>
+
+<para>When a multi-image GIF file named <filename>foo.gif</filename>
+is converted, gif2png creates multiple PNG files, each containing one
+frame; their names will be <filename>foo.png</filename>,
+<filename>foo.p01</filename>, <filename>foo.p02</filename> etc.</para>
+
+<para>If no source files are specified and stdin is a terminal,
+<command>gif2png</command> lists a usage summary and version
+information, then exits.</para>
+
+<para>If no source files are specified, and stdin is a device or pipe,
+stdin is converted to <filename>noname.png</filename>.  (The program
+can't be a normal stdin-to-stdout filter because of the possibility
+that the input GIF might have multiple images).</para>
+
+<para>However, if filter mode is forced (with -f) stdin will be
+converted to stdout, with <command>gif2png</command> returning an
+error code if the GIF is multi-image.</para>
+
+<para>The program will preserve the information contained in a GIF
+file as closely as possible, including GIF comment and
+application-data extension blocks. All graphics data (pixels, RGB
+color tables) will be converted without loss of information.
+Transparency is also preserved.  There is one exception; GIF
+plain-text extensions are skipped.</para>
+
+<para>The program automatically converts interlaced GIFs to interlaced
+PNGs.  It detects images in which all colors are gray (equal R, G, and
+B values) and converts such images to PNG grayscale.  Other images are
+converted to use the PNG palette type.  Duplicate color entries are
+silently preserved.  Unused color-table entries cause an error
+message.</para>
+
+<para>The action of the program can be modified with the following
+command-line switches:</para>
+
+<variablelist remap='TP'>
+<varlistentry>
+<term>
+  <option>-b</option> {#}RRGGBB
+</term>
+<listitem>
+<para>Background.  Replace transparent pixels with given RGB value,
+six hexadecimal digits interpreted as two hexits each of red,
+green, and blue value.  The value may optionally be led with
+a #, HTML-style.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-d </option>
+</term>
+<listitem>
+<para>Delete source GIF files after successful conversion.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-f </option>
+</term>
+<listitem>
+<para>Filter mode.  Convert GIF on stdin to PNG on stdout, return error
+if the GIF is multi-image.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-m </option>
+</term>
+<listitem>
+<para>Preserve file modification time. the PNG output gets the mod time of the
+input file, not the time it was converted.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-g </option>
+</term>
+<listitem>
+<para>Write gamma=1/2.2 and sRGB chunks in the PNG.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-h </option>
+</term>
+<listitem>
+<para>Generate PNG color-frequency histogram chunks into converted color files.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-i </option>
+</term>
+<listitem>
+<para>Force conversion to interlaced PNG files.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-n </option>
+</term>
+<listitem>
+<para>Force conversion to non-interlaced PNG files.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-p </option>
+</term>
+<listitem>
+<para>Display progress of PNG writing.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-r </option>
+</term>
+<listitem>
+<para>Try to recover data from corrupted GIF files.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-s </option>
+</term>
+<listitem>
+<para>Do not translate the GIF Software chunk to a PNG annotation.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-v </option>
+</term>
+<listitem>
+<para>Verbose mode; show summary line, -vv enables conversion-statistics and
+debugging messages.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option>-w </option>
+</term>
+<listitem>
+<para>Web-probe switch; list GIFs that do not have multiple images 
+to stdout.  GIFs that fail this filter cause error messages to stderr.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+  <option> -O </option>
+</term>
+<listitem>
+<para>Optimize; remove unused color-table entries.  Normally these
+trigger an error message and disable <option>-d</option> (but
+conversion is completed anyway).  Also, use zlib compression level 9
+(best compression) instead of the default level.  The recovery
+algorithm enabled by <option>-r</option> is as follows: Unused color
+table entries will not trigger an error message as they normally do,
+but will still be preserved unless <option>-O</option> is also on, in
+which case they will be discarded. Missing color tables will be
+patched with a default that puts black at index 0, white at index 1,
+and supplies red, green, blue, yellow, purple and cyan as the
+remaining color values.  Missing image pixels will be set to 0.
+Unrecognized or corrupted extensions will be discarded.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1 id='problems'><title>PROBLEMS</title>
+
+<para>Naively converting all your GIFs at one go with
+<command>gif2png</command> is not likely to give you the results you
+want. Animated GIFs cannot be translated to PNG, which is a 
+single-image format.</para>
+
+<para>The web-probe switch is intended to be used with scripts for
+converting web sites.  In versions of this tool up to 2.5.2
+it filtered out GIFs with transparency as well as GIFs with
+animations, but support for PNG transparency has been universal
+in browsers since about 2006.</para>
+
+</refsect1>
+
+<refsect1 id='standards_and_specifications'><title>STANDARDS AND SPECIFICATIONS</title>
+
+<para>Copies of the GIF89 specification are widely available on the
+Web; search for "GRAPHICS INTERCHANGE FORMAT".  The Graphics
+Interchange Format(c) is the Copyright property of CompuServe
+Incorporated. GIF(sm) is a Service Mark property of CompuServe
+Incorporated.  The GIF format was formerly covered by a blocking
+patent on LZW compression, but it expired in June 2003.</para>
+
+<para>The PNG home site at &lt;<ulink
+url='http://www.libpng.org/pub/png/'>http://www.libpng.org/pub/png/</ulink>&gt;
+has very complete information on the PNG standard, PNG libraries, and
+PNG tools.</para>
+
+</refsect1>
+
+<refsect1 id='see_also'><title>SEE ALSO</title>
+<para>web2png(1)</para>
+
+</refsect1>
+
+<refsect1 id='authors'><title>AUTHORS</title> <para>Code by Alexander
+Lehmann &lt;alex@hal.rhein-main.de&gt;, 1995.  Auto-interlace
+conversion and tRNS optimization by Greg Roelofs
+&lt;newt@pobox.com&gt;, 1999.  Man page, -O, -w, and production
+packaging by Eric S. Raymond &lt;esr@thyrsus.com&gt;, 1999. -m option
+by Steve Ward, 2012.</para>
+</refsect1>
+</refentry>
+

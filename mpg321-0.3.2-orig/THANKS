@@ -1,0 +1,18 @@
+mpg321 was at one point essentially smpeg's 'plaympeg' program, with video 
+ripped out and the mpg123 interface grafted on. It has since undergone
+large refactorisation and rewriting, but plaympeg is its root.
+
+Thanks to Loki, for funding development of smpeg. mpg321 no longer uses 
+smpeg, and Loki no longer exists as a company, but their code lives on.
+
+Thanks especially to Sam Latinga (and everyone in #sdl) for their help
+on SDL audio conversion. They made the original wav-file conversion possible!
+
+Thanks to the Xiphophorous company <http://www.xiph.org> and 
+Stan Seibert <volsung@asu.edu> for the continued development of libao.
+
+Thanks to Rob Leslie for creating mad and providing continued advice
+and code.
+
+Thanks to Red Hat <http://www.redhat.com>, for converting to mpg321 over 
+mpg123.

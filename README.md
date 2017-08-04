@@ -14,10 +14,18 @@ xpdf: COVERSET
 
 mupdf: COVERSET
 
-pdf2svg: COVERSET
+pdf2svg: COVERSET, VUzzer (0.2.2)
 
 FFMpeg: COVERSET, and FuzzSim(n0.5.10)
 
 mplayer: COVERSET
 
 mp3gain: COVERSET
+
+tcpdump: VUzzer (4.5.1)
+
+tcptrace: VUzzer (6.6.7)
+
+gif2png: VUzzer (2.5.8)
+
+mpg321: VUzzer (0.3.2)

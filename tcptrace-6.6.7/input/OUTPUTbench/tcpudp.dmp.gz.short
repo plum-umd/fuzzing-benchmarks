@@ -1,0 +1,7 @@
+1 arg remaining, starting with 'tcpudp.dmp.gz'
+
+40 packets seen, 20 TCP packets traced
+trace file elapsed time: 1:52:15.386000
+TCP connection info:
+  1: 132.235.3.128:34552 - 132.235.1.2:79 (a2b)    5>    5<  (complete)
+  2: 132.235.3.128:34553 - 132.235.1.2:79 (c2d)    5>    5<  (complete)

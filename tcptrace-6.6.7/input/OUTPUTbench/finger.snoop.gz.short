@@ -1,0 +1,6 @@
+1 arg remaining, starting with 'finger.snoop.gz'
+
+13 packets seen, 13 TCP packets traced
+trace file elapsed time: 0:00:10.438257
+TCP connection info:
+  1: 132.235.3.133:1084 - 132.235.1.2:79 (a2b)    7>    6<  (complete)

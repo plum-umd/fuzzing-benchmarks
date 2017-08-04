@@ -1,0 +1,61 @@
+# Makefile for gif2png
+
+#required for djgpp, you can also use copy /b go32.exe+gif2png gif2png.exe
+#COFF2EXE=coff2exe
+COFF2EXE=@echo >/dev/null
+
+PNGINC=/usr/include
+PNGLIB=/usr/lib
+
+ZINC=/usr/include
+ZLIB=/usr/lib
+
+BINDIR=/usr/bin
+MANDIR=/usr/man/man1
+
+INCLUDE=-I$(PNGINC) -I$(ZINC)
+LIBS=$(PNGLIB)/libpng.a $(ZLIB)/libz.a
+
+CFLAGS=$(INCLUDE) -g -O -Wall
+LDFLAGS=-g
+
+#CFLAGS=$(INCLUDE) -O -Wall
+#LDFLAGS=-s
+
+OBJS=gif2png.o gifread.o version.o 437_l1.o memory.o
+
+all: gif2png
+
+install: gif2png
+	cp gif2png $(BINDIR)
+	cp gif2png.man $(MANDIR)/gif2png.1
+
+uninstall:
+	rm -f $(BINDIR)/gif2png $(MANDIR)/gif2png.1
+
+all-lib: libpng zlib all
+
+gif2png: $(OBJS) $(LIBS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
+	$(COFF2EXE) $@
+
+gif2png.o: gif2png.c gif2png.h
+gifread.o: gifread.c gif2png.h
+memory.o: memory.c gif2png.h
+
+version.o: version.c gif2png.c gifread.c memory.c 437_l1.c gif2png.h
+	$(CC) $(CFLAGS) -c version.c -DPNGLIB=\"$(PNGLIB)\" -DZLIB=\"$(ZLIB)\"
+
+tags:  .force
+	ctags *.[ch] $(PNGLIB)/*.[ch] $(ZLIB)/*.[ch]
+
+libpng: .force
+	cd $(PNGLIB); make
+
+zlib: .force
+	cd $(ZLIB); make
+
+.force:
+
+clean:
+	rm -f gif2png *.o

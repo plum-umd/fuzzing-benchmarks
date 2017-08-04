@@ -1,0 +1,334 @@
+#!/usr/bin/env python
+"""web2png -- convert a web hierarchy from using GIFs to using PNGs.
+
+This script is a front end for gif2png that assists you in converting an
+entire website.  Requires gif2png 1.0.5 or later.  Requires python 1.5.2
+or later. Requires Unix.
+
+by Eric S. Raymond <esr@thyrsus.com>
+
+Slightly modified by Aaron Isotton <aaron@isotton.com> for Debian.
+"""
+
+# Future library code -- I'm going to submit this for Python 1.6
+import sys, os
+from stat import *
+
+if sys.version[:5] < "1.5.2":
+    print "This program requires Python 1.5.2 or later."
+    sys.exit(1)
+
+FTW_FILE    = 0	# Item is a normal file
+FTW_DIR     = 1	# Item is a directory
+FTW_CHRDEV  = 2	# Item is a character special device file
+FTW_BLKDEV  = 3	# Item is a block special device file
+FTW_FIFO    = 4	# Item is a FIFO
+FTW_SYMLINK = 5	# Item is a symbolic link
+FTW_SOCKET  = 6	# Item is a socket
+FTW_NOSTAT = -1	# stat failed on item
+FTW_DNR	   = -2	# item was an unreadable directory
+
+class FTWException(Exception):
+    pass
+
+def ftw_inner(func, path=".", extra=None):
+    if extra is None:
+        extra = []
+    try:
+        st = os.stat(path)
+    except OSError:
+        return FTW_NOSTAT
+    mode = st[ST_MODE]
+
+    if S_ISDIR(mode):
+        try:
+            subdirs = os.listdir(path)
+        except OSError:
+            return FTW_DNR
+
+    if S_ISREG(mode):  ftype = FTW_FILE
+    if S_ISDIR(mode):  ftype = FTW_DIR
+    if S_ISBLK(mode):  ftype = FTW_BLKDEV
+    if S_ISCHR(mode):  ftype = FTW_CHRDEV
+    if S_ISFIFO(mode): ftype = FTW_FIFO
+    if S_ISLNK(mode):  ftype = FTW_SYMLINK
+    if S_ISSOCK(mode): ftype = FTW_SOCKET
+
+    terminate = apply(func, tuple([path, st, ftype] + list(extra)))
+    if terminate < 0:
+        raise FTWException, terminate
+
+    if S_ISDIR(mode) and not terminate:
+        for f in subdirs:
+            ftw_inner(func, os.path.join(path, f), extra)
+
+def ftw(func, path=".", *extra):
+    """Python tree-walker -- like ftw(3), but more capable."""
+    try:
+        ftw_inner(func, path, extra)
+    except FTWException, exval:
+        return exval
+    return 0
+
+def find(fdir=".", regexp=None):
+    """Return a tuple list of entries beneath dir matching a given pattern."""
+    def findhook(path, _, ftype, r, fl):
+        if not r or r.search(path):
+            fl.append((path, ftype))
+            return 0
+    flist = []
+    ftw(findhook, fdir, regexp, flist)
+    return flist
+
+def findfiles(fdir=".", regexp=None):
+    """Return a list of files beneath dir matching a given pattern."""
+    return map(lambda x: os.path.normpath(x[0]),
+               filter(lambda t: t[1]==FTW_FILE, find(fdir, regexp)))
+
+def datacmp(f1, f2, blocksize=1):
+    # print "Comparing %s with %s" % (f1, f2)
+    # st1 = os.stat(f1); print st1
+    # st2 = os.stat(f2); print st2
+    f1 = open(f1, "r")
+    f2 = open(f2, "r")
+    blocknum = 0
+    try:
+        while 1:
+            blocknum = blocknum + 1
+            s1 = f1.read(blocksize)
+            s2 = f2.read(blocksize)
+            if not s1 and not s2:
+                break
+            elif s1 != s2:
+                return blocknum
+    finally:
+        f1.close()
+        f2.close()
+    return None
+
+# End future library code
+
+import re, getopt, commands, string, urllib
+
+nochange = allopt = None
+gifre = re.compile(r"\.gif$", re.IGNORECASE)
+pngre = re.compile(r"\.png$", re.IGNORECASE)
+pagere = re.compile(r"\.s?html$|\.s?htm$|\.php$|\.inc$|\.css$|\.js$", re.IGNORECASE)
+bakre = re.compile(r"\.bak$", re.IGNORECASE)
+
+# Possible left delimiters of these matches are =, ", (, \s
+# Possible right delimiters of these matches are ", >, ), \s
+# .?"? parts deal with the possibility that the optional " might be backslashed
+delim = r'(?:\\?")?'	# Optional double quote, possibly preceded by backslash
+gifre = delim + '([^">]*\.gif)' + delim
+imgre = re.compile(r'SRC=' + gifre, re.IGNORECASE)
+hrefre = re.compile(r'<A HREF=' + gifre + '>', re.IGNORECASE)
+backre = re.compile(r'BACKGROUND=' + gifre, re.IGNORECASE)
+basere = re.compile(r'<BASE HREF=' + gifre + '>', re.IGNORECASE)
+cssurlre = re.compile(r'url\(' + gifre + '\)', re.IGNORECASE)
+
+def version_controlled(page):
+    # Is given page under version control?
+    return os.path.exists(page + ",v") \
+           or os.path.exists(os.path.join("RCS", page) + ",v")
+
+def web2png(directory):
+    # Convert a web hierarchy rooted on the given directory
+    gifs = findfiles(directory, re.compile(gifre))
+    htmls = findfiles(directory, pagere)
+
+    # There's a standard max on the number of arguments we can feed gif2png.
+    # if we see more than these, 
+    if len(gifs) > 5120:
+        print "web2png: Too many GIFs.  Try converting some subtrees first."
+        sys.exit(1)
+
+    print "This web subtree has", len(gifs), "GIFs and", len(htmls), "pages."
+
+    # Display information on files we won't convert
+    rejects = \
+	commands.getoutput("gif2png -w "+string.join(gifs," ")+" >/dev/null")
+    rejects = re.sub("gif2png: ", "	", rejects)
+    if rejects:
+        if allopt:
+            print "You are forcing conversion of these GIFs:"
+        else:
+            print "The following GIFs will not be converted:"
+        print rejects
+
+    # Figure out which files are eligible for conversion
+    if allopt:
+        giflist = gifs
+    else:
+        giflist = \
+                string.split(commands.getoutput("gif2png -w "+string.join(gifs," ")+" 2>/dev/null"))
+
+    if verbose: print "Giflist: " + repr(giflist)
+
+    convert_gifs = []
+    for gif in giflist:
+        png = re.sub(r"\.gif$", r".png", gif)
+        if os.path.exists(png):
+            print "\t%s already has a PNG equivalent" % (gif,)
+        else:
+            convert_gifs.append(gif)
+
+    # Display information on files we will convert
+    if convert_gifs:
+        print "The following GIFs will be converted:\n\t" + \
+		string.join(convert_gifs, "\n\t")
+    if not convert_gifs:
+        print "All eligible GIFs seem to have been converted already."
+
+    # Create a dictionary mapping pages to sets of references to be mapped
+    print "Checking for HTML, PHP JavaScript and include pages that need conversion..."
+    pagecount = 0
+    page_conversions = {}
+    for ifile in htmls:
+        fp = open(ifile, "r")
+        contents = fp.read()
+        fp.close()
+
+        basedir = basere.search(contents)
+        if basedir:
+            basedir = basedir.group(1)
+        else:
+            basedir = os.path.dirname(ifile)
+
+        matches = imgre.findall(contents) + hrefre.findall(contents) + backre.findall(contents) + cssurlre.findall(contents)
+        if verbose:
+            print "Found %d .gif image(s) references in %s." \
+                  % (len(matches), file)
+        convert_refs = []
+        gif_basenames = map(os.path.basename, giflist)
+        for ref in matches:
+            withbase = os.path.join(basedir, ref)
+            # Simple case -- it's a filename, we presume it's local
+            if withbase[:5] != "http:" and withbase[1:] != os.sep:
+		
+                target = os.path.normpath(withbase)
+                if not target in giflist:
+                    if verbose: print "Won't replace %s. Not on my list." \
+                       % target
+                    continue
+            # Tricky case -- compare by basename and content
+            else:
+                basename = os.path.basename(withbase[7:])
+                if not basename in gif_basenames:
+                    print "No local match by basename for %s" % (ref,)
+                    continue
+                target = giflist[gif_basenames.index(basename)]
+                (data, _) = urllib.urlretrieve(withbase)
+                not_equal = datacmp(data, target)
+                os.remove(data)
+                if not_equal:
+                    print "Data of %s and %s don't match at offset %d" % (ref, target, not_equal)
+                    continue
+            ref = ref[:-4]
+            convert_refs.append((ref, target))
+        if convert_refs:
+            print "\tIn %s, I see: %s" % (file, string.join(map(lambda x: x[0]+".gif", convert_refs)," "))
+            page_conversions[file] = convert_refs
+            pagecount = pagecount + 1
+    print "%d HTML or PHP page(s) need conversion." % (pagecount,)
+
+    # Unless user is willing to make changes, we're done now
+    if nochange:
+        return
+
+    # Convert gifs verbosely
+    if convert_gifs:
+        print "GIF conversions begin:"
+        os.system("gif2png -v -O " + string.join(convert_gifs, " "))
+        # print "GIF conversions complete"
+
+    # Now check to see which conversions did not take
+    failures = []
+    for gif in convert_gifs:
+        png = re.sub(r"\.gif$", r".png", gif)
+        if not os.path.exists(png):
+            failures.append(gif)
+    if failures:
+        print "Some conversions failed:", string.join(failures)
+
+    # Now hack the references in the web pages
+    for page in page_conversions.keys():
+        print "Converting %s..." % (page,)
+        if version_controlled(page):
+            os.system("co -l " + page)
+        else:
+            os.system("cp -pf " + page + " " + page + ".bak")
+        fp = open(page, "r")
+        contents = fp.read()
+        fp.close()
+        basedir = basere.search(contents)
+        if basedir:
+            basedir = basedir.group(1)
+        else:
+            basedir = ""
+        for (ref, target) in page_conversions[page]:
+            if target in giflist and not target in failures:
+                source = '(?P<g1>[="(\s])' + ref + r'\.gif(?P<g2>[\s"\\>)])'
+                target = r"\g<g1>" + ref + r".png\g<g2>"
+                print "Source: %s, target %s" % (source, target)
+                contents = re.sub(source, target, contents)
+        fp = open(page, "w")
+        fp.write(contents)
+        fp.close()
+    print "Page conversions complete."
+
+def cleanup(directory):
+    # Clean up superfluous .gif and .bak files left over after a conversion
+    map(os.unlink, findfiles(directory, bakre))
+    pnglist = findfiles(directory, pngre)
+    for png in pnglist:
+        gif = png[:-4] + ".gif"
+        if os.path.exists(gif):
+            os.remove(gif)
+
+def unconvert(directory):
+    # Reverse a conversion    
+    pnglist = findfiles(directory, pngre)
+    for png in pnglist:
+        gif = png[:-4] + ".gif"
+        if os.path.exists(gif):
+            os.unlink(png)
+    htmls = findfiles(directory, pagere)
+    for page in htmls:
+        if os.path.exists(page + ".bak"):
+            os.rename(page + ".bak", page)
+        elif version_controlled(page):
+            os.system("rcs -u " + page)
+
+if __name__ == '__main__': 
+
+    delete = nochange = reverse = verbose = 0
+
+    (options, arguments) = getopt.getopt(sys.argv[1:], "adnrv")
+
+    if not arguments:
+        arguments = ['.']
+
+    for (switch, val) in options:
+        if switch == '-a':
+            allopt = 1
+        elif switch == '-d':
+            delete = 1
+        elif switch == '-n':
+            nochange = 1
+        elif switch == '-r':
+            reverse = 1
+        elif switch == '-v':
+            verbose = 1
+
+    if delete:
+        map(cleanup, arguments)
+    elif reverse:
+        map(unconvert, arguments)
+    else:
+        map(web2png, arguments)
+
+# The following sets edit modes for GNU EMACS
+# Local Variables:
+# mode:python
+# End:

@@ -1,0 +1,39 @@
+
+OK, to the best of my knowledge, you should be able to get tcptrace to
+compile and run under:
+
+Solaris
+NetBSD
+FreeBSD
+Linux
+Tru64
+Darwin/OSX
+
+
+Step 1: Get pcap library
+  If you want to be able to read tcpdump format files, then you'll
+  need to have already installed the pcap library (see README.pcap).
+  If tcpdump was installed correctly, then you're probably all set.
+  If you don't HAVE this package and don't CARE about it, then comment
+  "GROK_TCPDUMP" out of Makefile.in and we'll just skip it in the
+  compilation. 
+
+Step 2: run "./configure"
+  that should build a Makefile that'll work on your machine
+
+Step 3: Edit Makefile
+  Only necessary if you want to change the file formats supported,
+  the modules compiled in, compiler flags, etc (it's commented)
+
+Step 4: run "make"
+  that should create tcptrace
+
+Step 5: Install
+  The program doesn't need to be setuid or anything, so once you get
+  the "tcptrace" binary, just stuff it wherever you keep such things
+  and you're all set.
+  "make install" will put it in /usr/local/bin by default
+
+Shawn Ostermann
+
+Fri May 25, 2001

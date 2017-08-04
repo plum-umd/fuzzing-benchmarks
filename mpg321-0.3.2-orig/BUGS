@@ -1,0 +1,11 @@
+* There are many unimplemented features. Some have been implemented recently
+  (lists, shuffle, etc) - others are more difficult and haven't (downsampling.)
+* libmad isn't nearly as fast as mpg123 on hardware with a floating-point
+  unit. There are some 'hot spots' highlighted in the TODO file; you may
+  want to contact Rob Leslie <rob@mars.org> to find out more about optimizing
+  libmad.
+* When outputting decoded mp3s to files or stdout instead of a sound device, 
+  if the mp3s in question have different channels (stereo versus mono) or
+  different bitrates, the sound file will come out fairly jumbled - playing
+  at double-speed, or at the wrong intrinsic rate, or something else.
+  This can be fixed within libao, but it is a non-trivial job.
