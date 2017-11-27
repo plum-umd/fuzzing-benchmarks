@@ -1,0 +1,19 @@
+start=1507680427.0629578
+44674.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000000,sig:06,src:002420,op:havoc,rep:4
+52916.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000001,sig:06,src:002981,op:int8,pos:63,val:+32
+52932.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000002,sig:06,src:002981,op:havoc,rep:4
+52934.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000003,sig:06,src:002981,op:havoc,rep:8
+52935.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000004,sig:06,src:002981,op:havoc,rep:8
+52947.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000005,sig:06,src:002981,op:havoc,rep:8
+55067.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000006,sig:06,src:003116,op:havoc,rep:16
+56240.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000007,sig:06,src:003205,op:flip1,pos:131
+56302.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000008,sig:06,src:003205,op:havoc,rep:8
+56303.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000009,sig:06,src:003205,op:havoc,rep:16
+56304.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000010,sig:06,src:003205,op:havoc,rep:4
+56306.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000011,sig:06,src:003205,op:havoc,rep:4
+56308.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000012,sig:06,src:003205,op:havoc,rep:4
+56318.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000013,sig:06,src:003205,op:havoc,rep:8
+59228.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000014,sig:11,src:003352,op:flip8,pos:107
+59254.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000015,sig:11,src:003352,op:havoc,rep:4
+60084.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000016,sig:11,src:003403,op:flip8,pos:67
+61057.93704223633 /fs/buzz/gklees/Fuzzing/rundata/afl/0/outdir/crashes/id:000017,sig:11,src:003446,op:flip8,pos:107

@@ -1,0 +1,2 @@
+start=1502908389.973183
+43516.02681708336 /fs/buzz/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000000,sig:11,src:000481,op:int16,pos:480,val:be:+255

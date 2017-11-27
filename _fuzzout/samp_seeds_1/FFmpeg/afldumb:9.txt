@@ -1,0 +1,21 @@
+start=1508899428.9094856
+41.997912645339966 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000000,sig:11,src:000000,op:flip1,pos:171
+42.00191283226013 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000001,sig:11,src:000000,op:flip1,pos:171
+42.009912729263306 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000002,sig:11,src:000000,op:flip1,pos:171
+42.01391267776489 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000003,sig:11,src:000000,op:flip1,pos:171
+42.01791286468506 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000004,sig:11,src:000000,op:flip1,pos:171
+42.021912813186646 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000005,sig:11,src:000000,op:flip1,pos:171
+38315.408158540726 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000006,sig:11,src:000000,op:flip2,pos:171
+38315.41215848923 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000007,sig:11,src:000000,op:flip2,pos:171
+38315.41615843773 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000008,sig:11,src:000000,op:flip2,pos:171
+38315.42015862465 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000009,sig:11,src:000000,op:flip2,pos:171
+38315.42415857315 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000010,sig:11,src:000000,op:flip2,pos:171
+38315.432158470154 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000011,sig:11,src:000000,op:flip2,pos:171
+76591.55040431023 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000012,sig:11,src:000000,op:flip4,pos:169
+76591.55440425873 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000013,sig:11,src:000000,op:flip4,pos:170
+76591.67040419579 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000014,sig:11,src:000000,op:flip4,pos:171
+76591.67840409279 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000015,sig:11,src:000000,op:flip4,pos:171
+76591.68240427971 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000016,sig:11,src:000000,op:flip4,pos:171
+76591.68640422821 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000017,sig:11,src:000000,op:flip4,pos:171
+76591.69040417671 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000018,sig:11,src:000000,op:flip4,pos:171
+76591.69440412521 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000019,sig:11,src:000000,op:flip4,pos:171

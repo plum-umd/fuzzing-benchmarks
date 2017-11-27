@@ -1,0 +1,19 @@
+start=1500925662.0848098
+20527.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000000,sig:06,src:002374,op:flip2,pos:71
+20535.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000001,sig:06,src:002374,op:arith8,pos:71,val:-34
+20546.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000002,sig:06,src:002374,op:int8,pos:71,val:+32
+20557.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000003,sig:06,src:002374,op:havoc,rep:16
+20579.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000004,sig:06,src:002374,op:havoc,rep:4
+20584.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000005,sig:06,src:002374,op:havoc,rep:4
+20590.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000006,sig:06,src:002374,op:havoc,rep:2
+22370.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000007,sig:06,src:002512,op:havoc,rep:2
+22374.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000008,sig:06,src:002512,op:havoc,rep:4
+23030.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000009,sig:06,src:002647,op:havoc,rep:2
+23222.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000010,sig:06,src:002690,op:havoc,rep:2
+23228.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000011,sig:06,src:002694,op:havoc,rep:8
+23445.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000012,sig:06,src:002790,op:havoc,rep:2
+24559.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000013,sig:06,src:002154,op:int16,pos:72,val:+32
+35591.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000014,sig:06,src:003109,op:arith8,pos:72,val:+6
+35612.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000015,sig:06,src:003109,op:havoc,rep:2
+35618.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000016,sig:06,src:003109,op:havoc,rep:4
+69657.91519021988 /fs/buzz/gklees/Fuzzing/rundata/aflfast/22/outdir/crashes/id:000017,sig:06,src:003436,op:int8,pos:72,val:+32

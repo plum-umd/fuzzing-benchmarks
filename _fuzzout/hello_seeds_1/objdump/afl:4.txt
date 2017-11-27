@@ -1,0 +1,7 @@
+start=1503326765.8795683
+31032.120431661606 /fs/buzz/gklees/Fuzzing/rundata/afl/4/outdir/crashes/id:000000,sig:11,src:000491,op:int16,pos:480,val:be:+255
+31134.120431661606 /fs/buzz/gklees/Fuzzing/rundata/afl/4/outdir/crashes/id:000001,sig:11,src:000497,op:flip8,pos:801
+32009.120431661606 /fs/buzz/gklees/Fuzzing/rundata/afl/4/outdir/crashes/id:000002,sig:11,src:000513,op:flip8,pos:1121
+44682.120431661606 /fs/buzz/gklees/Fuzzing/rundata/afl/4/outdir/crashes/id:000003,sig:11,src:000791,op:arith8,pos:508,val:+17
+46924.120431661606 /fs/buzz/gklees/Fuzzing/rundata/afl/4/outdir/crashes/id:000004,sig:11,src:000840,op:flip8,pos:1185
+47546.120431661606 /fs/buzz/gklees/Fuzzing/rundata/afl/4/outdir/crashes/id:000005,sig:11,src:000842,op:flip8,pos:1249

@@ -1,0 +1,18 @@
+start=1501858756.1071608
+22253.894299268723 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000000,sig:11,src:000585,op:flip8,pos:4009
+22660.56628060341 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000001,sig:11,src:000588,op:flip8,pos:4201
+23069.482261896133 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000002,sig:11,src:000591,op:flip8,pos:4393
+23476.570243120193 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000003,sig:11,src:000596,op:flip8,pos:4841
+52401.6529173851 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000004,sig:11,src:001048,op:flip8,pos:5721
+63439.680411577225 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000005,sig:11,src:001211,op:flip8,pos:25537
+64286.240372657776 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000006,sig:11,src:001214,op:flip8,pos:25793
+65140.420333623886 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000007,sig:11,src:001216,op:flip8,pos:26113
+65996.1922943592 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000008,sig:11,src:001217,op:flip8,pos:26177
+66849.14025521278 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000009,sig:11,src:001218,op:flip8,pos:26241
+67704.06821608543 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000010,sig:11,src:001219,op:flip8,pos:26305
+68557.55217695236 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000011,sig:11,src:001220,op:flip8,pos:26369
+69408.4601380825 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000012,sig:11,src:001221,op:flip8,pos:26433
+70262.88809871674 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000013,sig:11,src:001222,op:flip8,pos:26497
+71116.50805974007 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000014,sig:11,src:001224,op:flip8,pos:26625
+81249.69959521294 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000015,sig:11,src:001394,op:flip8,pos:3497
+81630.92357778549 /home/gklees/Fuzzing/rundata/aflfast/1/outdir/crashes/id:000016,sig:11,src:001396,op:flip8,pos:4009

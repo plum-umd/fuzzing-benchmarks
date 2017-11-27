@@ -1,0 +1,10 @@
+start=1507602524.486737
+7646.208135128021 /home/gklees/Fuzzing/rundata/afldumb/5/outdir/crashes/id:000000,sig:11,src:000000,op:havoc,rep:16
+11812.447944164276 /home/gklees/Fuzzing/rundata/afldumb/5/outdir/crashes/id:000001,sig:11,src:000000,op:havoc,rep:64
+22719.515444278717 /home/gklees/Fuzzing/rundata/afldumb/5/outdir/crashes/id:000002,sig:11,src:000000,op:havoc,rep:4
+29996.455110549927 /home/gklees/Fuzzing/rundata/afldumb/5/outdir/crashes/id:000003,sig:11,src:000000,op:havoc,rep:16
+36698.17480349541 /home/gklees/Fuzzing/rundata/afldumb/5/outdir/crashes/id:000004,sig:11,src:000000,op:havoc,rep:32
+44790.202432632446 /home/gklees/Fuzzing/rundata/afldumb/5/outdir/crashes/id:000005,sig:11,src:000000,op:havoc,rep:32
+53262.59404420853 /home/gklees/Fuzzing/rundata/afldumb/5/outdir/crashes/id:000006,sig:11,src:000000,op:havoc,rep:8
+60552.7377102375 /home/gklees/Fuzzing/rundata/afldumb/5/outdir/crashes/id:000007,sig:11,src:000000,op:havoc,rep:16
+69163.72531557083 /home/gklees/Fuzzing/rundata/afldumb/5/outdir/crashes/id:000008,sig:11,src:000000,op:havoc,rep:64

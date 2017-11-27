@@ -1,0 +1,15 @@
+start=1500839262.1727836
+17285.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000000,sig:06,src:001865,op:arith8,pos:39,val:+12
+17285.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000001,sig:06,src:001865,op:arith8,pos:39,val:+14
+17287.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000002,sig:06,src:001865,op:arith8,pos:59,val:+12
+17300.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000003,sig:06,src:001865,op:int16,pos:39,val:+32
+17309.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000004,sig:06,src:001865,op:havoc,rep:8
+17327.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000006,sig:06,src:001865,op:havoc,rep:4
+17327.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000005,sig:06,src:001865,op:havoc,rep:4
+17332.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000007,sig:06,src:001865,op:havoc,rep:2
+17338.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000008,sig:06,src:001865,op:havoc,rep:4
+17344.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000009,sig:06,src:001865,op:havoc,rep:4
+17346.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000010,sig:06,src:001865,op:havoc,rep:4
+19615.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000011,sig:06,src:002645,op:havoc,rep:16
+20134.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000012,sig:06,src:002734,op:havoc,rep:2
+22506.827216386795 /fs/buzz/gklees/Fuzzing/rundata/aflfast/5/outdir/crashes/id:000013,sig:06,src:002840,op:havoc,rep:16

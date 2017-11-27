@@ -1,0 +1,2 @@
+start=1504207350.2437427
+68627.1795668602 /home/gklees/Fuzzing/rundata/afldumb/9/outdir/crashes/id:000000,sig:11,src:000000,op:havoc,rep:128

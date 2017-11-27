@@ -1,0 +1,16 @@
+start=1504573293.8415513
+22543.763478517532 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000000,sig:11,src:000391,op:flip8,pos:3497
+23529.923433303833 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000001,sig:11,src:000397,op:int16,pos:3752,val:be:+255
+23971.831413030624 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000002,sig:11,src:000400,op:int16,pos:3880,val:be:+255
+24124.84340596199 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000003,sig:11,src:000401,op:flip8,pos:3945
+24490.087389230728 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000004,sig:11,src:000402,op:flip8,pos:4009
+25165.411358356476 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000005,sig:11,src:000404,op:int16,pos:4136,val:be:+255
+25642.683336496353 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000006,sig:11,src:000408,op:int16,pos:4328,val:be:+255
+25799.863329172134 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000007,sig:11,src:000409,op:flip8,pos:4393
+26424.44730067253 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000008,sig:11,src:000414,op:flip8,pos:4841
+27957.491230249405 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000009,sig:11,src:000445,op:flip8,pos:5033
+38371.86675310135 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000010,sig:11,src:000508,op:arith8,pos:3588,val:+14
+46541.134378671646 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000011,sig:11,src:000733,op:int16,pos:3752,val:be:+255
+47430.40633773804 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000012,sig:11,src:000746,op:flip8,pos:5097
+84515.35263800621 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000013,sig:11,src:001166,op:flip8,pos:5097
+86116.84856462479 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000014,sig:11,src:001178,op:flip8,pos:3689

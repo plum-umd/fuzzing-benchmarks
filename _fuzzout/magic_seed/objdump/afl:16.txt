@@ -1,0 +1,24 @@
+start=1508187702.324726
+17102.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000000,sig:06,src:001351,op:flip1,pos:60
+17112.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000001,sig:06,src:001351,op:arith8,pos:60,val:+34
+17357.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000002,sig:06,src:001359,op:flip2,pos:59
+17366.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000003,sig:06,src:001359,op:arith8,pos:59,val:-28
+17390.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000004,sig:06,src:001359,op:havoc,rep:2
+17391.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000005,sig:06,src:001359,op:havoc,rep:8
+19565.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000006,sig:06,src:001509,op:havoc,rep:16
+31233.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000008,sig:06,src:001901,op:flip2,pos:52
+31233.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000007,sig:06,src:001901,op:flip2,pos:41
+31262.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000009,sig:06,src:001901,op:havoc,rep:4
+31262.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000010,sig:06,src:001901,op:havoc,rep:2
+31265.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000011,sig:06,src:001901,op:havoc,rep:2
+31300.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000012,sig:06,src:001902,op:havoc,rep:2
+31479.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000013,sig:06,src:001908,op:int8,pos:60,val:+32
+33421.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000014,sig:06,src:002009,op:flip4,pos:43
+33452.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000015,sig:06,src:002009,op:havoc,rep:8
+36929.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000016,sig:06,src:002089,op:arith8,pos:91,val:-34
+37660.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000017,sig:06,src:002183,op:arith8,pos:60,val:+6
+40642.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000018,sig:06,src:002310,op:arith8,pos:68,val:-34
+40645.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000019,sig:06,src:002310,op:arith8,pos:100,val:-34
+40688.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000020,sig:06,src:002310,op:havoc,rep:8
+41940.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000021,sig:06,src:002435,op:flip4,pos:59
+41984.675273895264 /fs/buzz/gklees/Fuzzing/rundata/afl/16/outdir/crashes/id:000022,sig:06,src:002436,op:arith8,pos:60,val:+6

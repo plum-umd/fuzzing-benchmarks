@@ -1,0 +1,7 @@
+start=1503151503.4119124
+51049.16859602928 /home/gklees/Fuzzing/rundata/aflfast/8/outdir/crashes/id:000001,sig:11,src:000000,op:arith8,pos:1358,val:+27
+51049.16859602928 /home/gklees/Fuzzing/rundata/aflfast/8/outdir/crashes/id:000004,sig:11,src:000000,op:arith8,pos:1358,val:+30
+51049.16859602928 /home/gklees/Fuzzing/rundata/aflfast/8/outdir/crashes/id:000000,sig:11,src:000000,op:arith8,pos:1358,val:+26
+51049.16859602928 /home/gklees/Fuzzing/rundata/aflfast/8/outdir/crashes/id:000002,sig:11,src:000000,op:arith8,pos:1358,val:+28
+51049.16859602928 /home/gklees/Fuzzing/rundata/aflfast/8/outdir/crashes/id:000003,sig:11,src:000000,op:arith8,pos:1358,val:+29
+51049.308596134186 /home/gklees/Fuzzing/rundata/aflfast/8/outdir/crashes/id:000005,sig:11,src:000000,op:arith8,pos:1358,val:-33

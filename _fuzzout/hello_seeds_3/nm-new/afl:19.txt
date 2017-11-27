@@ -1,0 +1,8 @@
+start=1505761291.6843495
+14179.782613277435 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000000,sig:11,src:000274,op:int16,pos:928,val:be:+255
+16842.59049129486 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000001,sig:11,src:000315,op:arith8,pos:444,val:+14
+60809.70447611809 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000002,sig:11,src:000767,op:int16,pos:4992,val:be:+255
+61388.00444960594 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000003,sig:11,src:000768,op:flip8,pos:5057
+77205.98372459412 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000004,sig:11,src:000821,op:arith8,pos:5660,val:+12
+85163.98736000061 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000005,sig:11,src:000914,op:flip8,pos:1185
+85438.88734722137 /home/gklees/Fuzzing/rundata/afl/19/outdir/crashes/id:000006,sig:11,src:000915,op:flip8,pos:1249

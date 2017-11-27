@@ -1,0 +1,18 @@
+start=1503005515.1120112
+6208.261624097824 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000000,sig:11,src:000271,op:int16,pos:480,val:be:+255
+12167.585350990295 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000001,sig:11,src:000585,op:flip8,pos:1185
+12292.417345285416 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000002,sig:11,src:000587,op:flip8,pos:1249
+13082.69330906868 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000003,sig:11,src:000599,op:flip8,pos:417
+13600.309285402298 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000004,sig:11,src:000622,op:flip8,pos:865
+16215.189165592194 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000005,sig:11,src:000668,op:flip8,pos:1121
+18786.04904770851 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000006,sig:11,src:000728,op:flip8,pos:673
+19543.165013074875 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000007,sig:11,src:000761,op:flip8,pos:1185
+19683.84100651741 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000008,sig:11,src:000765,op:flip8,pos:545
+19742.093003988266 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000009,sig:11,src:000765,op:int16,pos:480,val:be:+255
+27323.50065636635 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000010,sig:11,src:001000,op:flip8,pos:1185
+27705.78063893318 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000011,sig:11,src:001005,op:flip8,pos:1249
+28516.036601781845 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000012,sig:11,src:001022,op:int16,pos:480,val:be:+255
+29836.592541217804 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000013,sig:11,src:001048,op:flip8,pos:865
+35137.008298397064 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000014,sig:11,src:001151,op:flip8,pos:609
+35265.26829242706 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000015,sig:11,src:001154,op:flip8,pos:1185
+45921.4078040123 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000016,sig:11,src:001384,op:flip8,pos:1185

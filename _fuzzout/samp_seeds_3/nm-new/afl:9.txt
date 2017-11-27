@@ -1,0 +1,18 @@
+start=1503694742.0586245
+28420.22240304947 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000000,sig:11,src:000385,op:int16,pos:3624,val:be:+255
+29089.49837231636 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000001,sig:11,src:000390,op:int16,pos:3880,val:be:+255
+29258.88636469841 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000002,sig:11,src:000391,op:flip8,pos:3945
+29649.322346687317 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000003,sig:11,src:000392,op:flip8,pos:4009
+30362.47431397438 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000004,sig:11,src:000394,op:int16,pos:4136,val:be:+255
+30528.73430633545 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000005,sig:11,src:000396,op:flip8,pos:4201
+31019.85428404808 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000006,sig:11,src:000398,op:int16,pos:4328,val:be:+255
+31454.018264055252 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000007,sig:11,src:000403,op:flip8,pos:4777
+56494.64111638069 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000008,sig:11,src:000707,op:int16,pos:7928,val:be:+255
+56844.93710017204 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000009,sig:11,src:000709,op:int16,pos:8120,val:be:+255
+57609.05306529999 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000010,sig:11,src:000732,op:ext_AO,pos:11141
+69612.53251504898 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000011,sig:11,src:000817,op:flip8,pos:5721
+72995.63635993004 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000012,sig:11,src:000883,op:int16,pos:3752,val:be:+255
+73692.77632808685 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000013,sig:11,src:000895,op:flip8,pos:5097
+74074.73631048203 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000014,sig:11,src:000896,op:flip8,pos:5161
+78105.7041258812 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000015,sig:11,src:000981,op:arith8,pos:3460,val:+11
+83887.85986089706 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000016,sig:11,src:001057,op:flip8,pos:5033

@@ -1,0 +1,5 @@
+start=1500839262.171922
+77308.82807803154 /fs/buzz/gklees/Fuzzing/rundata/aflfast/7/outdir/crashes/id:000000,sig:06,src:003156,op:havoc,rep:16
+77311.82807803154 /fs/buzz/gklees/Fuzzing/rundata/aflfast/7/outdir/crashes/id:000001,sig:06,src:003156,op:havoc,rep:64
+77311.82807803154 /fs/buzz/gklees/Fuzzing/rundata/aflfast/7/outdir/crashes/id:000002,sig:06,src:003156,op:havoc,rep:64
+77324.82807803154 /fs/buzz/gklees/Fuzzing/rundata/aflfast/7/outdir/crashes/id:000003,sig:06,src:003158,op:havoc,rep:8

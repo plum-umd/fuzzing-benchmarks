@@ -1,0 +1,18 @@
+start=1502496692.1217253
+7662.919164657593 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000000,sig:11,src:000274,op:int16,pos:928,val:be:+255
+7835.231156587601 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000001,sig:11,src:000291,op:flip8,pos:1121
+9029.695101976395 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000002,sig:11,src:000315,op:arith8,pos:444,val:+14
+31779.454059123993 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000003,sig:11,src:000767,op:int16,pos:4992,val:be:+255
+32071.778045892715 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000004,sig:11,src:000768,op:flip8,pos:5057
+40571.15365624428 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000005,sig:11,src:000820,op:arith8,pos:5660,val:+12
+44078.401495456696 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000006,sig:11,src:000916,op:flip8,pos:1185
+44216.52548909187 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000007,sig:11,src:000917,op:flip8,pos:1249
+48782.50528001785 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000008,sig:11,src:001066,op:int16,pos:1056,val:be:+255
+48828.98927783966 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000009,sig:11,src:001069,op:flip8,pos:673
+48938.76927280426 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000010,sig:11,src:001070,op:flip8,pos:737
+49049.49726772308 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000011,sig:11,src:001071,op:flip8,pos:801
+49159.03726267815 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000012,sig:11,src:001072,op:flip8,pos:865
+49383.88925242424 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000013,sig:11,src:001075,op:flip8,pos:1121
+50378.425206661224 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000014,sig:11,src:001090,op:flip8,pos:673
+50888.82118344307 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000015,sig:11,src:001098,op:flip8,pos:1185
+51232.77316761017 /home/gklees/Fuzzing/rundata/afl/12/outdir/crashes/id:000016,sig:11,src:001108,op:flip8,pos:865

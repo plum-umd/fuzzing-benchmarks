@@ -1,0 +1,3 @@
+start=1508726628.7069407
+218.14036965370178 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000000,sig:11,src:000000,op:flip1,pos:171
+218.26036977767944 /home/gklees/Fuzzing/rundata/afl/9/outdir/crashes/id:000001,sig:11,src:000000,op:flip1,pos:171

@@ -1,0 +1,18 @@
+start=1503694742.0586092
+26806.558492422104 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000000,sig:11,src:000385,op:int16,pos:3624,val:be:+255
+27069.422480344772 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000001,sig:11,src:000387,op:int16,pos:3752,val:be:+255
+27538.63845872879 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000002,sig:11,src:000390,op:int16,pos:3880,val:be:+255
+27704.450451135635 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000003,sig:11,src:000392,op:flip8,pos:4009
+28413.594418764114 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000004,sig:11,src:000394,op:int16,pos:4136,val:be:+255
+28581.43041086197 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000005,sig:11,src:000396,op:flip8,pos:4201
+29305.138377666473 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000006,sig:11,src:000398,op:int16,pos:4328,val:be:+255
+29982.998346805573 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000007,sig:11,src:000404,op:flip8,pos:4841
+31173.330292224884 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000008,sig:11,src:000434,op:flip8,pos:5033
+49172.749467134476 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000009,sig:11,src:000706,op:int16,pos:7928,val:be:+255
+49526.36945104599 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000010,sig:11,src:000708,op:int16,pos:8120,val:be:+255
+50289.47341609001 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000011,sig:11,src:000733,op:ext_AO,pos:11141
+58807.53302550316 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000012,sig:11,src:000820,op:flip8,pos:5721
+61605.9088973999 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000013,sig:11,src:000872,op:int16,pos:3752,val:be:+255
+62028.66487789154 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000014,sig:11,src:000884,op:flip8,pos:5097
+62409.824860572815 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000015,sig:11,src:000885,op:flip8,pos:5161
+66440.83267569542 /home/gklees/Fuzzing/rundata/afl/7/outdir/crashes/id:000016,sig:11,src:000989,op:arith8,pos:3460,val:+11

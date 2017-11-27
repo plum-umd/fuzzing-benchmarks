@@ -1,0 +1,7 @@
+* Using seeds makes things worse
+  * Bigger size -> more data to mutate -> worse
+* Fewer seeds -> better
+  * Confirm above hypothesis
+* CGF is generally good, but with one exception
+  * With seeds, does great
+  * Bug counts may actually just be wrong (!)

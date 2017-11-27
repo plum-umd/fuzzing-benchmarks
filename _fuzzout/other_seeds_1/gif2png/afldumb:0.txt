@@ -1,0 +1,7 @@
+start=1502804803.9548671
+62372.58501291275 /home/gklees/Fuzzing/rundata/afldumb/0/outdir/crashes/id:000000,sig:11,src:000000,op:arith8,pos:1870,val:+26
+62372.58501291275 /home/gklees/Fuzzing/rundata/afldumb/0/outdir/crashes/id:000001,sig:11,src:000000,op:arith8,pos:1870,val:+27
+62372.58901286125 /home/gklees/Fuzzing/rundata/afldumb/0/outdir/crashes/id:000003,sig:11,src:000000,op:arith8,pos:1870,val:+29
+62372.58901286125 /home/gklees/Fuzzing/rundata/afldumb/0/outdir/crashes/id:000002,sig:11,src:000000,op:arith8,pos:1870,val:+28
+62372.58901286125 /home/gklees/Fuzzing/rundata/afldumb/0/outdir/crashes/id:000004,sig:11,src:000000,op:arith8,pos:1870,val:+30
+62372.95701289177 /home/gklees/Fuzzing/rundata/afldumb/0/outdir/crashes/id:000005,sig:11,src:000000,op:arith8,pos:1870,val:-33

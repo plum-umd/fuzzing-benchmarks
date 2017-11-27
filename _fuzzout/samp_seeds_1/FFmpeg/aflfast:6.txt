@@ -1,0 +1,5 @@
+start=1508985828.9216585
+72.85377836227417 /home/gklees/Fuzzing/rundata/aflfast/6/outdir/crashes/id:000000,sig:11,src:000000,op:flip1,pos:171
+72.87777829170227 /home/gklees/Fuzzing/rundata/aflfast/6/outdir/crashes/id:000001,sig:11,src:000000,op:flip1,pos:171
+36836.52009344101 /home/gklees/Fuzzing/rundata/aflfast/6/outdir/crashes/id:000002,sig:11,src:000000,op:flip2,pos:171
+73582.01840925217 /home/gklees/Fuzzing/rundata/aflfast/6/outdir/crashes/id:000003,sig:11,src:000000,op:flip4,pos:171

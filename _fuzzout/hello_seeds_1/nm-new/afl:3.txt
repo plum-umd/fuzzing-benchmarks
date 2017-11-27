@@ -1,0 +1,21 @@
+start=1502919115.0943246
+6907.359238862991 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000000,sig:11,src:000271,op:int16,pos:480,val:be:+255
+7036.583232879639 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000001,sig:11,src:000275,op:flip8,pos:673
+7151.819227695465 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000002,sig:11,src:000277,op:flip8,pos:801
+7583.423207759857 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000003,sig:11,src:000296,op:flip8,pos:1121
+13089.954955339432 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000004,sig:11,src:000586,op:flip8,pos:1185
+13322.390944719315 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000005,sig:11,src:000588,op:flip8,pos:1249
+20177.142630577087 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000006,sig:11,src:000787,op:flip8,pos:1185
+20515.530615091324 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000007,sig:11,src:000792,op:flip8,pos:545
+20573.762612342834 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000008,sig:11,src:000792,op:int16,pos:480,val:be:+255
+20717.41460585594 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000009,sig:11,src:000798,op:flip8,pos:673
+21064.67458987236 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000010,sig:11,src:000803,op:flip8,pos:801
+21288.630579710007 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000011,sig:11,src:000805,op:flip8,pos:865
+21854.742553710938 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000012,sig:11,src:000821,op:flip8,pos:1121
+22917.042505025864 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000013,sig:11,src:000837,op:arith8,pos:380,val:+17
+28712.67823934555 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000014,sig:11,src:001015,op:int16,pos:480,val:be:+255
+31690.398102998734 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000015,sig:11,src:001143,op:int16,pos:1056,val:be:+255
+34136.501990795135 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000016,sig:11,src:001187,op:flip8,pos:609
+34713.74596428871 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000017,sig:11,src:001201,op:flip8,pos:673
+47257.96938943863 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000018,sig:11,src:001475,op:int16,pos:1056,val:be:+255
+50969.26921916008 /home/gklees/Fuzzing/rundata/afl/3/outdir/crashes/id:000019,sig:11,src:001614,op:arith16,pos:672,val:be:-1

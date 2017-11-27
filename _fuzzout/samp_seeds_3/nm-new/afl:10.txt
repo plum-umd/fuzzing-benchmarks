@@ -1,0 +1,18 @@
+start=1503694742.0586622
+31581.686220407486 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000000,sig:11,src:000385,op:int16,pos:3624,val:be:+255
+32247.746190071106 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000001,sig:11,src:000390,op:int16,pos:3880,val:be:+255
+32415.67818236351 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000002,sig:11,src:000391,op:flip8,pos:3945
+32806.30216431618 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000003,sig:11,src:000392,op:flip8,pos:4009
+33517.98213171959 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000004,sig:11,src:000394,op:int16,pos:4136,val:be:+255
+33685.702124118805 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000005,sig:11,src:000396,op:flip8,pos:4201
+34175.47410154343 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000006,sig:11,src:000398,op:int16,pos:4328,val:be:+255
+34607.478081941605 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000007,sig:11,src:000403,op:flip8,pos:4777
+55409.55712842941 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000008,sig:11,src:000695,op:int16,pos:7928,val:be:+255
+55757.857112407684 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000009,sig:11,src:000697,op:int16,pos:8120,val:be:+255
+56521.3090775013 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000010,sig:11,src:000722,op:ext_AO,pos:11141
+64930.316692113876 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000011,sig:11,src:000817,op:flip8,pos:5721
+69924.85246300697 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000012,sig:11,src:000886,op:int16,pos:3752,val:be:+255
+70833.79242134094 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000013,sig:11,src:000897,op:flip8,pos:5097
+71215.02440404892 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000014,sig:11,src:000898,op:flip8,pos:5161
+75611.61620235443 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000015,sig:11,src:000990,op:arith8,pos:3460,val:+11
+80963.86795711517 /home/gklees/Fuzzing/rundata/afl/10/outdir/crashes/id:000016,sig:11,src:001065,op:flip8,pos:5033

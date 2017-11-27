@@ -1,0 +1,18 @@
+start=1507853227.5853581
+15327.414641857147 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000000,sig:06,src:002134,op:havoc,rep:4
+22771.414641857147 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000001,sig:06,src:002473,op:flip1,pos:51
+24531.414641857147 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000002,sig:06,src:002709,op:havoc,rep:32
+35565.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000003,sig:06,src:003122,op:havoc,rep:8
+55448.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000004,sig:06,src:003387,op:havoc,rep:8
+55457.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000005,sig:06,src:003387,op:havoc,rep:128
+55481.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000006,sig:06,src:003387,op:havoc,rep:32
+55786.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000007,sig:06,src:003388,op:havoc,rep:16
+55788.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000008,sig:06,src:003388,op:havoc,rep:4
+66181.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000009,sig:06,src:003462,op:flip4,pos:136
+67259.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000010,sig:06,src:003467,op:havoc,rep:32
+79105.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000011,sig:06,src:003523,op:arith8,pos:151,val:-33
+79175.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000012,sig:06,src:003523,op:arith8,pos:518,val:-33
+82048.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000013,sig:06,src:003530,op:int8,pos:539,val:+32
+82192.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000014,sig:06,src:003530,op:havoc,rep:32
+82198.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000015,sig:06,src:003530,op:havoc,rep:32
+82208.41464185715 /fs/buzz/gklees/Fuzzing/rundata/aflfast/2/outdir/crashes/id:000016,sig:06,src:003530,op:havoc,rep:32

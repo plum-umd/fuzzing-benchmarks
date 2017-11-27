@@ -1,0 +1,18 @@
+start=1508187702.366167
+16882.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000000,sig:06,src:002037,op:flip1,pos:51
+16884.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000001,sig:06,src:002037,op:flip4,pos:51
+16928.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000002,sig:06,src:002037,op:havoc,rep:2
+16929.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000003,sig:06,src:002037,op:havoc,rep:2
+16931.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000004,sig:06,src:002037,op:havoc,rep:2
+18870.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000005,sig:06,src:002221,op:arith8,pos:52,val:-23
+18897.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000006,sig:06,src:002221,op:havoc,rep:4
+18968.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000007,sig:06,src:002225,op:arith8,pos:75,val:+29
+19171.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000008,sig:06,src:002236,op:flip1,pos:52
+19201.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000009,sig:06,src:002236,op:havoc,rep:4
+19201.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000010,sig:06,src:002236,op:havoc,rep:4
+20567.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000011,sig:06,src:002346,op:havoc,rep:8
+35581.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000012,sig:06,src:002849,op:arith8,pos:121,val:-23
+35701.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000013,sig:06,src:002849,op:havoc,rep:128
+35737.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000014,sig:06,src:002849,op:havoc,rep:4
+37253.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000015,sig:06,src:002920,op:havoc,rep:32
+47951.63383293152 /fs/buzz/gklees/Fuzzing/rundata/afl/24/outdir/crashes/id:000016,sig:06,src:002926,op:havoc,rep:16
